@@ -1,2 +1,14 @@
 footer
   div class="footer-wrapper container"
+    div class='pull-left brand'
+      ul
+        li
+          p.brand-name PBS Finder
+        li
+          p.brand-author Diogo Teixeira | 2014
+    ul class='pull-right footer-links'
+      li = link_to 'About', url('/', :about), :class => 'footer-links-link'
+      li = link_to 'About me', 'http://diogoteixeira.eu', :class => 'footer-links-link'
+      li = link_to 'Source code', 'https://github.com/dteixeira/PBSFinder', :class => 'footer-links-link'
+
+

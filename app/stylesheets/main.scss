@@ -8,7 +8,7 @@ body {
 .main {
   min-height: 100%;
   height: auto !important;
-  margin: 0 auto -70px; /* margin-bottom: minus footer's height */
+  margin: 0 auto -50px; /* margin-bottom: minus footer's height */
   padding: 0 10px;
 }
 .main-wrapper {
@@ -18,20 +18,11 @@ body {
   height: 70px; /* same as the footer */
 }
 footer {
-  margin-top: -70px;
-  height: 70px;
-  border-top: 1px solid #eee;
+  margin-top: -50px;
+  height: 50px;
+  border-top: 1px solid #6b6b6b;
   padding: 10px 10px 0;
-  -webkit-box-shadow: 0px 1px 22px #e5e5e5;
-  -moz-box-shadow: 0px 1px 22px #e5e5e5;
-  -o-box-shadow: 0px 1px 22px #e5e5e5;
-  -ms-box-shadow: 0px 1px 22px #e5e5e5;
-  box-shadow: 0px 1px 22px #e5e5e5;
-  background-image: -webkit-linear-gradient(#f5f5f5, #eee 30%, #f5f5f5);
-  background-image: -moz-linear-gradient(#f5f5f5, #eee 30%, #f5f5f5);
-  background-image: -o-linear-gradient(#f5f5f5, #eee 30%, #f5f5f5);
-  background-image: -ms-linear-gradient(#f5f5f5, #eee 30%, #f5f5f5);
-  background-image: linear-gradient(#f5f5f5, #eee 30%, #f5f5f5);
+  background-color:#333333;
 }
 footer p {
   margin-bottom: 0;
@@ -42,7 +33,13 @@ footer p {
   margin-right: 10px;
 }
 .footer-links-link {
+  text-shadow: 0px 1px 2px #030303;
   color: #878787;
+  font-family: varela;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  line-height:25px;
+  margin-left:15px;
 }
 .footer-links-link:hover {
   color: #777;
@@ -208,6 +205,7 @@ footer p {
   text-transform: uppercase;
   font-size: 2.5em;
   line-height: 1em;
+  height:32px;
 }
 /* --- End Application::TopBar --- */
 
@@ -318,6 +316,25 @@ footer p {
   display: block;
   margin: 5px auto;
   vertical-align: middle;
+}
+footer .brand li {
+  list-style:none;
+  font-family: Varela;
+  line-height:24px;
+  display:inline-block;
+
+  .brand-name {
+    text-shadow: 0px 1px 2px #030303;
+    text-transform:uppercase;
+    font-size: 1.4em;
+    margin-right:5px;
+    color:rgb(179, 179, 179);
+  }
+
+  .brand-author {
+    font-size:1.15em;
+    text-shadow: 0px 1px 2px #030303;
+  }
 }
 /* --- End Application::Base --- */
 /* Android Google Galaxy Nexus, add others! */
