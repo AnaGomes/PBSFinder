@@ -34,5 +34,5 @@ end
 
 # Mounts the core application for this project
 
-Padrino.mount("PbsSite::Admin", :app_file => Padrino.root('admin/app.rb')).to("/admin")
-Padrino.mount('PbsSite::App', :app_file => Padrino.root('app/app.rb')).to('/')
+Padrino.mount("PbsSite::Admin", :app_file => Padrino.root('admin/app.rb')).to("/pbsfinder/admin")
+Padrino.mount('PbsSite::App', :app_file => Padrino.root('app/app.rb')).to('/pbsfinder')
