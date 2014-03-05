@@ -4,14 +4,14 @@ PbsSite::App.controllers :sessions do
     render 'new'
   end
 
-  post :create do
+  post :new do
     if account = Account.authenticate(params[:email], params[:password])
       set_current_account(account)
       redirect url(:base, :index)
     else
       params[:email] = h(params[:email])
       flash.now[:error] = pat('login.error')
-      render "/sessions/new"
+      render 'new'
     end
   end
 

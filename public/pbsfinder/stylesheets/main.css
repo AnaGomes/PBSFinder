@@ -48,75 +48,6 @@ footer p {
   text-decoration: none; }
 
 /* -- End Layout -- */
-/* -- Begin Login -- */
-.login {
-  /* background-color: #fff; */
-  /* -webkit-box-shadow: 0px 0px 20px #777; */
-  /* -moz-box-shadow: 0px 0px 20px #777; */
-  /* -o-box-shadow: 0px 0px 20px #777; */
-  /* -ms-box-shadow: 0px 0px 20px #777; */
-  /* box-shadow: 0px 0px 20px #777; */
-  /* -webkit-border-radius: 5px; */
-  /* -moz-border-radius: 5px; */
-  /* -o-border-radius: 5px; */
-  /* -ms-border-radius: 5px; */
-  /* border-radius: 5px; */
-  padding-top: 10px;
-  width: 500px;
-  margin: 60px auto 0; }
-
-.login-logo {
-  text-align: center;
-  padding: 20px 0; }
-
-.login-controls {
-  margin-left: 120px; }
-
-.login-input-label {
-  width: 100px; }
-
-.login-control-group-last, .login-bypass-label {
-  margin-bottom: 0 !important; }
-
-.login-body {
-  padding: 40px 20px !important; }
-
-.login-footer {
-  margin-top: 0 !important; }
-
-/* iPad */
-@media (max-device-height: 1024px) and (orientation: landscape) {
-  .login {
-    margin-top: 30px; } }
-/* Android Google Galaxy Nexus, add others! */
-/* @media (-webkit-device-pixel-ratio: 2) and (orientation:landscape) { */
-/*   .login { */
-/*     margin-top: 10px; */
-/*   } */
-/*   .login-header { */
-/*     display: none; */
-/*   } */
-/*   .login-body { */
-/*     padding: 10px 20px !important; */
-/*   } */
-/*   .login-controls { */
-/*     margin-left: 0px; */
-/*   } */
-/* } */
-@media (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
-  .login {
-    margin-top: 30px;
-    width: 320px; }
-
-  .login-header {
-    display: none; }
-
-  .login-body {
-    padding: 10px 20px !important; }
-
-  .login-controls {
-    margin-left: 0px; } }
-/* -- End Login -- */
 /* -- Begin Errors -- */
 .custom-error {
   font-family: 'Varela', sans-serif;
@@ -127,8 +58,7 @@ footer p {
 
 .custom-error-body {
   border-top: 1px solid #e5e5e5;
-  border-bottom: 1px solid #e5e5e5;
-  padding: 30px 0; }
+  border-bottom: 1px solid #e5e5e5; }
 
 .custom-error-body i {
   color: #c43c35; }
