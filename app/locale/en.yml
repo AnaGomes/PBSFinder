@@ -1,0 +1,28 @@
+en:
+  login:
+    button: Sign in
+    success: Signed in successfully.
+    already: You are already signed in.
+    error: Failed to sign in.
+  logout:
+    button: Sign out
+    success: Signed out successfully.
+    already: You are already signed out.
+  register:
+    already: You already have an account.
+    not_yet: You don't have an account.
+    success: Account created successfully.
+    error:  Failed to create a new account.
+    update:
+      error: Failed to update account.
+      success: Account updated successfully.
+      big_title: Edit account
+      button:
+        save: Save
+        cancel: Cancel
+    button:
+      create: Create
+      cancel: Cancel
+      goto: Register
+      update: Account
+    big_title: Create an account

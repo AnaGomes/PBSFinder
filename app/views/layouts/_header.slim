@@ -1,4 +1,19 @@
 div class='navbar navbar-fixed-top'
   div class='navbar-inner'
     div class='container'
-      = link_to 'PBS Finder', url('/', :index), :class => 'navbar-brand', :title => 'PBS Finder'
+      = link_to 'PBS Finder', url('/'), :class => 'navbar-brand', :title => 'PBS Finder'
+
+      ul class='nav navbar-nav pull-right'
+        - if logged_in?
+          li class='navbar-log'
+            = link_to t('register.button.update'), url(:accounts, :edit), :class => 'log-button'
+
+          li class='navbar-log'
+            = form_tag url(:sessions, :destroy), :method => 'delete' do
+              = submit_tag(t('logout.button'), :class => 'log-button')
+        - else
+          li class='navbar-log'
+            = link_to t('register.button.goto'), url(:accounts, :new), :class => 'log-button'
+          li class='navbar-log'
+            = link_to t('login.button'), url(:sessions, :new), :class => 'log-button'
+

@@ -1,0 +1,5 @@
+- content_for :stylesheets do
+  = stylesheet_link_tag 'login'
+div class="tabs-content"
+  = form_for :account, url(:accounts, :create), :class => 'form-horizontal' do |f|
+    = partial 'accounts/form', :locals => { :f => f }

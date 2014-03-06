@@ -2,7 +2,7 @@
   = stylesheet_link_tag 'login'
 div class='login-head'
   p Sign in
-= form_tag url(:sessions, :new), :class => 'login form-horizontal' do
+= form_tag url(:sessions, :create), :class => 'login form-horizontal' do
   div class='form-group'
     label for="email" class='col-lg-2 control-label' = pat('login.email')
     div class='col-lg-10'  = email_field_tag :email, :value => params[:email], :autofocus => true, :class => 'form-control'

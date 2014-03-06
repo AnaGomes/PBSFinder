@@ -1,0 +1,3 @@
+div class="tabs-content"
+  = form_for :account, url(:accounts, :update), :method => :put, :class => 'form-horizontal' do |f|
+    = partial 'accounts/form_edit', :locals => { :f => f }

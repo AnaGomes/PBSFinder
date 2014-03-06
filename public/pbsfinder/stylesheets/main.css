@@ -260,7 +260,7 @@ footer .brand li {
     margin: 0 0 20px 0;
     padding: 0; }
 
-  .navbar-brand, .navbar-module, .navbar-edit-account, .navbar-logout {
+  .navbar-brand, .navbar-module, .navbar-edit-account, .navbar-log {
     float: left; }
 
   .navbar .nav {
@@ -275,4 +275,25 @@ footer .brand li {
 
   footer {
     display: none; } }
+.navbar-log .log-button {
+  font-family: Varela;
+  color: #428bca;
+  background: none;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  border: none;
+  outline: 0;
+  padding: 15px; }
+  .navbar-log .log-button:hover {
+    text-decoration: none;
+    background-color: #eeeeee; }
+
+.big-title {
+  border-bottom: 1px solid #e5e5e5; }
+  .big-title h1 {
+    font-family: Varela;
+    color: #428bca;
+    font-size: 1.8em;
+    text-transform: uppercase; }
+
 /* -- End Application -- */

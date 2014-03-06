@@ -1,22 +1,38 @@
 PbsSite::App.controllers :sessions do
 
   get :new do
-    render 'new'
-  end
-
-  post :new do
-    if account = Account.authenticate(params[:email], params[:password])
-      set_current_account(account)
-      redirect url(:base, :index)
+    if logged_in?
+      flash[:notice] = t('login.already')
+      redirect url('/')
     else
-      params[:email] = h(params[:email])
-      flash.now[:error] = pat('login.error')
       render 'new'
     end
   end
 
+  post :create do
+    if logged_in?
+      flash[:notice] = t('login.already')
+      redirect url('/')
+    else
+      if account = Account.authenticate(params[:email], params[:password])
+        set_current_account(account)
+        flash[:success] = t('login.success')
+        redirect url('/')
+      else
+        params[:email] = h(params[:email])
+        flash.now[:error] = t('login.error')
+        render 'new'
+      end
+    end
+  end
+
   delete :destroy do
-    set_current_account(nil)
+    if logged_in?
+      set_current_account(nil)
+      flash[:success] = t('logout.success')
+    else
+      flash[:notice] = t('logout.already')
+    end
     redirect url(:sessions, :new)
   end
 end
