@@ -1,4 +1,5 @@
 require 'biomart'
+require 'drb'
 require 'json'
 require 'yaml'
 require 'uri'
@@ -30,9 +31,9 @@ class PbsFinder
     uri = URI(@resp_url)
     Net::HTTP.post_form(
       uri,
-      'result'         => resp
+      'result' => resp
     )
-    @notifier.notify_finish(id, 'pbs finder finished')
+    @notifier.notify_finish(@id, 'pbs finder finished')
   end
 
   # Separates the given array of IDs in two groups, ENSEMBL and ENTREZ. The

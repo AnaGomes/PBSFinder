@@ -47,7 +47,7 @@ class MasterWorker
         id = @current_id
         @process_by_id[id] = wkr
       end
-      wkr.setup(id, @config_loader, @notifier, *args)
+      wkr.setup(id, @config_loader, Notifier.new, *args)
       puts "Starting worker (#{worker})"
       _start_new_worker(wkr)
       return id
@@ -108,15 +108,9 @@ end
 # Enables workers to notify the master that they have finished.
 class Notifier
 
-  def initialize
-    @service = DRbObject.new_with_uri(SERVER_URL)
-    @mutex = Mutex.new
-  end
-
   def notify_finish(id, msg = nil)
-    @mutex.synchronize do
-      @service.notify_finish(id, msg)
-    end
+    service = DRbObject.new_with_uri(SERVER_URL)
+    service.notify_finish(id, msg)
   end
 
 end
