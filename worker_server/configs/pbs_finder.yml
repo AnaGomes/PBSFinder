@@ -1,0 +1,29 @@
+:biodbnet:
+  :url:              http://biodbnet.abcc.ncifcrf.gov
+  :fetch_path:       /db/dbResFileTxt.php
+  :conversion_path:  /db/db2dbRes.php
+
+:ensembl_rest:
+  :url:         http://beta.rest.ensembl.org
+  :lookup_path: /lookup/id
+
+:ensembl_biomart:
+  :url: http://www.ensembl.org/biomart
+  :attributes:
+    :engid: ensembl_gene_id
+    :entid: ensembl_transcript_id
+    :engna: external_gene_id
+    :entna: external_transcript_id
+    :utr5:  5utr
+    :utr3:  3utr
+
+:rbpdb:
+  :url: http://rbpdb.ccbr.utoronto.ca
+  :pbs_path: /cgi-bin/sequence_scan.pl
+
+:formats:
+  :engid: Ensembl Gene ID
+  :enpid: Ensembl Protein ID
+  :entid: Ensembl Transcript ID
+  :ezgid: Gene ID
+  :ezgsy: Gene Symbol

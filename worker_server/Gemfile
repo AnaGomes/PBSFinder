@@ -1,0 +1,32 @@
+source 'https://rubygems.org'
+
+# Ruby required version.
+ruby '2.1.1'
+
+################################################################################
+# Environment gems and configurations
+################################################################################
+
+# This is a gemset definition for RVM. If you don't want to use this specific
+# gemset just delete the line. If RVM is not installed this line can be left,
+# but will do nothing.
+#ruby-gemset=pbsworker
+
+# Pry is a Ruby shell, much more powerful than the standard shell (irb). It's
+# not essencial to the project and you can opt no to install it, but it will
+# make your life much easier. As this gem is not application breaking, no
+# version is enforced.
+gem "pry"
+
+################################################################################
+# Application needed gems
+################################################################################
+
+# Needed to build Biomart queries.
+gem "biomart", "~> 0.2.3"
+
+# Needed to parse JSON strings.
+gem "json", "~> 1.8.1"
+
+# Needed for HTML parsing.
+gem "nokogiri", "~> 1.6.1"
