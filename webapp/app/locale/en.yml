@@ -26,3 +26,7 @@ en:
       goto: Register
       update: Account
     big_title: Create an account
+  job:
+    button:
+      new: New Search
+      list: My Searches

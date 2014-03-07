@@ -287,6 +287,8 @@ footer .brand li {
   .navbar-log .log-button:hover {
     text-decoration: none;
     background-color: #eeeeee; }
+.navbar-log .dropdown-menu .log-button {
+  font-size: 1.0em; }
 
 .big-title {
   border-bottom: 1px solid #e5e5e5; }

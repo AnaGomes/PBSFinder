@@ -17,3 +17,12 @@ div class='navbar navbar-fixed-top'
           li class='navbar-log'
             = link_to t('login.button'), url(:sessions, :new), :class => 'log-button'
 
+      ul class='nav navbar-nav pull-left'
+        - if logged_in?
+          <li class="dropdown navbar-log">
+            <a href="#" data-toggle="dropdown" class="dropdown-toggle log-button">Search <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              li class="navbar-log"
+                = link_to t('job.button.new'), url(:jobs, :new), :class => 'log-button'
+              li class="navbar-log"
+                = link_to t('job.button.list'), url(:jobs, :list), :class => 'log-button'

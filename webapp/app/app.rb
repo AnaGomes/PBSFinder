@@ -17,9 +17,10 @@ module PbsSite
     set    :login_page, "/sessions/new"
 
     access_control.roles_for :any do |role|
-      role.allow    "/"
       role.allow    "/sessions"
+      role.allow    "/accounts/new"
       role.protect  "/accounts"
+      role.protect  "/jobs"
     end
 
     ##
