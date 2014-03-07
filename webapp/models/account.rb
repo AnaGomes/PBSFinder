@@ -1,6 +1,7 @@
 class Account
   include Mongoid::Document
   attr_accessor :password, :password_confirmation
+  has_many :jobs, :dependent => :destroy
 
   # Fields
   field :name,             :type => String
@@ -23,17 +24,13 @@ class Account
   # Callbacks
   before_save :encrypt_password, :if => :password_required
 
-  ##
   # This method is for authentication purpose.
-  #
   def self.authenticate(email, password)
     account = where(:email => /#{Regexp.escape(email)}/i).first if email.present?
     account && account.has_password?(password) ? account : nil
   end
 
-  ##
   # This method is used by AuthenticationHelper.
-  #
   def self.find_by_id(id)
     find(id) rescue nil
   end

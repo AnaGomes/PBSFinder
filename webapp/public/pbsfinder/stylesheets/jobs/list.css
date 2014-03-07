@@ -1,0 +1,13 @@
+.nav-tabs.job-list {
+  margin-top: 15px; }
+
+#list td.bl, #list th.bl {
+  padding-left: 20px; }
+#list td.br, #list th.br {
+  padding-right: 20px; }
+#list td.blr, #list th.blr {
+  padding-right: 20px;
+  padding-left: 20px; }
+
+#list tr td:nth-child(3) {
+  width: 130px; }

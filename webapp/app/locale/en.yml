@@ -27,6 +27,32 @@ en:
       update: Account
     big_title: Create an account
   job:
+    destroy:
+      error: Failed to delete the search job.
+      success: Search job deleted successfully.
+    destroy_many:
+      error: Failed to delete multiple search jobs.
+      success: Multiple search jobs deleted successfully.
+    create:
+      error: Failed to create a new search job.
+      success: Search job created successfully.
+    example:
+      id_list: "Ex: list of ENSEMBL and/or ENTREZ IDs, one per line"
+      description: "Ex: short description of the search job"
     button:
       new: New Search
       list: My Searches
+    big_title:
+      new: Create a new search job
+      list: Completed search jobs
+      pending: Pending search jobs
+    list:
+      table:
+        id: Search job ID
+        date: Submission date
+        description: Job description
+        species: Species
+      tab:
+        done: Completed
+        pending: Pending
+      select_all: Select all

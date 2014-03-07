@@ -32,4 +32,4 @@ fieldset class='control-group#{error ? ' has-error' : ''}'
 div class="form-actions"
   = f.submit t('register.update.button.save'), :class => 'btn btn-primary'
   |&nbsp;
-  = f.submit t('register.update.button.cancel'), :class => 'btn btn-info'
+  = link_to t('register.update.button.cancel'), url(:accounts, :edit), :class => 'btn btn-info'

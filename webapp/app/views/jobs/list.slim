@@ -1,0 +1,54 @@
+- content_for :stylesheets do
+  = stylesheet_link_tag 'jobs/list'
+ul class="nav nav-tabs job-list"
+  li class="#{@completed ? 'active' : ''}" = link_to t('job.list.tab.done'), url(:jobs, :list)
+  li class="#{@completed ? '' : 'active'}" = link_to t('job.list.tab.pending'), url(:jobs, :pending)
+
+div class="tabs-content"
+  div class="table-responsive"
+    table class="table table-striped table-hover table-condensed" id="list"
+      thead
+        tr
+          th class='header list-menu'
+            div class='dropdown'
+              a href='#' class='list-menu-toggle.dropdown-toggle dropdown-toggle' data-toggle='dropdown'
+                = tag_icon :magic
+                span class='caret'
+              ul class='list-menu dropdown-menu' role='dropdown'
+                li class='list-menu-wrapper' = link_to tag_icon(:check, t('job.list.select_all')), '#', :id => 'select-all', :class => 'list-menu-link'
+                li class='list-menu-wrapper list-menu-wrapper-disabled' = link_to tag_icon('check-empty', pat(:deselect_all)), '#', :id => 'deselect-all', :class => 'list-menu-link list-menu-link-disabled'
+                li class='list-menu-divider divider'
+                li class='list-menu-wrapper list-menu-wrapper-disabled'
+                  = link_to tag_icon(:trash, pat(:delete_selected)), '#', :id => 'delete-selected', :class => 'list-menu-link list-menu-link-disabled'
+                  div class='list-menu-popover-delete-selected popover right'
+                    div class='arrow'
+                    h3 class='popover-title' = pat(:delete_selected_title)
+                    div class='popover-content'
+                      = form_tag url(:jobs, :destroy_many), :method => :delete do
+                        = hidden_field_tag :job_ids, :'data-delete-many-ids' => true
+                        = submit_tag  pat(:delete), :class =>'list-menu-popover-delete-selected-btn btn btn-danger btn-small'
+                        div class='btn btn-default btn-small cancel' = pat(:cancel)
+          th class='header br' = t('job.list.table.id')
+          th class='header br' = t('job.list.table.date')
+          th class='header br' = t('job.list.table.species')
+          th class='header' = t('job.list.table.description')
+          th class='header list-row-action-header'
+
+      tbody
+        - @jobs.each do |job|
+          tr class='list-row'
+            td class='list-column list-selectable' = check_box_tag 'job_ids[]', :value => job.id, :class => 'list-selectable-checkbox'
+            td class='list-column br' = job.id
+            td class='list-column br' = job.created_at.strftime("%F %H:%M")
+            td class='list-column br' = job.species || 'N/A'
+            td class='list-column' = job.description
+            td class='list-column list-row-action'
+              div class='list-row-action-wrapper'
+                = link_to tag_icon(:trash), :rel => :tooltip, :title => "#{pat(:delete)} account", :class => 'list-row-action-delete-one list-row-action-wrapper-link'
+                div class='popover list-row-action-popover-delete-one left'
+                  div class='arrow'
+                  h3 class='popover-title' = pat(:delete, :model => "account")
+                  div class='popover-content'
+                    = form_tag url(:jobs, :destroy, :id => job.id), :method => :delete do
+                      = submit_tag pat(:delete), :class =>'list-row-action-popover-delete-one-btn btn btn-danger btn-small'
+                      div class='btn btn-default btn-small cancel' = pat(:cancel)

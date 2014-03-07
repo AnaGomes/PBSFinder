@@ -17,6 +17,8 @@ Mongoid::Config.sessions =
     {default: {hosts: ["#{host}:#{port}"], database: database_name}}
   end
 
+Mongoid.raise_not_found_error = false
+
 # If you want to use a YML file for config, use this instead:
 #
 #   Mongoid.load!(File.join(Padrino.root, 'config', 'database.yml'), Padrino.env)

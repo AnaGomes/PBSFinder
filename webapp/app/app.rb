@@ -1,6 +1,6 @@
 module PbsSite
   class App < Padrino::Application
-  register WillPaginate::Sinatra
+    register WillPaginate::Sinatra
     register CoffeeInitializer
     register ScssInitializer
     register Padrino::Rendering
@@ -16,9 +16,13 @@ module PbsSite
     enable :store_location
     set    :login_page, "/sessions/new"
 
+    # Remote server.
+    set    :worker_server, 'druby://localhost:5555'
+
     access_control.roles_for :any do |role|
       role.allow    "/sessions"
       role.allow    "/accounts/new"
+      role.allow    "/accounts/create"
       role.protect  "/accounts"
       role.protect  "/jobs"
     end
