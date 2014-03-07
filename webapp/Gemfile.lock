@@ -95,6 +95,9 @@ GEM
     url_mount (0.2.1)
       rack
     will_paginate (3.0.5)
+    will_paginate_mongoid (2.0.1)
+      mongoid
+      will_paginate (~> 3.0)
 
 PLATFORMS
   ruby
@@ -110,3 +113,4 @@ DEPENDENCIES
   slim
   thin
   will_paginate (~> 3.0)
+  will_paginate_mongoid (~> 2.0.1)

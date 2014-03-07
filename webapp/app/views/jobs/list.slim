@@ -52,3 +52,4 @@ div class="tabs-content"
                     = form_tag url(:jobs, :destroy, :id => job.id), :method => :delete do
                       = submit_tag pat(:delete), :class =>'list-row-action-popover-delete-one-btn btn btn-danger btn-small'
                       div class='btn btn-default btn-small cancel' = pat(:cancel)
+  = will_paginate @jobs, { :class => 'pager', :outer_winder => 2, :inner_window => 1 }

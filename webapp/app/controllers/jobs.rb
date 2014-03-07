@@ -23,14 +23,16 @@ PbsSite::App.controllers :jobs do
   end
 
   get :list do
-    @jobs = current_account.jobs.where(completed: true)
+    @jobs = current_account.jobs.where(completed: true).desc(:created_at)
+    @jobs = @jobs.paginate(:page => params[:page] || 1, :per_page => 2)
     @completed = true
     @big_title = t('job.big_title.list')
     render :list
   end
 
   get :pending do
-    @jobs = current_account.jobs.where(completed: false)
+    @jobs = current_account.jobs.where(completed: false).desc(:created_at)
+    @jobs = @jobs.paginate(:page => params[:page] || 1, :per_page => 1)
     @completed = false
     @big_title = t('job.big_title.pending')
     render :list
