@@ -28,27 +28,27 @@ en:
     big_title: Create an account
   job:
     destroy:
-      error: Failed to delete the search job.
-      success: Search job deleted successfully.
+      error: Failed to delete the job.
+      success: Job deleted successfully.
     destroy_many:
-      error: Failed to delete multiple search jobs.
-      success: Multiple search jobs deleted successfully.
+      error: Failed to delete multiple jobs.
+      success: Multiple jobs deleted successfully.
     create:
-      error: Failed to create a new search job.
-      success: Search job created successfully.
+      error: Failed to create a new job.
+      success: Job created successfully.
     example:
       id_list: "Ex: list of ENSEMBL and/or ENTREZ IDs, one per line"
-      description: "Ex: short description of the search job"
+      description: "Ex: short description of the job"
     button:
-      new: New Search
-      list: My Searches
+      new: New job
+      list: My jobs
     big_title:
-      new: Create a new search job
-      list: Completed search jobs
-      pending: Pending search jobs
+      new: Create a new job
+      list: Completed jobs
+      pending: Pending jobs
     list:
       table:
-        id: Search job ID
+        id: Job ID
         date: Submission date
         description: Job description
         species: Species
