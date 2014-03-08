@@ -2,6 +2,7 @@
 log/**/*
 tmp/**/*
 bin/*
+worker_server/temp/*
 vendor/gems/*
 !vendor/gems/cache/
 .sass-cache/*

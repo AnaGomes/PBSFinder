@@ -3,6 +3,10 @@
 require 'drb'
 PbsSite::App.helpers do
 
+  def prepare_ids(ids)
+    ids.split("\n").collect(&:strip).reject { |x| x.empty? }
+  end
+
   def long_job(job, url, data)
     remote = DRbObject.new_with_uri('druby://localhost:5555')
     json = { :url => url, :data => data }.to_json

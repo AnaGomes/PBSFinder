@@ -5,6 +5,7 @@ require 'yaml'
 SERVER_URL = 'druby://localhost:5555'
 CONFIG_DIR = File.join(__dir__, './configs')
 WORKER_DIR = File.join(__dir__, './workers')
+TEMP_F_DIR = File.join(__dir__, './temp')
 
 # Require all workers.
 Dir["#{WORKER_DIR}/*.rb"].each { |file| require file }
@@ -16,7 +17,7 @@ Dir["#{WORKER_DIR}/*.rb"].each { |file| require file }
 #
 # Every worker class should the following methods:
 #   * def initialize()
-#   * def setup(id, config_loader, notifier, *args)
+#   * def setup(id, config_loader, temp_saver, notifier, *args)
 #   * def work()
 #
 ################################################################################
@@ -28,8 +29,6 @@ class MasterWorker
     @current_id = 0
     @process_mutex = Mutex.new
     @process_by_id = {}
-    @config_loader = ConfigLoader.new(CONFIG_DIR)
-    @notifier = Notifier.new
   end
 
   # Launches new worker.
@@ -47,7 +46,7 @@ class MasterWorker
         id = @current_id
         @process_by_id[id] = wkr
       end
-      wkr.setup(id, @config_loader, Notifier.new, *args)
+      wkr.setup(id, ConfigLoader.new(CONFIG_DIR), TempSaver.new(TEMP_F_DIR), Notifier.new, *args)
       puts "Starting worker (#{worker})"
       _start_new_worker(wkr)
       return id
@@ -66,6 +65,10 @@ class MasterWorker
     else
       puts "Worker #{id} finished"
     end
+  end
+
+  def working?
+    true
   end
 
   private
@@ -100,7 +103,30 @@ class ConfigLoader
   end
 
   def load_config(file)
-    YAML::load_file(File.join(CONFIG_DIR, file))
+    YAML::load_file(File.join(@dir, file))
+  end
+
+end
+
+# Helper class to save temporary files.
+class TempSaver
+
+  def initialize(dir)
+    @dir = dir
+  end
+
+  def save_file(id, content)
+    File.open(File.join(@dir, "#{id}.temp"), 'w') do |f|
+      f.write content
+    end
+  end
+
+  def file_path(id)
+    File.join(@dir, "#{id}.temp")
+  end
+
+  def delete_file(id)
+    File.delete(file_path(id))
   end
 
 end
@@ -116,6 +142,7 @@ class Notifier
 end
 
 # Starts the service.
+Dir.mkdir(TEMP_F_DIR) unless File.exists?(TEMP_F_DIR)
 master = MasterWorker.new
 DRb.start_service(SERVER_URL, master)
 DRb.thread.join

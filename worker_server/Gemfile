@@ -30,3 +30,6 @@ gem "json", "~> 1.8.1"
 
 # Needed for HTML parsing.
 gem "nokogiri", "~> 1.6.1"
+
+# Needed for multipart file posts.
+gem "multipart-post", "~> 2.0.0"

@@ -9,13 +9,19 @@ class Job
   field :description,   :type => String
   field :species,       :type => String
 
-  validates_presence_of :query
+  validates_presence_of :query, :if => :query_required
   validates_presence_of :completed
   validates_presence_of :description
-  validates_length_of   :description, :within => 20..256
+  validates_length_of   :description, :within => 5..256
 
   def self.find_by_id(id)
     find(id) rescue nil
+  end
+
+  private
+
+  def query_required
+    return !self.completed
   end
 
   # You can define indexes on documents using the index macro:

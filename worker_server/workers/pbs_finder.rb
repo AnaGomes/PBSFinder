@@ -5,6 +5,7 @@ require 'yaml'
 require 'uri'
 require 'net/http'
 require 'nokogiri'
+require 'net/http/post/multipart'
 
 class PbsFinder
 
@@ -14,12 +15,14 @@ class PbsFinder
     @id = nil
     @config = nil
     @notifier = nil
+    @saver = nil
     @resp_url = nil
     @data = nil
+    @token = nil
   end
 
-  def setup(id, config, notifier, args)
-    @id, @notifier = id, notifier
+  def setup(id, config, saver, notifier, args)
+    @id, @saver, @notifier = id, saver, notifier
     @config = config.load_config('pbs_finder.yml')
     json = JSON.parse(args)
     @resp_url = json['url']
@@ -29,10 +32,13 @@ class PbsFinder
   def work
     resp = get_proteins(@data).to_json
     uri = URI(@resp_url)
-    Net::HTTP.post_form(
-      uri,
-      'result' => resp
-    )
+    @saver.save_file(@id, resp)
+    req = Net::HTTP::Post::Multipart.new uri.path,
+      "result" => UploadIO.new(File.new(@saver.file_path(@id)), "application/json", "result.json")
+    Net::HTTP.start(uri.host, uri.port) do |http|
+      http.request(req)
+    end
+    @saver.delete_file(@id)
     @notifier.notify_finish(@id, 'pbs finder finished')
   end
 
@@ -150,8 +156,9 @@ class PbsFinder
 
     # Identify species and dataset.
     species = identify_species(result.keys)
+    return result unless species
     dataset = species_to_dataset(species)
-    return nil unless species
+    return result unless dataset
 
     # Retrieve transcript IDs for each gene.
     transcript_ids = get_transcript_ids(result.keys, dataset)[:data]
