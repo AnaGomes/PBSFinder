@@ -34,6 +34,7 @@ en:
       error: Failed to delete multiple jobs.
       success: Multiple jobs deleted successfully.
     create:
+      no_server: The remote job server is down. Please, try again later.
       error: Failed to create a new job.
       success: Job created successfully.
     example:

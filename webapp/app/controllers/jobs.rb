@@ -10,14 +10,18 @@ PbsSite::App.controllers :jobs do
     @job = Job.new(params[:job])
     @job.completed = false
     @job.account = current_account
-    if @job.save
-      # TODO CREATE JOB ON SERVER
-      flash[:success] = t('job.create.success')
-      redirect(url_for(:jobs, :job, @job.id))
+    if server_running?
+      if @job.save
+        # TODO CREATE JOB ON SERVER
+        flash[:success] = t('job.create.success')
+        redirect(url_for(:jobs, :job, @job.id))
+      else
+        @big_title = t('job.big_title.new')
+        flash.now[:error] = t('job.create.error', :model => 'job')
+        render :new
+      end
     else
-      @big_title = t('job.big_title.new')
-      puts @job.errors.inspect
-      flash.now[:error] = t('job.create.error', :model => 'job')
+      flash.now[:error] = t('job.create.no_server', :model => 'job')
       render :new
     end
   end
@@ -40,6 +44,7 @@ PbsSite::App.controllers :jobs do
 
   get :job, :with => :id do
     # TODO
+    long_job('PbsFinder', absolute_url(:jobs, :job, params[:id]), ["ENSRNOG00000016930"])
   end
 
   delete :destroy, :with => :id do
@@ -66,8 +71,11 @@ PbsSite::App.controllers :jobs do
     redirect back
   end
 
-  post :job, :csrf_protection => false do
-    puts params[:result]
+  post :job, :with => :id, :csrf_protection => false do
+    # TODO
+     puts params.inspect
+     content = params[:result][:tempfile].read
+     puts content
   end
 
 end

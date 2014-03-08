@@ -23,6 +23,7 @@ module PbsSite
       role.allow    "/sessions"
       role.allow    "/accounts/new"
       role.allow    "/accounts/create"
+      role.allow    "/jobs/job"
       role.protect  "/accounts"
       role.protect  "/jobs"
     end
