@@ -1,0 +1,4 @@
+.table tr td:nth-child(1) {
+  width: 130px; }
+.table .list-title {
+  font-weight: bold; }
