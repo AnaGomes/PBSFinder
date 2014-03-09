@@ -27,6 +27,14 @@ en:
       update: Account
     big_title: Create an account
   job:
+    view:
+      notice:
+        title: This job is not ready
+        notice1: This page will automatically reload the results once the job is completed.
+        notice2: You will receive an email notification upon job completion.
+        notice3: You can access this page from the "Jobs > My Jobs" menu.
+      not_found: The specified job doesn't exist.
+      big_title: Job Info
     destroy:
       error: Failed to delete the job.
       success: Job deleted successfully.
@@ -50,7 +58,7 @@ en:
           content: You may choose to be notified through your account email when a job is finished. Tick the appropriate option in the form below to enable this behavior.
         notice4:
           title: Job results
-          content: When you submit a job you will be redirected to its results page. You can later view your finished and pending jobs from the "My Jobs" menu.
+          content: When you submit a job you will be redirected to its results page. You can later view your finished and pending jobs from the "Jobs > My Jobs" menu.
     example:
       id_list: "Ex: list of ENSEMBL and/or ENTREZ IDs, one per line"
       description: "Ex: short description of the job"

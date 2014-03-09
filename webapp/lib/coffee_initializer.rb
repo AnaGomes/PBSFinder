@@ -1,7 +1,7 @@
 module CoffeeInitializer
   def self.registered(app)
     app.use Rack::Coffee,
-      :root => Padrino.root('/public'),
+      :root => Padrino.root('/public/pbsfinder'),
       :urls => '/javascripts'
       # :root: the directory above urls. Defaults to Dir.pwd.
       # :urls: the directories in which to look for coffeescripts. May specify a string or an array of strings. Defaults to /javascripts.

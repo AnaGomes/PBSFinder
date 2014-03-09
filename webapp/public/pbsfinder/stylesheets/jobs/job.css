@@ -1,0 +1,13 @@
+.panel-info {
+  margin-top: 30px; }
+
+.general-info .species {
+  font-family: Varela;
+  color: #428bca;
+  font-size: 1.8em; }
+.general-info .description {
+  text-align: justify;
+  font-size: 1.2em; }
+
+.info {
+  margin-top: 30px; }

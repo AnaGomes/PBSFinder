@@ -1,0 +1,17 @@
+- content_for :stylesheets do
+  = stylesheet_link_tag 'jobs/job'
+- unless @job.completed
+  - content_for :javascripts do
+    = javascript_include_tag 'check_job'
+  div class="panel panel-info"
+    div class="panel-heading"
+      h3 class="panel-title" = t('job.view.notice.title')
+    ul class="list-group"
+      li class="list-group-item" = t('job.view.notice.notice1')
+      li class="list-group-item" = t('job.view.notice.notice2')
+      li class="list-group-item" = t('job.view.notice.notice3')
+
+div class="info"
+  div class="general-info"
+    p class='species' = @job.species ? @job.species : "Species not available"
+    p class='description' = @job.description

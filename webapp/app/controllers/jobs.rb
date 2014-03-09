@@ -13,7 +13,7 @@ PbsSite::App.controllers :jobs do
     if server_running?
       if @job.save
         ids = prepare_ids(@job.query)
-        long_job('PbsFinder', absolute_url(:jobs, :job, @job.id), ids)
+        long_job('PbsFinder', absolute_url(:jobs, :response, @job.id), ids)
         flash[:success] = t('job.create.success')
         redirect(url_for(:jobs, :job, @job.id))
       else
@@ -44,7 +44,23 @@ PbsSite::App.controllers :jobs do
   end
 
   get :job, :with => :id do
-    # TODO DISPLAY JOB
+    @job = Job.find(params[:id])
+    if @job
+      @big_title = "#{t('job.view.big_title')} (#{@job.id})"
+      render :job
+    else
+      flash[:error] = t('job.view.not_found')
+      redirect url('/')
+    end
+  end
+
+  post :completed, :csrf_protection => false do
+    if params[:id].nil?
+      return { result: false }.to_json
+    else
+      job = Job.find(params[:id])
+      return { result: (job ? job.completed : false) }.to_json
+    end
   end
 
   delete :destroy, :with => :id do
@@ -71,7 +87,7 @@ PbsSite::App.controllers :jobs do
     redirect back
   end
 
-  post :job, :with => :id, :csrf_protection => false do
+  post :response, :with => :id, :csrf_protection => false do
     job = Job.find(params[:id])
     if job
       json = JSON.parse(params[:result][:tempfile].read)
