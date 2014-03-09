@@ -11,6 +11,8 @@ class Account
   field :role,             :type => String
 
   # Validations
+  validates_presence_of     :name
+  validates_presence_of     :surname
   validates_presence_of     :email, :role
   validates_presence_of     :password,                   :if => :password_required
   validates_presence_of     :password_confirmation,      :if => :password_required

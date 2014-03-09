@@ -42,6 +42,10 @@ en:
       error: Failed to delete multiple jobs.
       success: Multiple jobs deleted successfully.
     create:
+      button:
+        create: Create
+        cancel: Cancel
+        create_and_mail: Create (notify by email)
       no_server: The remote job server is down. Please, try again later.
       error: Failed to create a new job.
       success: Job created successfully.
@@ -55,7 +59,7 @@ en:
           content: The more IDs there are in your job, the longer the system will take to process the results. Larger jobs may take several minutes to complete.
         notice3:
           title: Email alerts
-          content: You may choose to be notified through your account email when a job is finished. Tick the appropriate option in the form below to enable this behavior.
+          content: You may choose to be notified through your account email when a job is finished. Press the appropriate button in the form below to enable this behavior.
         notice4:
           title: Job results
           content: When you submit a job you will be redirected to its results page. You can later view your finished and pending jobs from the "Jobs > My Jobs" menu.

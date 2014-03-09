@@ -29,6 +29,15 @@ module PbsSite
       role.protect  "/jobs"
     end
 
+    set :delivery_method, :smtp => {
+      :address              => "smtp.gmail.com",
+      :port                 => 587,
+      :user_name            => 'pbsfinder@gmail.com',
+      :password             => 'pbsfinder123ppp',
+      :authentication       => :plain,
+      :enable_starttls_auto => true
+    }
+
     ##
     # Caching support.
     #

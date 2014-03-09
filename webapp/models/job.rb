@@ -9,9 +9,11 @@ class Job
   field :completed,     :type => Boolean, :default => false
   field :description,   :type => String
   field :species,       :type => String
+  field :email,         :type => Boolean, :default => false
 
   validates_presence_of :query, :if => :query_required
   validates_presence_of :completed
+  validates_presence_of :email
   validates_presence_of :description
   validates_length_of   :description, :within => 5..256
 

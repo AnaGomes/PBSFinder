@@ -93,6 +93,17 @@ PbsSite::App.controllers :jobs do
       json = JSON.parse(params[:result][:tempfile].read)
       build_job_results(job, json)
       job.save
+      if job.email
+        deliver(
+          :notification,
+          :job_notification_email,
+          "#{job.account.name} #{job.account.surname}",
+          job.account.email,
+          job.id,
+          absolute_url(:jobs, :job, job.id),
+          job.description
+        )
+      end
     end
   end
 

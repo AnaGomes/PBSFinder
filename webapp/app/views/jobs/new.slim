@@ -1,5 +1,7 @@
 - content_for :stylesheets do
   = stylesheet_link_tag 'jobs/new'
+- content_for :javascripts do
+    = javascript_include_tag 'jobs/create_mail'
 div class="tabs-content"
   div class="panel panel-info"
     div class="panel-heading"
@@ -26,5 +28,5 @@ div class="tabs-content"
             span class="list-title" = t('job.create.notice.notice4.title')
           td class='list-column'
             span = t('job.create.notice.notice4.content')
-  = form_for :job, url(:jobs, :create), :class => 'form-horizontal' do |f|
+  = form_for :job, url(:jobs, :create), :class => 'form-horizontal', :id => 'job-form' do |f|
     = partial 'jobs/form', :locals => { :f => f }
