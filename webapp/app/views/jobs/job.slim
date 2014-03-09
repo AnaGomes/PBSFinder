@@ -41,7 +41,7 @@ div class="info"
                   td = trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id
                   - @proteins.each do |prot|
                     td class="#{trans.proteins.where(name: prot).exists? ? 'match protein' : 'protein'}"
-  - elsif @job.complete
+  - elsif @job.completed
     div class="panel panel-danger"
       div class="panel-heading"
         h3 class="panel-title" = t('job.view.bad_job.notice.title')
