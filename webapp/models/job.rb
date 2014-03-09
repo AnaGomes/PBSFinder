@@ -1,8 +1,9 @@
 class Job
   include Mongoid::Document
-  include Mongoid::Timestamps # adds created_at and updated_at fields
+  include Mongoid::Timestamps
   attr_accessor :query
   belongs_to :account, :dependent => :nullify
+  embeds_many :genes, :cascade_callbacks => true
 
   # field <name>, :type => <type>, :default => <value>
   field :completed,     :type => Boolean, :default => false

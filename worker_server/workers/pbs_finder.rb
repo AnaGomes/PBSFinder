@@ -156,9 +156,9 @@ class PbsFinder
 
     # Identify species and dataset.
     species = identify_species(result.keys)
-    return result unless species
+    return { :species => nil } unless species
     dataset = species_to_dataset(species)
-    return result unless dataset
+    return { :species => nil } unless dataset
 
     # Retrieve transcript IDs for each gene.
     transcript_ids = get_transcript_ids(result.keys, dataset)[:data]
@@ -231,7 +231,7 @@ class PbsFinder
       prot = row.children[2].children[0].text
       s_start = row.children[3].text.to_i
       s_end = row.children[4].text.to_i
-      seq = row.children[5].text.to_i
+      seq = row.children[5].text
       res = {}
       res[:score] = score
       res[:start] = s_start

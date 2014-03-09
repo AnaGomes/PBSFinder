@@ -75,15 +75,8 @@ PbsSite::App.controllers :jobs do
     job = Job.find(params[:id])
     if job
       json = JSON.parse(params[:result][:tempfile].read)
-      if json['species']
-        # TODO CREATE RESULTS
-        job.species = json['species'].split("_").each_with_index.map { |x, i| i == 0 ? x.capitalize : x }.join(" ")
-        job.completed = true
-      else
-        # Invalid job.
-        job.completed = true
-        job.save
-      end
+      build_job_results(job, json)
+      job.save
     end
   end
 
