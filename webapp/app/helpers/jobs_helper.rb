@@ -1,6 +1,8 @@
 # Helper methods defined here can be accessed in any controller or view in the application
 
 require 'drb'
+require 'set'
+
 PbsSite::App.helpers do
 
   def prepare_ids(ids)
@@ -21,6 +23,18 @@ PbsSite::App.helpers do
       return false
     end
     return true
+  end
+
+  def get_proteins(job)
+    set = Set.new
+    job.genes.each do |gene|
+      gene.transcripts.each do |trans|
+        trans.proteins.each do |protein|
+          set.add(protein.name)
+        end
+      end
+    end
+    return set
   end
 
   def build_job_results(job, json)

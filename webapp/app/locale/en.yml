@@ -28,6 +28,10 @@ en:
     big_title: Create an account
   job:
     view:
+      bad_job:
+        notice:
+          title: No results for this job
+          content: We're sorry, but we couldn't find at least one valid/known ID in the supplied list. As a result, no relevant information could be retrieved for this job. Please revise your ID list and submit a new job.
       notice:
         title: This job is not ready
         notice1: This page will automatically reload the results once the job is completed.

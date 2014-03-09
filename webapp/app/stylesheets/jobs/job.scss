@@ -17,3 +17,46 @@
 .info {
   margin-top:30px;
 }
+
+.panel-danger {
+  margin-top:30px;
+}
+
+.table-container {
+  margin-top:30px;
+  overflow:auto;
+  max-height:500px;
+  padding-right: 1px;
+  .table {
+    td {
+      vertical-align:middle;
+      text-align:center;
+      &.protein {
+        border:solid 1px #dddddd;
+      }
+      &.match {
+        background-color: #428bca;
+        opacity: 0.8;
+        border: solid 1px #428bca;
+      }
+    }
+    tr {
+      &.striped {
+        background-color: #f9f9f9;
+      }
+      &:hover {
+        opacity:1;
+        background-color:#428bca;
+        td.match {
+          border-left:solid 1px #336DA0;
+          border-right:solid 1px #336DA0;
+        }
+      }
+    }
+  }
+}
+
+th {
+  white-space: nowrap;
+  background-color:#fff !important;
+}

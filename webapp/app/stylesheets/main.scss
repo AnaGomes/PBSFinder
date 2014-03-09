@@ -4,14 +4,11 @@ $urlprefix: '/pbsfinder';
 html, body {
   height: 100%;
 }
-body {
-  font-size: 13px;
-}
 .main {
   min-height: 100%;
   height: auto !important;
   margin: 0 auto -50px; /* margin-bottom: minus footer's height */
-  padding: 0 20px;
+  padding: 0 45px;
 }
 .main-wrapper {
   padding-top: 70px /* same as footer's height */
@@ -300,6 +297,7 @@ footer .brand li {
     &:hover {
       text-decoration: none;
       background-color: #eeeeee;
+      color:#428bca;
     }
   }
   .dropdown-menu .log-button {

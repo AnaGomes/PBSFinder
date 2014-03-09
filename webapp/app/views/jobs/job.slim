@@ -1,8 +1,12 @@
 - content_for :stylesheets do
   = stylesheet_link_tag 'jobs/job'
-- unless @job.completed
+- if @job.completed
+  - content_for :javascripts do
+    = javascript_include_tag 'jquery.thead.min', 'jobs/table_header'
+- else
   - content_for :javascripts do
     = javascript_include_tag 'jobs/check_job'
+
   div class="panel panel-info"
     div class="panel-heading"
       h3 class="panel-title" = t('job.view.notice.title')
@@ -15,3 +19,34 @@ div class="info"
   div class="general-info"
     p class='species' = @job.species ? @job.species : "Species not available"
     p class='description' = @job.description
+
+  - if @job.species
+    div class="table-container table-responsive"
+      table class="table table-condensed table-hover" id="protein-table"
+        thead
+          tr
+            th Gene
+            th Transcript
+            - @proteins.each do |prot|
+              th = prot
+        tbody
+          - even = false
+          - @job.genes.each do |gene|
+            - even = !even
+            tr class="#{even ? 'striped' : ''}"
+              td rowspan="#{gene.transcripts.size + 1}"
+                = gene.name ? "#{gene.ensembl_id} (#{gene.name})" : gene.ensembl_id
+              - gene.transcripts.each do |trans|
+                tr class="#{even ? 'striped' : ''}"
+                  td = trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id
+                  - @proteins.each do |prot|
+                    td class="#{trans.proteins.where(name: prot).exists? ? 'match protein' : 'protein'}"
+  - else
+    div class="panel panel-danger"
+      div class="panel-heading"
+        h3 class="panel-title" = t('job.view.bad_job.notice.title')
+      div class="panel-body"
+        p = t('job.view.bad_job.notice.content')
+
+
+

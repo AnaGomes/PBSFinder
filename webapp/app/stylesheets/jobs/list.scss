@@ -3,6 +3,7 @@
 }
 
 #list td, #list th {
+  text-align:justify;
   &.bl {
     padding-left:20px;
   }
@@ -16,7 +17,7 @@
 }
 #list tr {
   td:nth-child(3) {
-    width:130px;
+    width:160px;
   }
 }
 .pager {

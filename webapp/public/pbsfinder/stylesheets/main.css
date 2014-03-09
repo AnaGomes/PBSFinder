@@ -2,15 +2,12 @@
 html, body {
   height: 100%; }
 
-body {
-  font-size: 13px; }
-
 .main {
   min-height: 100%;
   height: auto !important;
   margin: 0 auto -50px;
   /* margin-bottom: minus footer's height */
-  padding: 0 20px; }
+  padding: 0 45px; }
 
 .main-wrapper {
   padding-top: 70px; }
@@ -286,7 +283,8 @@ footer .brand li {
   padding: 15px; }
   .navbar-log .log-button:hover {
     text-decoration: none;
-    background-color: #eeeeee; }
+    background-color: #eeeeee;
+    color: #428bca; }
 .navbar-log .dropdown-menu .log-button {
   font-size: 1.0em; }
 

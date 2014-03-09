@@ -11,3 +11,33 @@
 
 .info {
   margin-top: 30px; }
+
+.panel-danger {
+  margin-top: 30px; }
+
+.table-container {
+  margin-top: 30px;
+  overflow: auto;
+  max-height: 500px;
+  padding-right: 1px; }
+  .table-container .table td {
+    vertical-align: middle;
+    text-align: center; }
+    .table-container .table td.protein {
+      border: solid 1px #dddddd; }
+    .table-container .table td.match {
+      background-color: #428bca;
+      opacity: 0.8;
+      border: solid 1px #428bca; }
+  .table-container .table tr.striped {
+    background-color: #f9f9f9; }
+  .table-container .table tr:hover {
+    opacity: 1;
+    background-color: #428bca; }
+    .table-container .table tr:hover td.match {
+      border-left: solid 1px #336DA0;
+      border-right: solid 1px #336DA0; }
+
+th {
+  white-space: nowrap;
+  background-color: #fff !important; }
