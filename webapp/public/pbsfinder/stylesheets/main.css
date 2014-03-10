@@ -50,7 +50,8 @@ footer p {
 .footer-links-link {
   text-shadow: 0px 1px 2px #030303;
   color: #878787;
-  font-family: varela;
+  font-family: Ubuntu;
+  font-weight: 500;
   font-size: 1.2em;
   text-transform: uppercase;
   line-height: 25px;
@@ -69,7 +70,7 @@ footer p {
 /* -- End Layout -- */
 /* -- Begin Errors -- */
 .custom-error {
-  font-family: 'Varela', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   font-size: 1.5em;
   width: 500px;
   margin: 100px auto 0;
@@ -140,9 +141,9 @@ footer p {
   color: #333333; }
 
 .navbar-brand {
-  margin-top: 10px;
+  margin-top: 7px;
   padding: 0px 15px;
-  font-family: 'Varela', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   text-transform: uppercase;
   font-size: 2.5em;
   line-height: 1em;
@@ -235,7 +236,7 @@ footer p {
 /* --- End Application::List --- */
 /* --- Begin Application::Base --- */
 .base-text {
-  font-family: 'Varela', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   width: 730px;
   margin: 40px auto 0;
   font-size: 1.45em;
@@ -258,7 +259,7 @@ footer p {
 
 footer .brand li {
   list-style: none;
-  font-family: Varela;
+  font-family: Ubuntu;
   line-height: 24px;
   display: inline-block; }
   footer .brand li .brand-name {
@@ -299,7 +300,8 @@ footer .brand li {
 .navbar-log li {
   display: block; }
 .navbar-log .log-button {
-  font-family: Varela;
+  font-family: Ubuntu;
+  font-weight: 500;
   color: #428bca;
   background: none;
   font-size: 1.1em;
@@ -317,8 +319,9 @@ footer .brand li {
 .big-title {
   border-bottom: 1px solid #e5e5e5; }
   .big-title h1 {
-    font-family: Varela;
+    font-family: Ubuntu;
     color: #428bca;
+    font-weight: 300;
     font-size: 1.8em;
     text-transform: uppercase; }
 
