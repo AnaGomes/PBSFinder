@@ -334,6 +334,11 @@ footer .brand li {
     font-size: 1.1em;
   }
 }
+table.floatThead-table {
+  border-top: none;
+  border-bottom: none;
+  background-color: #FFF;
+}
 .big-title{
   border-bottom: 1px solid #e5e5e5;
   h1 {
