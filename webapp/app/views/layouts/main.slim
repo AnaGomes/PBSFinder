@@ -18,7 +18,8 @@ html lang="en" xmlns="http://www.w3.org/1999/xhtml"
     = favicon_tag 'favicon.ico'
     /*link href='http://fonts.googleapis.com/css?family=Varela' rel='stylesheet'*/
     = stylesheet_link_tag 'bootstrap-new', 'main'
-    = javascript_include_tag 'jquery.min', 'application', (Padrino.env == :production ? 'bootstrap/bootstrap.min' : %w[bootstrap/affix bootstrap/alert bootstrap/button bootstrap/carousel bootstrap/collapse bootstrap/dropdown  bootstrap/tooltip bootstrap/transition  bootstrap/modal bootstrap/popover bootstrap/scrollspy bootstrap/tab]), :application
+    script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js"
+    = javascript_include_tag 'application', (Padrino.env == :production ? 'bootstrap/bootstrap.min' : %w[bootstrap/affix bootstrap/alert bootstrap/button bootstrap/carousel bootstrap/collapse bootstrap/dropdown  bootstrap/tooltip bootstrap/transition  bootstrap/modal bootstrap/popover bootstrap/scrollspy bootstrap/tab]), :application
 
     / PER PAGE ASSETS
     = yield_content :stylesheets
