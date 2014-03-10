@@ -3,6 +3,14 @@
 - if @job.completed
   - content_for :javascripts do
     = javascript_include_tag 'jquery.thead.min', 'jobs/table_header'
+
+  - unless @job.species
+    div class="panel panel-danger"
+      div class="panel-heading"
+        h3 class="panel-title" = t('job.view.bad_job.notice.title')
+      div class="panel-body"
+        p = t('job.view.bad_job.notice.content')
+
 - else
   - content_for :javascripts do
     = javascript_include_tag 'jobs/check_job'
@@ -17,7 +25,7 @@
 
 div class="info"
   div class="general-info"
-    p class='species' = @job.species ? @job.species : "Species not available"
+    p class='species' = @job.species ? "#{t('job.view.species')}: #{@job.species}" : (@job.completed ? "#{t('job.view.species')}: #{t('job.view.species_none')}" : "#{t('job.view.species')}: #{t('job.view.species_wait')}")
     p class='description' = @job.description
 
   - if @job.species
@@ -41,12 +49,6 @@ div class="info"
                   td = trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id
                   - @proteins.each do |prot|
                     td class="#{trans.proteins.where(name: prot).exists? ? 'match protein' : 'protein'}"
-  - elsif @job.completed
-    div class="panel panel-danger"
-      div class="panel-heading"
-        h3 class="panel-title" = t('job.view.bad_job.notice.title')
-      div class="panel-body"
-        p = t('job.view.bad_job.notice.content')
 
 
 

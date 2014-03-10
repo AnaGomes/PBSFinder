@@ -30,6 +30,9 @@ en:
     big_title: Create an account
   job:
     view:
+      species: Species
+      species_wait: Detecting
+      species_none: Not found
       bad_job:
         notice:
           title: No results for this job
@@ -40,7 +43,7 @@ en:
         notice2: You will receive an email notification upon job completion.
         notice3: You can access this page from the "Jobs > My Jobs" menu.
       not_found: The specified job doesn't exist.
-      big_title: Job Info
+      big_title: Job Results
     destroy:
       error: Failed to delete the job.
       success: Job deleted successfully.
@@ -59,7 +62,7 @@ en:
         title: Regarding job creation
         notice1:
           title: Max 200 IDs
-          content: Try to divide very large jobs into multiple smaller ones, as large jobs take longer to complete and may overload the system.
+          content: The current limit is of 200 IDs. Jobs with more than 200 IDs should be divided into smaller ones.
         notice2:
           title: Long jobs
           content: The more IDs there are in your job, the longer the system will take to process the results. Larger jobs may take several minutes to complete.

@@ -47,7 +47,7 @@ PbsSite::App.controllers :jobs do
     @job = Job.find(params[:id])
     if @job
       @proteins = get_proteins(@job)
-      @big_title = "#{t('job.view.big_title')} (#{@job.id})"
+      @big_title = t('job.view.big_title')
       render :job
     else
       flash[:error] = t('job.view.not_found')
