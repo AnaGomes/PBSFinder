@@ -10,6 +10,7 @@ class Job
   field :description,   :type => String
   field :species,       :type => String
   field :email,         :type => Boolean, :default => false
+  field :time,          :type => Integer
 
   validates_presence_of :query, :if => :query_required
   validates_presence_of :completed

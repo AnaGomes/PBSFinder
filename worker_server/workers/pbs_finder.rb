@@ -1,4 +1,5 @@
 require 'biomart'
+require 'benchmark'
 require 'drb'
 require 'json'
 require 'yaml'
@@ -30,7 +31,10 @@ class PbsFinder
   end
 
   def work
-    resp = get_proteins(@data).to_json
+    resp = nil
+    bench = Benchmark.measure { resp = get_proteins(@data) }
+    resp['time'] = bench.real < 0 ? 1 : bench.real.to_i
+    resp = resp.to_json
     uri = URI(@resp_url)
     @saver.save_file(@id, resp)
     req = Net::HTTP::Post::Multipart.new uri.path,

@@ -40,6 +40,7 @@ PbsSite::App.helpers do
   def build_job_results(job, json)
     if json['species']
       job.species = json['species'].split("_").each_with_index.map { |x, i| i == 0 ? x.capitalize : x }.join(" ")
+      job.time = json['time']
       _build_genes(job, json)
     end
     job.completed = true

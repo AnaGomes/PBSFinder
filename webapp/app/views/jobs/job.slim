@@ -20,7 +20,8 @@
       h3 class="panel-title" = t('job.view.notice.title')
     ul class="list-group"
       li class="list-group-item" = t('job.view.notice.notice1')
-      li class="list-group-item" = t('job.view.notice.notice2')
+      - if @job.email
+        li class="list-group-item" = t('job.view.notice.notice2')
       li class="list-group-item" = t('job.view.notice.notice3')
 
 div class="info"
@@ -29,8 +30,8 @@ div class="info"
     p class='description' = @job.description
 
   - if @job.species
-    div class="table-container" id="protein-table-wrapper"
-      table class="table table-condensed" id="protein-table"
+    div class="table-container table-responsive" id="protein-table-wrapper"
+      table class="table table-condensed table-hover" id="protein-table"
         thead
           tr
             th Gene
@@ -42,13 +43,19 @@ div class="info"
           - @job.genes.each do |gene|
             - even = !even
             tr class="#{even ? 'striped' : ''}"
-              td rowspan="#{gene.transcripts.size + 1}"
+              td rowspan="#{gene.transcripts.size == 0 ? 2 : gene.transcripts.size + 1}" class="#{gene.transcripts.size == 0 ? 'bad-gene' : ''}"
                 = gene.name ? "#{gene.ensembl_id} (#{gene.name})" : gene.ensembl_id
-              - gene.transcripts.each do |trans|
+              - if gene.transcripts.size == 0
                 tr class="#{even ? 'striped' : ''}"
-                  td = trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id
+                  td
                   - @proteins.each do |prot|
-                    td class="#{trans.proteins.where(name: prot).exists? ? 'match protein' : 'protein'}"
+                    td class="protein"
+              - else
+                - gene.transcripts.each do |trans|
+                  tr class="#{even ? 'striped' : ''}"
+                    td = trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id
+                    - @proteins.each do |prot|
+                      td class="#{trans.proteins.where(name: prot).exists? ? 'match protein' : 'protein'}"
 
 
 

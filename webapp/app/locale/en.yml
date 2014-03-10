@@ -85,9 +85,13 @@ en:
     list:
       table:
         id: Job ID
+        ids: "# IDs"
+        duration: Execution time
+        results: Results
         date: Submission date
         description: Job description
         species: Species
+        view_results: Click to view results
       tab:
         done: Completed
         pending: Pending
