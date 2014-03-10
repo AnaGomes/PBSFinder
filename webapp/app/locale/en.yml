@@ -1,4 +1,6 @@
 en:
+  navigation:
+    home: Home
   login:
     button: Sign in
     success: Signed in successfully.

@@ -4,11 +4,29 @@ $urlprefix: '/pbsfinder';
 html, body {
   height: 100%;
 }
+.container {
+  width:1170px !important;
+}
+.container-non-responsive {
+  /* Margin/padding copied from Bootstrap */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  /* Set width to your desired site width */
+  width: 1170px;
+}
 .main {
   min-height: 100%;
   height: auto !important;
   margin: 0 auto -50px; /* margin-bottom: minus footer's height */
   padding: 0 45px;
+}
+.nav-ul {
+  li {
+    display:inline-block;
+  }
 }
 .main-wrapper {
   padding-top: 70px /* same as footer's height */
@@ -17,6 +35,7 @@ html, body {
   height: 70px; /* same as the footer */
 }
 footer {
+  min-width:1170px;
   margin-top: -50px;
   height: 50px;
   border-top: 1px solid #6b6b6b;
@@ -261,29 +280,29 @@ footer .brand li {
 }
 /* --- End Application::Base --- */
 /* Android Google Galaxy Nexus, add others! */
-@media (-webkit-device-pixel-ratio: 2) {
-  .navbar-fixed-top {
-    position: relative !important;
-    margin: 0 0 20px 0;
-    padding: 0;
-  }
-  .navbar-brand, .navbar-module, .navbar-edit-account, .navbar-log {
-    float: left;
-  }
-  .navbar .nav {
-    margin: 0;
-    padding: 0;
-  }
-  .main-wrapper {
-    padding-top: 0;
-  }
-  .main-wrapper .row {
-    padding: 0 20px;
-  }
-  footer {
-    display: none;
-  }
-}
+/*@media (-webkit-device-pixel-ratio: 2) {*/
+  /*.navbar-fixed-top {*/
+    /*position: relative !important;*/
+    /*margin: 0 0 20px 0;*/
+    /*padding: 0;*/
+  /*}*/
+  /*.navbar-brand, .navbar-module, .navbar-edit-account, .navbar-log {*/
+    /*float: left;*/
+  /*}*/
+  /*.navbar .nav {*/
+    /*margin: 0;*/
+    /*padding: 0;*/
+  /*}*/
+  /*.main-wrapper {*/
+    /*padding-top: 0;*/
+  /*}*/
+  /*.main-wrapper .row {*/
+    /*padding: 0 20px;*/
+  /*}*/
+  /*footer {*/
+    /*display: none;*/
+  /*}*/
+/*}*/
 .navbar-log {
   .log-button {
     font-family: Varela;
