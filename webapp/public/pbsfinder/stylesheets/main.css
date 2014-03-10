@@ -290,6 +290,8 @@ footer .brand li {
 /*display: none;*/
 /*}*/
 /*}*/
+.navbar-log li {
+  display: block; }
 .navbar-log .log-button {
   font-family: Varela;
   color: #428bca;
