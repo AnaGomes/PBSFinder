@@ -62,12 +62,6 @@ footer p {
   line-height: 25px;
   margin-left: 15px; }
 
-@font-face {
-  font-family: Varela;
-  src: url("../fonts/Varela-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal; }
-
 .footer-links-link:hover {
   color: #777;
   text-decoration: none; }
