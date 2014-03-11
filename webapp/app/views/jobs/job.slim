@@ -36,26 +36,56 @@ div class="info"
           tr
             th Gene
             th Transcript
-            - @proteins.each do |prot|
+            - @job.bind_proteins.each do |prot|
               th = prot
         tbody
           - even = false
           - @job.genes.each do |gene|
             - even = !even
-            tr class="#{even ? 'striped' : ''}"
-              td rowspan="#{gene.transcripts.size == 0 ? 2 : gene.transcripts.size + 1}" class="#{gene.transcripts.size == 0 ? 'bad-gene' : ''}"
-                = gene.name ? "#{gene.ensembl_id} (#{gene.name})" : gene.ensembl_id
-              - if gene.transcripts.size == 0
-                tr class="#{even ? 'striped' : ''}"
-                  td
-                  - @proteins.each do |prot|
-                    td class="protein"
+            /* Bad gene (no conversion) */
+            - if gene.transcripts.size == 0
+              tr class="#{even ? 'striped' : ''}"
+                td colspan="2" class="bad-gene"
+                  = gene.ensembl_id
+                td colspan="#{@job.bind_proteins.size}" class="no-bind"
+
+            /* No binding */
+            - elsif !gene.binds
+              tr class="#{even ? 'striped' : ''}"
+                td rowspan="#{gene.transcripts.size}"
+                  = gene.name ? "#{gene.ensembl_id} (#{gene.name})" : gene.ensembl_id
+                td
+                  - trans = gene.transcripts.first
+                  = trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id
+                td colspan="#{@job.bind_proteins.size}" class="no-bind"
+                - gene.transcripts.drop(1).each do |trans|
+                  tr class="#{even ? 'striped' : ''}"
+                    td
+                      = trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id
+                    td colspan="#{@job.bind_proteins.size}" class="no-bind"
+
+            /* Normal gene */
+            - else
+              /* Just one transcripts */
+              - if gene.transcripts.size == 1
+                  tr class="#{even ? 'striped' : ''}"
+                    td
+                      = gene.name ? "#{gene.ensembl_id} (#{gene.name})" : gene.ensembl_id
+                    - trans = gene.transcripts.first
+                    td
+                      = trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id
+                    - trans.matches.each do |prot|
+                      td class="#{prot ? 'match protein' : 'protein'}"
+
+              /* Variant splicing */
               - else
+                tr class="#{even ? 'striped' : ''}"
+                  td rowspan="#{gene.transcripts.size + 1}"
+                    = gene.name ? "#{gene.ensembl_id} (#{gene.name})" : gene.ensembl_id
                 - gene.transcripts.each do |trans|
                   tr class="#{even ? 'striped' : ''}"
-                    td = trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id
-                    - @proteins.each do |prot|
-                      td class="#{trans.proteins.where(name: prot).exists? ? 'match protein' : 'protein'}"
-
-
+                    td
+                      = trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id
+                    - trans.matches.each do |prot|
+                      td class="#{prot ? 'match protein' : 'protein'}"
 

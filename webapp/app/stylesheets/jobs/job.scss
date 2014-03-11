@@ -28,6 +28,7 @@
   max-height:500px;
   padding-right: 1px;
   .table {
+
     td {
       vertical-align:middle;
       text-align:center;
@@ -39,7 +40,23 @@
         opacity: 0.8;
         border: solid 1px #428bca;
       }
+      &.no-bind, &.no-bind.striped {
+        background-image:url('../../images/stripe.png');
+        background-repeat:repeat;
+        border: solid 1px #dddddd;
+        opacity:1;
+        &:hover td {
+          background-color:#333333;
+        }
+        td {
+          border:none;
+        }
+      }
+      &.bad-gene {
+        color:rgb(255, 73, 73);
+      }
     }
+
     tr {
       border-bottom: solid 1px #dddddd;
       &.striped {
@@ -53,9 +70,6 @@
           border-right:solid 1px #336DA0;
         }
       }
-    }
-    .bad-gene {
-      color:rgb(255, 73, 73);
     }
   }
 }

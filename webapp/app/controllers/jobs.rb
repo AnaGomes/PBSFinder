@@ -46,7 +46,6 @@ PbsSite::App.controllers :jobs do
   get :job, :with => :id do
     @job = Job.find(params[:id])
     if @job
-      @proteins = get_proteins(@job)
       @big_title = t('job.view.big_title')
       render :job
     else

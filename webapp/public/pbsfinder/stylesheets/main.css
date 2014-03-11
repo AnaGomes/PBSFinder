@@ -38,10 +38,15 @@ footer {
   border-top: 1px solid #6b6b6b;
   padding: 10px 10px 0;
   background-color: #333333; }
+  footer ul {
+    padding-left: 15px; }
 
 footer p {
   margin-bottom: 0;
-  color: #8a8a8a; }
+  color: #8A8A8A; }
+
+.footer-links {
+  padding-right: 15px; }
 
 .footer-links li {
   display: inline-block;

@@ -1,16 +1,17 @@
 class Job
+
   include Mongoid::Document
   include Mongoid::Timestamps
   attr_accessor :query
   belongs_to :account, :dependent => :nullify
   embeds_many :genes, :cascade_callbacks => true
 
-  # field <name>, :type => <type>, :default => <value>
   field :completed,     :type => Boolean, :default => false
   field :description,   :type => String
   field :species,       :type => String
   field :email,         :type => Boolean, :default => false
   field :time,          :type => Integer
+  field :bind_proteins, :type => Array
 
   validates_presence_of :query, :if => :query_required
   validates_presence_of :completed
@@ -23,14 +24,8 @@ class Job
   end
 
   private
-
   def query_required
     return !self.completed
   end
 
-  # You can define indexes on documents using the index macro:
-  # index :field <, :unique => true>
-
-  # You can create a composite key in mongoid to replace the default id using the key macro:
-  # key :field <, :another_field, :one_more ....>
 end

@@ -25,34 +25,40 @@ PbsSite::App.helpers do
     return true
   end
 
-  def get_proteins(job)
-    set = Set.new
-    job.genes.each do |gene|
-      gene.transcripts.each do |trans|
-        trans.proteins.each do |protein|
-          set.add(protein.name)
-        end
-      end
-    end
-    return set
-  end
-
   def build_job_results(job, json)
     if json['species']
       job.species = json['species'].split("_").each_with_index.map { |x, i| i == 0 ? x.capitalize : x }.join(" ")
       job.time = json['time']
-      _build_genes(job, json)
+      bind_proteins = _get_proteins(json)
+      _build_genes(job, json, bind_proteins)
+      job.bind_proteins = bind_proteins
     end
     job.completed = true
   end
 
   private
-  def _build_genes(job, json)
+  def _get_proteins(json)
+    set = Set.new
+    (json['genes'] || []).each do |k1, gene|
+      next unless gene
+      (gene['transcripts'] || []).each do |k2, trans|
+        next unless trans
+        (trans['proteins'] || []).each do |protein, v1|
+          if protein
+            set.add(protein)
+          end
+        end
+      end
+    end
+    set.to_a
+  end
+
+  def _build_genes(job, json, bind)
     if json['genes']
       json['genes'].each do |gene, values|
         if values
           g = Gene.new(:ensembl_id => gene, :name => values['name'])
-          _build_transcripts(g, values)
+          _build_transcripts(g, values, bind)
           job.genes << g
         else
           job.genes << Gene.new(:ensembl_id => gene)
@@ -61,7 +67,7 @@ PbsSite::App.helpers do
     end
   end
 
-  def _build_transcripts(gene, json)
+  def _build_transcripts(gene, json, bind)
     if json['transcripts']
       json['transcripts'].each do |trans, values|
         t = Transcript.new(
@@ -70,14 +76,16 @@ PbsSite::App.helpers do
           :utr5 => values['utr5'],
           :utr3 => values['utr3']
         )
-        _build_proteins(t, values)
+        _build_proteins(t, values, bind)
+        gene.binds ||= t.proteins.size > 0
         gene.transcripts << t
       end
     end
   end
 
-  def _build_proteins(trans, json)
+  def _build_proteins(trans, json, bind)
     if json['proteins']
+      set = Set.new
       json['proteins'].each do |protein, values|
         p = Protein.new(:name => protein)
         values.each do |pos|
@@ -89,7 +97,15 @@ PbsSite::App.helpers do
           )
         end
         trans.proteins << p
+        set.add(protein)
       end
+      res = []
+      bind.each do |prot|
+        res << set.include?(prot)
+      end
+      trans.matches = res
+    else
+      trans.matches = Array.new(bind.size, false)
     end
   end
 

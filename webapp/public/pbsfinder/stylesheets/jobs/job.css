@@ -29,6 +29,17 @@
       background-color: #428bca;
       opacity: 0.8;
       border: solid 1px #428bca; }
+    .table-container .table td.no-bind, .table-container .table td.no-bind.striped {
+      background-image: url("../../images/stripe.png");
+      background-repeat: repeat;
+      border: solid 1px #dddddd;
+      opacity: 1; }
+      .table-container .table td.no-bind:hover td, .table-container .table td.no-bind.striped:hover td {
+        background-color: #333333; }
+      .table-container .table td.no-bind td, .table-container .table td.no-bind.striped td {
+        border: none; }
+    .table-container .table td.bad-gene {
+      color: #ff4949; }
   .table-container .table tr {
     border-bottom: solid 1px #dddddd; }
     .table-container .table tr.striped {
@@ -39,8 +50,6 @@
       .table-container .table tr:hover td.match {
         border-left: solid 1px #336DA0;
         border-right: solid 1px #336DA0; }
-  .table-container .table .bad-gene {
-    color: #ff4949; }
 
 th {
   white-space: nowrap;
