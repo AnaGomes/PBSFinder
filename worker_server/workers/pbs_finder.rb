@@ -50,10 +50,12 @@ class PbsFinder
   # result is a map of arrays containing the list of IDs of each type, with
   # keys :entrez and :ensembl.
   def identify_ids(ids)
-    new_ids = { entrez: [], ensembl: [] }
+    new_ids = { entrez: [], ensembl: [], ensembl_trans: [] }
     ids.each do |id|
-      if id =~ /^EN/
+      if id =~ /^ENS.+G[0-9]{11}$/
         new_ids[:ensembl] << id
+      elsif id =~ /^ENS.+T[0-9]{11}$/
+        new_ids[:ensembl_trans] << id
       else
         new_ids[:entrez] << id
       end
@@ -63,8 +65,8 @@ class PbsFinder
 
   # Receives an array of ENTREZ IDs and converts them to ENSEMBL IDs, returning
   # a map of the old IDs and their conversion, if possible.
-  def convert_ids(ids)
-    job_id = _convert_ids(ids, @config[:formats][:ezgid], [ @config[:formats][:engid] ])
+  def convert_ids(ids, input, output)
+    job_id = _convert_ids(ids, input, output) # @config[:formats][:ezgid], [ @config[:formats][:engid] ])
     new_ids = _fetch_ids(job_id)
     parsed = new_ids.split("\n")
     parsed.shift
@@ -143,19 +145,19 @@ class PbsFinder
   def get_proteins(ids)
     # Identify and convert IDs to Ensembl notation.
     identified = identify_ids(ids)
-    converted = convert_ids(identified[:entrez])
+    converted = convert_ids(identified[:entrez], @config[:formats][:ezgid], [ @config[:formats][:engid] ])
+    converted_ens = convert_ids(identified[:ensembl_trans], @config[:formats][:entid], [ @config[:formats][:engid] ])
 
     # Build results scaffold.
     result = {}
     identified[:ensembl].each do |id|
-      result[id] = {}
+      result[id] = nil
     end
     converted.each do |k, v|
-      if v
-        result[v] = {}
-      else
-        result[k] = nil
-      end
+      result[v || k] = nil
+    end
+    converted_ens.each do |k, v|
+      result[v || k] = nil
     end
 
     # Identify species and dataset.
@@ -168,6 +170,7 @@ class PbsFinder
     transcript_ids = get_transcript_ids(result.keys, dataset)[:data]
     transcripts = []
     transcript_ids.each do |a|
+      result[a[0]] ||= {}
       result[a[0]][:name] ||= a[1]
       result[a[0]][:transcripts] ||= {}
       result[a[0]][:transcripts][a[2]] = { name: a[3] }

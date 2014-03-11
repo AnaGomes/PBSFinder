@@ -27,9 +27,23 @@
 div class="info"
   div class="general-info"
     p class='species' = @job.species ? "#{t('job.view.species')}: #{@job.species}" : (@job.completed ? "#{t('job.view.species')}: #{t('job.view.species_none')}" : "#{t('job.view.species')}: #{t('job.view.species_wait')}")
+    - if @job.species && @job.time
+      p class='stats'
+        = "#{@job.genes.size} #{@job.genes.size == 1 ? 'gene' : 'genes'} analyzed in #{Time.at(@job.time).utc.strftime("%H:%M:%S")}"
+    p class='separator'
+    h4 = t('job.view.description')
     p class='description' = @job.description
 
   - if @job.species
+    div class="legend"
+      h4 = t('job.view.legend')
+      table
+        tr
+          td class="stripe visual"
+          td = t('job.view.legend_stripe')
+          td class="red visual divider" GENE ID
+          td = t('job.view.legend_red')
+
     div class="table-container table-responsive" id="protein-table-wrapper"
       table class="table table-condensed table-hover" id="protein-table"
         thead

@@ -8,6 +8,14 @@
     color: #428bca;
     font-size: 1.8em;
   }
+  .stats {
+    font-family: Varela;
+    color: #428bca;
+    font-size: 1.2em;
+  }
+  .separator {
+    padding-bottom:20px;
+  }
   .description {
     text-align: justify;
     font-size: 1.2em;
@@ -28,6 +36,7 @@
   max-height:500px;
   padding-right: 1px;
   .table {
+    margin-bottom:0px;
 
     td {
       vertical-align:middle;
@@ -73,7 +82,29 @@
     }
   }
 }
-
+.legend {
+  td {
+    padding:10px 20px 10px 20px;
+    margin-top:5px;
+    margin-bottom:5px;
+  }
+  .visual {
+    padding-left:0;
+  }
+  .divider {
+    border-left:solid 1px rgb(177, 177, 177);
+    padding-left:20px;
+    padding-right:0;
+  }
+  .red {
+    color:rgb(255, 73, 73);
+  }
+  .stripe {
+    width:100px;
+    background-image:url('../../images/stripe.png');
+    background-repeat:repeat;
+  }
+}
 th {
   white-space: nowrap;
   background-color:#fff !important;
