@@ -29,6 +29,12 @@ en:
       update: Account
     big_title: Create an account
   job:
+    transcript:
+      not_found: The specified transcript doesn't exist.
+      big_title: Protein matching results
+      gene: Gene
+      trans: Transcript
+      back: Back to job
     view:
       download: Download results
       species: Species

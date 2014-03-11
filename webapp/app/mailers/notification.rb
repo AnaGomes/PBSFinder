@@ -44,10 +44,10 @@ PbsSite::App.mailer :notification do
   email :job_notification_email do |name, email, id, url, description|
     from 'pbsfinder@gmail.com'
     to email
-    subject "[PBS Finder] Job #{id} is complete"
+    subject "[PBS Finder] Your job is complete"
     locals :name => name, :id => id, :url => url, :description => description
     render 'notification/job_notification_email'
-    content_type :html
+    content_type :plain
   end
 
 end

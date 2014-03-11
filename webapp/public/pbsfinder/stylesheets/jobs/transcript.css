@@ -1,0 +1,57 @@
+.nav-tabs.job-list {
+  margin-top: 15px; }
+
+.trans-info h4 {
+  padding-top: 5px;
+  padding-bottom: 5px; }
+.trans-info .fasta {
+  display: none;
+  height: 0; }
+  .trans-info .fasta p {
+    font-family: Ubuntu Mono;
+    font-size: 1.2em;
+    line-height: 12px; }
+
+.fasta-view {
+  padding-left: 0; }
+  .fasta-view li {
+    display: inline-block;
+    padding-right: 10px; }
+    .fasta-view li.fasta-hide, .fasta-view li.fasta-show {
+      position: relative;
+      top: -5px; }
+    .fasta-view li.fasta-hide {
+      display: none; }
+
+.table-container {
+  margin-top: 30px;
+  overflow: auto;
+  max-height: 500px;
+  padding-right: 1px; }
+  .table-container .table {
+    margin-bottom: 0px; }
+    .table-container .table td {
+      vertical-align: middle;
+      padding-top: 0px;
+      padding-bottom: 0px; }
+      .table-container .table td.protein {
+        text-align: center; }
+    .table-container .table tr {
+      border-bottom: solid 1px #dddddd; }
+      .table-container .table tr.striped {
+        background-color: #fafafa; }
+  .table-container .fasta p {
+    font-family: Ubuntu Mono;
+    font-size: 1.2em;
+    margin-bottom: 0; }
+
+.general-info .gene {
+  font-family: Varela;
+  color: #428bca;
+  font-size: 1.8em; }
+.general-info .transcript {
+  font-family: Varela;
+  color: #428bca;
+  font-size: 1.2em; }
+.general-info .separator {
+  padding-bottom: 20px; }

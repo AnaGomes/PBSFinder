@@ -25,6 +25,10 @@ PbsSite::App.helpers do
     return true
   end
 
+  def format_fasta(fasta, max = 80)
+    fasta.scan(/.{1,#{max}}/)
+  end
+
   def build_job_results(job, json)
     if json['species']
       job.species = json['species'].split("_").each_with_index.map { |x, i| i == 0 ? x.capitalize : x }.join(" ")

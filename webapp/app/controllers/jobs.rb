@@ -43,28 +43,39 @@ PbsSite::App.controllers :jobs do
     render :list
   end
 
-  get :transcript, :map => '/jobs/job/:job_id/transcript/:trans_id' do
+  get :transcript, :map => '/jobs/job/:job_id/gene/:gene_id/transcript/:trans_id' do
+    begin
+      @job = Job.find(params[:job_id])
+      @gene = @job.genes.find(params[:gene_id])
+      @transcript = @gene.transcripts.find(params[:trans_id])
+      raise '' unless @transcript
+      @big_title = t('job.transcript.big_title')
+    rescue
+      flash[:error] = t('job.transcript.not_found')
+      redirect url('/')
+    end
+    render :transcript
   end
 
   get :job, :with => :id, :provides => [:html, :csv, :tsv] do
     @job = Job.find(params[:id])
-    case content_type
-    when :html
-      if @job
+    if @job
+      case content_type
+      when :html
         @big_title = t('job.view.big_title')
         render :job
-      else
-        flash[:error] = t('job.view.not_found')
-        redirect url('/')
+      when :csv
+        content_type 'application/csv'
+        attachment "job_results.csv"
+        return @job.to_csv
+      when :tsv
+        content_type 'application/tsv'
+        attachment "job_results.tsv"
+        return @job.to_csv(col_sep: "\t")
       end
-    when :csv
-      content_type 'application/csv'
-      attachment "job_results.csv"
-      return @job.to_csv
-    when :tsv
-      content_type 'application/tsv'
-      attachment "job_results.tsv"
-      return @job.to_csv(col_sep: "\t")
+    else
+      flash[:error] = t('job.view.not_found')
+      redirect url('/')
     end
   end
 

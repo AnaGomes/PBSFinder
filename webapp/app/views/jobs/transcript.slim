@@ -1,0 +1,74 @@
+- content_for :stylesheets do
+  = stylesheet_link_tag 'jobs/transcript'
+- content_for :javascripts do
+    = javascript_include_tag 'jobs/fasta', 'jquery.thead.min', 'jobs/table_header'
+
+ul class="nav nav-tabs job-list"
+  - @gene.transcripts.each do |trans|
+    li class="#{trans.id == @transcript.id ? 'active' : ''}"
+      = link_to (trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id), url(:jobs, :transcript, @job.id, @gene.id, trans.id)
+
+div class="tabs-content"
+
+  div class="general-info"
+    - if @job.species
+      = link_to t('job.transcript.back'), url_for(:jobs, :job, @job.id), :class => 'btn btn-primary pull-right'
+
+    p class='gene'
+      = @gene.name ? "#{t('job.transcript.gene')}: #{@gene.ensembl_id} (#{@gene.name})" : "#{t('job.transcript.gene')}: #{@gene.ensembl_id}"
+    p class='transcript'
+      = @transcript.name ? "#{t('job.transcript.trans')}: #{@transcript.ensembl_id} (#{@transcript.name})" : "#{t('job.transcript.trans')}: #{@gene.ensembl_id}"
+    p class='separator'
+
+  div class="trans-info"
+    - if @transcript.utr5
+      div class='info'
+        ul class="fasta-view"
+          li
+            h4  5' UTR
+          li class='fasta-show'
+            button type="button" class="btn btn-primary" Show
+          li class='fasta-hide'
+            button type="button" class="btn btn-default" Hide
+        - fasta = format_fasta(@transcript.utr5)
+        div class='fasta'
+          - fasta.each do |f|
+            p = f
+    - if @transcript.utr3
+      div class='info'
+        ul class="fasta-view"
+          li
+            h4  3' UTR
+          li class='fasta-show'
+            button type="button" class="btn btn-primary" Show
+          li class='fasta-hide'
+            button type="button" class="btn btn-default" Hide
+        - fasta = format_fasta(@transcript.utr3)
+        div class='fasta'
+          - fasta.each do |f|
+            p = f
+
+  - if @transcript.proteins.size > 0
+    div class="table-container table-responsive" id="protein-table-wrapper"
+      table class="table table-condensed table-hover" id="protein-table"
+        thead
+          tr
+            th Protein
+            th Score
+            th Start
+            th End
+            th Sequence
+        tbody
+          - even = false
+          - @transcript.proteins.each do |prot|
+            - even = !even
+            tr class="#{even ? 'striped' : ''}"
+              td rowspan="#{prot.positions.size + 1}" class="protein" = prot.name
+              - prot.positions.each do |position|
+                tr class="#{even ? 'striped' : ''}"
+                  td = "#{position.score}%"
+                  td = position.seq_start
+                  td = position.seq_end
+                  td class="fasta"
+                    - format_fasta(position.sequence, 40).each do |p|
+                      p = p

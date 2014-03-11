@@ -1,0 +1,79 @@
+.nav-tabs.job-list {
+  margin-top:15px;
+}
+
+.trans-info {
+  h4 {
+    padding-top:5px;
+    padding-bottom:5px;
+  }
+  .fasta {
+    display:none;
+    height:0;
+    p {
+      font-family:Ubuntu Mono;
+      font-size:1.2em;
+      line-height:12px;
+    }
+  }
+}
+
+.fasta-view {
+  padding-left:0;
+  li {
+    display:inline-block;
+    padding-right:10px;
+    &.fasta-hide, &.fasta-show {
+      position:relative;
+      top:-5px;
+    }
+    &.fasta-hide {
+      display:none;
+    }
+  }
+}
+.table-container {
+  margin-top:30px;
+  overflow:auto;
+  max-height:500px;
+  padding-right: 1px;
+  .table {
+    margin-bottom:0px;
+
+    td {
+      vertical-align:middle;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      &.protein {
+        text-align:center;
+      }
+    }
+
+    tr {
+      border-bottom: solid 1px #dddddd;
+      &.striped {
+        background-color: #fafafa;
+      }
+    }
+  }
+  .fasta p {
+    font-family:Ubuntu Mono;
+    font-size:1.2em;
+    margin-bottom:0;
+  }
+}
+.general-info {
+  .gene {
+    font-family: Varela;
+    color: #428bca;
+    font-size: 1.8em;
+  }
+  .transcript {
+    font-family: Varela;
+    color: #428bca;
+    font-size: 1.2em;
+  }
+  .separator {
+    padding-bottom:20px;
+  }
+}

@@ -83,12 +83,12 @@ div class="info"
                   = gene.name ? "#{gene.ensembl_id} (#{gene.name})" : gene.ensembl_id
                 td
                   - trans = gene.transcripts.first
-                  = link_to (trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id), url(:jobs, :transcript, gene.id, trans.id)
+                  = link_to (trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
                 td colspan="#{@job.bind_proteins.size}" class="no-bind"
                 - gene.transcripts.drop(1).each do |trans|
                   tr class="#{even ? 'striped' : ''}"
                     td
-                      = link_to (trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id), url(:jobs, :transcript, gene.id, trans.id)
+                      = link_to (trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
                     td colspan="#{@job.bind_proteins.size}" class="no-bind"
 
             /* Normal gene */
@@ -100,7 +100,7 @@ div class="info"
                       = gene.name ? "#{gene.ensembl_id} (#{gene.name})" : gene.ensembl_id
                     - trans = gene.transcripts.first
                     td
-                      = link_to (trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id), url(:jobs, :transcript, gene.id, trans.id)
+                      = link_to (trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
                     - trans.matches.each do |prot|
                       td class="#{prot ? 'match protein' : 'protein'}"
 
@@ -112,7 +112,7 @@ div class="info"
                 - gene.transcripts.each do |trans|
                   tr class="#{even ? 'striped' : ''}"
                     td
-                      = link_to (trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id), url(:jobs, :transcript, gene.id, trans.id)
+                      = link_to (trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
                     - trans.matches.each do |prot|
                       td class="#{prot ? 'match protein' : 'protein'}"
 

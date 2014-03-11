@@ -3,12 +3,6 @@ class Protein
   embedded_in :transcript
   embeds_many :positions, :cascade_callbacks => true
 
-  # field <name>, :type => <type>, :default => <value>
-  field :name, :type => String
+  field :name,        :type => String
 
-  # You can define indexes on documents using the index macro:
-  # index :field <, :unique => true>
-
-  # You can create a composite key in mongoid to replace the default id using the key macro:
-  # key :field <, :another_field, :one_more ....>
 end
