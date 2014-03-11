@@ -30,6 +30,7 @@ en:
     big_title: Create an account
   job:
     view:
+      download: Download results
       species: Species
       description: Job description
       legend: Legend

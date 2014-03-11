@@ -43,14 +43,25 @@ PbsSite::App.controllers :jobs do
     render :list
   end
 
-  get :job, :with => :id do
+  get :job, :with => :id, :provides => [:html, :csv, :tsv] do
     @job = Job.find(params[:id])
-    if @job
-      @big_title = t('job.view.big_title')
-      render :job
-    else
-      flash[:error] = t('job.view.not_found')
-      redirect url('/')
+    case content_type
+    when :html
+      if @job
+        @big_title = t('job.view.big_title')
+        render :job
+      else
+        flash[:error] = t('job.view.not_found')
+        redirect url('/')
+      end
+    when :csv
+      content_type 'application/csv'
+      attachment "job_results.csv"
+      return @job.to_csv
+    when :tsv
+      content_type 'application/tsv'
+      attachment "job_results.tsv"
+      return @job.to_csv(col_sep: "\t")
     end
   end
 
