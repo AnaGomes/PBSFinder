@@ -114,7 +114,7 @@ PbsSite::App.controllers :jobs do
 
   post :response, :with => :id, :csrf_protection => false do
     job = Job.find(params[:id])
-    if job
+    if job && !job.completed
       json = JSON.parse(params[:result][:tempfile].read)
       build_job_results(job, json)
       job.save
