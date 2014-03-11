@@ -34,8 +34,9 @@ en:
       species: Species
       description: Job description
       legend: Legend
-      legend_stripe: Genes for which no protein binding sites where found
-      legend_red: IDs that could not be identified
+      legend_stripe: Gene with no protein binding sites #Genes for which no protein binding sites where found
+      legend_red: Unidentified ID # IDs that could not be identified
+      legend_blue: Additional information available #Click ID for more information
       species_wait: Detecting
       species_none: Not found
       bad_job:

@@ -148,6 +148,7 @@ footer p {
 .navbar-brand {
   margin-top: 7px;
   padding: 0px 15px;
+  padding-left: 5px;
   font-family: 'Ubuntu', sans-serif;
   text-transform: uppercase;
   font-size: 2.5em;
@@ -334,5 +335,12 @@ table.floatThead-table {
     font-weight: 300;
     font-size: 1.8em;
     text-transform: uppercase; }
+
+.logo {
+  padding-right: 0;
+  margin-top: 0;
+  padding-top: 0; }
+  .logo img {
+    height: 50px; }
 
 /* -- End Application -- */

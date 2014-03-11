@@ -43,6 +43,9 @@ PbsSite::App.controllers :jobs do
     render :list
   end
 
+  get :transcript, :map => '/jobs/job/:job_id/transcript/:trans_id' do
+  end
+
   get :job, :with => :id, :provides => [:html, :csv, :tsv] do
     @job = Job.find(params[:id])
     case content_type

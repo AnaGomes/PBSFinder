@@ -9,6 +9,8 @@
   font-family: Varela;
   color: #428bca;
   font-size: 1.2em; }
+.general-info .btn-group {
+  padding-top: 5px; }
 .general-info .separator {
   padding-bottom: 20px; }
 .general-info .description {
@@ -54,7 +56,7 @@
     .table-container .table tr {
       border-bottom: solid 1px #dddddd; }
       .table-container .table tr.striped {
-        background-color: #f9f9f9; }
+        background-color: #fafafa; }
       .table-container .table tr:hover {
         opacity: 1;
         background-color: #428bca; }
@@ -74,6 +76,8 @@
   padding-right: 0; }
 .legend .red {
   color: #ff4949; }
+.legend .blue {
+  color: #428bca; }
 .legend .stripe {
   width: 100px;
   background-image: url("../../images/stripe.png");

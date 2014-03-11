@@ -1,6 +1,8 @@
 div class='navbar navbar-fixed-top' id='navbar'
   div class='container-non-responsive'
     div class='navbar-inner'
+      = link_to '', url('/'), :class => 'logo navbar-brand'
+        = image_tag 'dna.svg'
       = link_to 'PBS Finder', url('/'), :class => 'navbar-brand', :title => 'PBS Finder'
 
       div class='nav-menu'

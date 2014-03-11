@@ -13,6 +13,9 @@
     color: #428bca;
     font-size: 1.2em;
   }
+  .btn-group {
+    padding-top:5px;
+  }
   .separator {
     padding-bottom:20px;
   }
@@ -73,7 +76,7 @@
     tr {
       border-bottom: solid 1px #dddddd;
       &.striped {
-        background-color: #f9f9f9;
+        background-color: #fafafa;
       }
       &:hover {
         opacity:1;
@@ -102,6 +105,9 @@
   }
   .red {
     color:rgb(255, 73, 73);
+  }
+  .blue {
+    color:#428bca;
   }
   .stripe {
     width:100px;
