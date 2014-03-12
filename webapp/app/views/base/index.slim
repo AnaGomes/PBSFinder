@@ -1,0 +1,24 @@
+- content_for :stylesheets do
+  = stylesheet_link_tag 'base/index'
+div class="page-header"
+  h1
+    | PBS Finder 
+    small Protein Binding Sites Finder
+
+div class="description"
+  div class="bs-callout bs-callout-danger"
+    h4 = t('base.beta_title')
+    p = t('base.beta')
+
+  div class="bs-callout bs-callout-info"
+    h4 = t('base.description.title1')
+    p = t('base.description.description1')
+
+  div class="bs-callout bs-callout-info"
+      h4 = t('base.description.title2')
+      p = t('base.description.description2')
+
+  div class="bs-callout bs-callout-info"
+      h4 = t('base.description.title3')
+      p = t('base.description.description3')
+

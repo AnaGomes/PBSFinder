@@ -1,4 +1,14 @@
 en:
+  base:
+    beta: PBS Finder is still in a beta state. As such, new features can be added at any time and old ones can be removed. There is a chance that future changes may break older records. Always backup important jobs.
+    beta_title: Experimental version
+    description:
+      title1: Find protein binding sites
+      description1: Finding protein binding sites is easy. Just create an account, give us a list of IDs and we'll return all the relevant information for those IDs.
+      title2: Mix input formats
+      description2: "Supports three formats of IDs: ENSEMBL gene and transcript IDs, and ENTREZ gene IDs. The input list can be a mix of these types."
+      title3: View and save your results
+      description3: Results are always available through your user account, and can be exported to several formats.
   navigation:
     home: Home
   login:
