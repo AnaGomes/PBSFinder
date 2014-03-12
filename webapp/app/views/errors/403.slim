@@ -1,0 +1,9 @@
+- content_for :stylesheets do
+  = stylesheet_link_tag 'errors/errors'
+div class="page-header"
+  h1 = t('error.title_403')
+
+div class="description"
+  div class="bs-callout bs-callout-danger"
+    h4 = t('error.sub_403')
+    p = t('error.description_403')

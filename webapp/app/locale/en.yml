@@ -1,4 +1,14 @@
 en:
+  error:
+    title_404: Error 404
+    sub_404: Page not found
+    description_404: We're sorry, but we couldn't find the page you requested. Please make sure the URL is correct.
+    title_403: Error 403
+    sub_403: Forbidden
+    description_403: You don't have permission to access this page. Please go back.
+    title_500: Error 500
+    sub_500: Internal server error
+    description_500: The server encountered an error. If this problem persists, please contact support.
   base:
     beta: PBS Finder is still in a beta state. As such, new features can be added at any time and old ones can be removed. There is a chance that future changes may break older records. Always backup important jobs.
     beta_title: Experimental version

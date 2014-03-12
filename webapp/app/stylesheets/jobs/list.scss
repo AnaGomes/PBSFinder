@@ -17,7 +17,10 @@
 }
 #list tr {
   td:nth-child(3) {
-    width:160px;
+    min-width:160px;
+  }
+  td:nth-child(2) {
+    min-width:150px;
   }
 }
 .pager {

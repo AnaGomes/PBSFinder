@@ -26,7 +26,7 @@
 # override these settings in the subapps as needed.
 #
 Padrino.configure_apps do
-  # enable :sessions
+  enable :sessions
   set :session_secret, '8381a0d67e8178d9d84bfb96cfc8f7a311f8aef70b179d1281d35c038c13bfdc'
   set :protection, :except => :path_traversal
   set :protect_from_csrf, true
@@ -35,5 +35,5 @@ end
 
 # Mounts the core application for this project
 
-Padrino.mount("PbsSite::Admin", :app_file => Padrino.root('admin/app.rb')).to("/pbsfinder/admin")
+#Padrino.mount("PbsSite::Admin", :app_file => Padrino.root('admin/app.rb')).to("/pbsfinder/admin")
 Padrino.mount('PbsSite::App', :app_file => Padrino.root('app/app.rb')).to('/pbsfinder')
