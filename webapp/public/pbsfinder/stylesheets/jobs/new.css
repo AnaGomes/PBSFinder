@@ -2,3 +2,6 @@
   width: 130px; }
 .table .list-title {
   font-weight: bold; }
+
+.description .bs-callout {
+  margin-top: 0; }

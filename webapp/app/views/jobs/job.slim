@@ -5,24 +5,21 @@
     = javascript_include_tag 'jquery.thead.min', 'jobs/table_header'
 
   - unless @job.species
-    div class="panel panel-danger"
-      div class="panel-heading"
-        h3 class="panel-title" = t('job.view.bad_job.notice.title')
-      div class="panel-body"
-        p = t('job.view.bad_job.notice.content')
+    div class="bs-callout bs-callout-danger"
+      h4 = t('job.view.bad_job.notice.title')
+      p = t('job.view.bad_job.notice.content')
+
 
 - else
   - content_for :javascripts do
     = javascript_include_tag 'jobs/check_job'
 
-  div class="panel panel-info"
-    div class="panel-heading"
-      h3 class="panel-title" = t('job.view.notice.title')
-    ul class="list-group"
-      li class="list-group-item" = t('job.view.notice.notice1')
-      - if @job.email
-        li class="list-group-item" = t('job.view.notice.notice2')
-      li class="list-group-item" = t('job.view.notice.notice3')
+  div class="bs-callout bs-callout-info"
+    h4 = t('job.view.notice.title')
+    p = t('job.view.notice.notice1')
+    - if @job.email
+      p = t('job.view.notice.notice2')
+    p = t('job.view.notice.notice3')
 
 div class="info"
   div class="general-info"
