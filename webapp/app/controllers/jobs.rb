@@ -3,7 +3,7 @@ PbsSite::App.controllers :jobs do
   get :new do
     @job = Job.new
     @big_title = t('job.big_title.new')
-    render :new
+    render 'jobs/new'
   end
 
   post :create do
@@ -19,11 +19,11 @@ PbsSite::App.controllers :jobs do
       else
         @big_title = t('job.big_title.new')
         flash.now[:error] = t('job.create.error', :model => 'job')
-        render :new
+        render 'jobs/new'
       end
     else
       flash.now[:error] = t('job.create.no_server', :model => 'job')
-      render :new
+      render 'jobs/new'
     end
   end
 
@@ -32,7 +32,7 @@ PbsSite::App.controllers :jobs do
     @jobs = @jobs.paginate(:page => params[:page] || 1, :per_page => 10)
     @completed = true
     @big_title = t('job.big_title.list')
-    render :list
+    render 'jobs/list'
   end
 
   get :pending do
@@ -40,7 +40,7 @@ PbsSite::App.controllers :jobs do
     @jobs = @jobs.paginate(:page => params[:page] || 1, :per_page => 10)
     @completed = false
     @big_title = t('job.big_title.pending')
-    render :list
+    render 'jobs/list'
   end
 
   get :transcript, :map => '/jobs/job/:job_id/gene/:gene_id/transcript/:trans_id' do
@@ -54,7 +54,7 @@ PbsSite::App.controllers :jobs do
       flash[:error] = t('job.transcript.not_found')
       redirect url('/')
     end
-    render :transcript
+    render 'jobs/transcript'
   end
 
   get :job, :with => :id, :provides => [:html, :csv, :tsv] do
@@ -63,7 +63,7 @@ PbsSite::App.controllers :jobs do
       case content_type
       when :html
         @big_title = t('job.view.big_title')
-        render :job
+        render 'jobs/job'
       when :csv
         content_type 'application/csv'
         attachment "job_results.csv"

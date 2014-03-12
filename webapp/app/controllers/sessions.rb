@@ -5,7 +5,7 @@ PbsSite::App.controllers :sessions do
       flash[:notice] = t('login.already')
       redirect url('/')
     else
-      render 'new'
+      render 'sessions/new'
     end
   end
 
@@ -21,7 +21,7 @@ PbsSite::App.controllers :sessions do
       else
         params[:email] = h(params[:email])
         flash.now[:error] = t('login.error')
-        render 'new'
+        render 'sessions/new'
       end
     end
   end

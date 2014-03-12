@@ -7,7 +7,7 @@ PbsSite::App.controllers :accounts do
     else
       @account = Account.new
       @big_title = t('register.big_title')
-      render :new
+      render 'accounts/new'
     end
   end
 
@@ -25,7 +25,7 @@ PbsSite::App.controllers :accounts do
       else
         @big_title = t('register.big_title')
         flash.now[:error] = t('register.error', :model => 'account')
-        render :new
+        render 'accounts/new'
       end
     end
   end
@@ -37,7 +37,7 @@ PbsSite::App.controllers :accounts do
     else
       @big_title = t('register.update.big_title')
       @account = current_account
-      render :edit
+      render 'accounts/edit'
     end
   end
 
@@ -53,7 +53,7 @@ PbsSite::App.controllers :accounts do
         redirect url(:accounts, :edit)
       else
         flash.now[:error] = t('register.update.error', :model => 'account')
-        render :edit
+        render 'accounts/edit'
       end
     end
   end
