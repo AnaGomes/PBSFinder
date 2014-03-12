@@ -117,6 +117,8 @@ en:
       list: Completed jobs
       pending: Pending jobs
     list:
+      title_no_job: No jobs
+      description_no_job: There are no jobs that match these criteria.
       table:
         id: Job ID
         ids: "# IDs"

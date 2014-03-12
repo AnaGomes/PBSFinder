@@ -16,6 +16,9 @@
 #list tr td:nth-child(2) {
   min-width: 150px; }
 
+.bs-callout {
+  margin-top: 0; }
+
 .pager {
   margin-top: 50px; }
   .pager .next_page, .pager .previous_page, .pager a, .pager em {
