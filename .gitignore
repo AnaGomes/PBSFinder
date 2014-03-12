@@ -4,6 +4,7 @@ log/**/*
 tmp/**/*
 nohup.out
 webapp/tmp/*
+webapp/log/*
 bin/*
 worker_server/temp/*
 vendor/gems/*
