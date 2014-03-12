@@ -2,6 +2,8 @@
 Gemfile.lock
 log/**/*
 tmp/**/*
+nohup.out
+webapp/tmp/*
 bin/*
 worker_server/temp/*
 vendor/gems/*
