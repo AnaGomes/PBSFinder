@@ -19,6 +19,8 @@ en:
       description2: "Supports three formats of IDs: ENSEMBL gene and transcript IDs, and ENTREZ gene IDs. The input list can be a mix of these types."
       title3: View and save your results
       description3: Results are always available through your user account, and can be exported to several formats.
+      title4: Browser support
+      description4: PBS Finder works with the latest versions of Google Chrome and Mozilla Firefox. Internet Explorar and Opera are also usable, but we give no official support and some features might not work as expected.
   navigation:
     home: Home
   login:
