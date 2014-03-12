@@ -8,7 +8,7 @@ PID=$(ps -elf | grep -E "padrino|master_worker" | grep -v grep | awk '{ print $4
 mapfile -t PIDS <<< "$PID"
 PID1=${PIDS[0]}
 PID2=${PIDS[1]}
-kill -kill "${PID1} ${PID2}"
+kill -kill $PID1 $PID2
 
 echo -e "Starting worker server...\n"
 cd ./worker_server
