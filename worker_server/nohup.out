@@ -15,3 +15,5 @@
 	from master_worker.rb:11:in `each'
 	from master_worker.rb:11:in `<main>'
 master_worker.rb:6:in `<main>': undefined local variable or method `__dir__' for main:Object (NameError)
+Starting worker (PbsFinder)
+Worker 0 finished: pbs finder finished

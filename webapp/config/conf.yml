@@ -1,0 +1,6 @@
+config:
+  notification:
+    email: ""
+    password: ""
+  contact:
+    email: ""

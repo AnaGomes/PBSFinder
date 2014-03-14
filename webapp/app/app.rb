@@ -32,8 +32,8 @@ module PbsSite
     set :delivery_method, :smtp => {
       :address              => "smtp.gmail.com",
       :port                 => 587,
-      :user_name            => 'pbsfinder@gmail.com',
-      :password             => 'pbsfinder123ppp',
+      :user_name            => settings.main_conf['notification']['email'],
+      :password             => settings.main_conf['notification']['password'],
       :authentication       => :plain,
       :enable_starttls_auto => true
     }
@@ -56,7 +56,6 @@ module PbsSite
     # set :cache, Padrino::Cache.new(:Mongo) # Uses default server at localhost
     # set :cache, Padrino::Cache.new(:Mongo, :backend => mongo_client_instance)
     # set :cache, Padrino::Cache.new(:File, :dir => Padrino.root('tmp', app_name.to_s, 'cache')) # default choice
-    #
 
     ##
     # Application configuration options.

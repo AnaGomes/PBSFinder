@@ -31,6 +31,15 @@ Padrino.configure_apps do
   set :protection, :except => :path_traversal
   set :protect_from_csrf, true
   set :allow_disabled_csrf, true
+
+  # Load config files.
+  begin
+    logger.info "Opening: #{Padrino.root}/config/conf.yml"
+    set :main_conf, YAML::load(File.open("#{Padrino.root}/config/conf.yml"))["config"]
+  rescue
+    logger.fatal "ERROR: Cannot open config files!"
+    exit
+  end
 end
 
 # Mounts the core application for this project
