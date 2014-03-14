@@ -52,9 +52,9 @@ class PbsFinder
   def identify_ids(ids)
     new_ids = { entrez: [], ensembl: [], ensembl_trans: [] }
     ids.each do |id|
-      if id =~ /^ENS.+G[0-9]{11}$/
+      if id =~ /^ENS[^G]*G[0-9]{11}$/
         new_ids[:ensembl] << id
-      elsif id =~ /^ENS.+T[0-9]{11}$/
+      elsif id =~ /^ENS[^T]*T[0-9]{11}$/
         new_ids[:ensembl_trans] << id
       else
         new_ids[:entrez] << id
