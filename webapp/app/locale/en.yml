@@ -1,4 +1,18 @@
 en:
+  contact:
+    error: Failed to send the message.
+    success: Message sent successfully.
+    big_title: Contact the developer
+    button:
+      submit: Contact
+      cancel: Cancel
+    example:
+      name: "Ex: first and last name"
+      email: "Ex: email for future replies"
+      message: "Ex: message to send"
+    notice:
+      title: Talk to us
+      description: Use this form to report any bugs found or to send your suggestions and opinions about the application to the its developers.
   error:
     title_404: Error 404
     sub_404: Page not found

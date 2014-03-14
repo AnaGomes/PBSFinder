@@ -1,7 +1,14 @@
-# Helper methods defined here can be accessed in any controller or view in the application
-
 PbsSite::App.helpers do
-  # def simple_helper_method
-  #  ...
-  # end
+
+  def contact(c)
+    deliver(
+      :notification,
+      :contact_email,
+      c.name,
+      c.email,
+      c.message,
+      settings.main_conf['contact']['email']
+    )
+  end
+
 end

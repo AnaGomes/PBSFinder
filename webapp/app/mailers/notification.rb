@@ -50,4 +50,13 @@ PbsSite::App.mailer :notification do
     content_type :plain
   end
 
+  email :contact_email do |name, email, message, receiver|
+    from email
+    to receiver
+    subject "[PBS Finder] User contact"
+    locals :name => name, :email => email, :message => message
+    render 'notification/contact_email'
+    content_type :plain
+  end
+
 end

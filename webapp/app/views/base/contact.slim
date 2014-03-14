@@ -1,0 +1,33 @@
+- content_for :stylesheets do
+  = stylesheet_link_tag 'base/contact'
+
+div class="bs-callout bs-callout-info"
+  h4 = t('contact.notice.title')
+  p = t('contact.notice.description')
+
+= form_for :contact, url('/contact'), :class => 'form-horizontal', :id => 'job-form' do |f|
+  - error = @contact.errors.include?(:name)
+  fieldset class='control-group#{error ? ' has-error' : ''}'
+    = f.label 'Name', :class => 'control-label'
+    div class='controls'
+      = f.text_field :name, :class => 'form-control input-large input-with-feedback', :autofocus => true, :value => (logged_in? ? "#{current_account.name} #{current_account.surname}" : @contact.name)
+      span class='help-inline' = error ? f.error_message_on(:name, :class => 'text-error') : t('contact.example.name')
+
+  - error = @contact.errors.include?(:email)
+  fieldset class='control-group#{error ? ' has-error' : ''}'
+    = f.label 'Email', :class => 'control-label'
+    div class='controls'
+      = f.text_field :email, :class => 'form-control input-large input-with-feedback', :value => (logged_in? ? current_account.email : @contact.email)
+      span class='help-inline' = error ? f.error_message_on(:email, :class => 'text-error') : t('contact.example.email')
+
+  - error = @contact.errors.include?(:message)
+  fieldset class='control-group#{error ? ' has-error' : ''}'
+    = f.label 'Message', :class => 'control-label'
+    div class='controls'
+      = f.text_area :message, :class => 'form-control input-large input-with-feedback', :rows => 6
+      span class='help-inline' = error ? f.error_message_on(:message, :class => 'text-error') : t('contact.example.message')
+
+  div class="form-actions"
+    = f.submit t('contact.button.submit'), :class => 'btn btn-primary'
+    |&nbsp;
+    = link_to t('contact.button.cancel'), url('/contact'), :class => 'btn btn-info'
