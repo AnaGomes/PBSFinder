@@ -24,7 +24,7 @@ PbsSite::App.controllers '/' do
   end
 
   get :about, :map => '/about' do
-    # TODO
+    render 'base/about'
   end
 
 end
