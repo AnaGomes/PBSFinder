@@ -14,17 +14,14 @@ class PbsFinder
   # file.
   def initialize
     @id = nil
-    @config = nil
-    @notifier = nil
-    @saver = nil
+    @helper = nil
     @resp_url = nil
     @data = nil
-    @token = nil
   end
 
-  def setup(id, config, saver, notifier, args)
-    @id, @saver, @notifier = id, saver, notifier
-    @config = config.load_config('pbs_finder.yml')
+  def setup(id, helper, args)
+    @id, @helper = id, helper
+    @config = @helper.load_config('pbs_finder.yml')
     json = JSON.parse(args)
     @resp_url = json['url']
     @data = json['data']
@@ -36,14 +33,14 @@ class PbsFinder
     resp['time'] = bench.real < 0 ? 1 : bench.real.to_i
     resp = resp.to_json
     uri = URI(@resp_url)
-    @saver.save_file(@id, resp)
+    @helper.save_file(@id, resp)
     req = Net::HTTP::Post::Multipart.new uri.path,
-      "result" => UploadIO.new(File.new(@saver.file_path(@id)), "application/json", "result.json")
+      "result" => UploadIO.new(File.new(@helper.file_path(@id)), "application/json", "result.json")
     Net::HTTP.start(uri.host, uri.port) do |http|
       http.request(req)
     end
-    @saver.delete_file(@id)
-    @notifier.notify_finish(@id, 'pbs finder finished')
+    @helper.delete_file(@id)
+    @helper.notify_finish(@id, 'PBSFinder')
   end
 
   # Separates the given array of IDs in two groups, ENSEMBL and ENTREZ. The

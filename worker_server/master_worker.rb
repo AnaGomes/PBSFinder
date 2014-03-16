@@ -6,6 +6,10 @@ SERVER_URL = 'druby://localhost:5555'
 CONFIG_DIR = File.join(__dir__, './configs')
 WORKER_DIR = File.join(__dir__, './workers')
 TEMP_F_DIR = File.join(__dir__, './temp')
+TEMP_W_DIR = File.join(__dir__, './temp_work')
+
+# Require the worker helper.
+require File.join(__dir__, './worker_helper.rb')
 
 # Require all workers.
 Dir["#{WORKER_DIR}/*.rb"].each { |file| require file }
@@ -31,22 +35,22 @@ class MasterWorker
     @process_by_id = {}
   end
 
+  def resume_workers
+    Dir["#{TEMP_W_DIR}/*.yml"].each do |f|
+      yaml = YAML.load(File.read(f))
+      worker, args = yaml.first
+      start_new_worker(worker, args)
+      File.delete(f)
+    end
+  end
+
   # Launches new worker.
   def start_new_worker(worker, *args)
     wkr = _instantiate_worker(worker)
     if wkr
-      id = nil
-      @process_mutex.synchronize do
-        while @process_by_id.has_key?(@current_id)
-          @current_id = @current_id + 1
-          if(@current_id >= 30000)
-            @current_id = 0
-          end
-        end
-        id = @current_id
-        @process_by_id[id] = wkr
-      end
-      wkr.setup(id, ConfigLoader.new(CONFIG_DIR), TempSaver.new(TEMP_F_DIR), Notifier.new, *args)
+      id = _place_worker(wkr)
+      _save_worker(id, args)
+      wkr.setup(id, WorkerHelper.new(CONFIG_DIR, TEMP_F_DIR), *args)
       puts "Starting worker (#{worker})"
       _start_new_worker(wkr)
       return id
@@ -59,6 +63,7 @@ class MasterWorker
   def notify_finish(id, msg = nil)
     @process_mutex.synchronize do
       @process_by_id.delete(id)
+      File.delete(File.join(TEMP_W_DIR, "#{id}.yml"))
     end
     if msg
       puts "Worker #{id} finished: #{msg}"
@@ -73,11 +78,33 @@ class MasterWorker
 
   private
 
+  # Saves a copy of the worker arguments.
+  def _save_worker(id, worker, args)
+    File.open(File.join(TEMP_W_DIR, "#{id}.yaml"), 'w') do |f|
+      f.write(YAML.dump({ worker => args }))
+    end
+  end
+
   # Launches the worker in a new thread.
   def _start_new_worker(worker)
     Thread.new do
       worker.work
     end
+  end
+
+  def _place_worker(wkr)
+    id = nil
+    @process_mutex.synchronize do
+      while @process_by_id.has_key?(@current_id)
+        @current_id = @current_id + 1
+        if(@current_id >= 30000)
+          @current_id = 0
+        end
+      end
+      id = @current_id
+      @process_by_id[id] = wkr
+    end
+    return id
   end
 
   def _instantiate_worker(worker)
@@ -95,54 +122,10 @@ class MasterWorker
 
 end
 
-# Helper class for YAML configuration loading.
-class ConfigLoader
-
-  def initialize(dir)
-    @dir = dir
-  end
-
-  def load_config(file)
-    YAML::load_file(File.join(@dir, file))
-  end
-
-end
-
-# Helper class to save temporary files.
-class TempSaver
-
-  def initialize(dir)
-    @dir = dir
-  end
-
-  def save_file(id, content)
-    File.open(File.join(@dir, "#{id}.temp"), 'w') do |f|
-      f.write content
-    end
-  end
-
-  def file_path(id)
-    File.join(@dir, "#{id}.temp")
-  end
-
-  def delete_file(id)
-    File.delete(file_path(id))
-  end
-
-end
-
-# Enables workers to notify the master that they have finished.
-class Notifier
-
-  def notify_finish(id, msg = nil)
-    service = DRbObject.new_with_uri(SERVER_URL)
-    service.notify_finish(id, msg)
-  end
-
-end
-
 # Starts the service.
 Dir.mkdir(TEMP_F_DIR) unless File.exists?(TEMP_F_DIR)
+Dir.mkdir(TEMP_W_DIR) unless File.exists?(TEMP_W_DIR)
 master = MasterWorker.new
 DRb.start_service(SERVER_URL, master)
+master.resume_workers
 DRb.thread.join
