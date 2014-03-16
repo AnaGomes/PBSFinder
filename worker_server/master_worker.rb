@@ -39,8 +39,8 @@ class MasterWorker
     Dir["#{TEMP_W_DIR}/*.yml"].each do |f|
       yaml = YAML.load(File.read(f))
       worker, args = yaml.first
-      start_new_worker(worker, args)
       File.delete(f)
+      start_new_worker(worker, *args)
     end
   end
 
@@ -49,8 +49,8 @@ class MasterWorker
     wkr = _instantiate_worker(worker)
     if wkr
       id = _place_worker(wkr)
-      _save_worker(id, args)
-      wkr.setup(id, WorkerHelper.new(CONFIG_DIR, TEMP_F_DIR), *args)
+      _save_worker(id, worker, args)
+      wkr.setup(id, WorkerHelper.new(CONFIG_DIR, TEMP_F_DIR, SERVER_URL), *args)
       puts "Starting worker (#{worker})"
       _start_new_worker(wkr)
       return id
@@ -80,7 +80,7 @@ class MasterWorker
 
   # Saves a copy of the worker arguments.
   def _save_worker(id, worker, args)
-    File.open(File.join(TEMP_W_DIR, "#{id}.yaml"), 'w') do |f|
+    File.open(File.join(TEMP_W_DIR, "#{id}.yml"), 'w') do |f|
       f.write(YAML.dump({ worker => args }))
     end
   end
