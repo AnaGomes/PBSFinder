@@ -6,30 +6,39 @@
 ul class="nav nav-tabs job-list"
   - @gene.transcripts.each do |trans|
     li class="#{trans.id == @transcript.id ? 'active' : ''}"
-      = link_to (trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id), url(:jobs, :transcript, @job.id, @gene.id, trans.id)
+      = link_to (trans.name ? "#{trans.converted_id} (#{trans.name})" : trans.converted_id), url(:jobs, :transcript, @job.id, @gene.id, trans.id)
 
 div class="tabs-content"
 
   div class="general-info"
-    - if @job.species
+    - if @job.valid
       = link_to t('job.transcript.back'), url_for(:jobs, :job, @job.id), :class => 'btn btn-primary pull-right'
 
     p class='gene'
-      = @gene.name ? "#{t('job.transcript.gene')}: #{@gene.ensembl_id} (#{@gene.name})" : "#{t('job.transcript.gene')}: #{@gene.ensembl_id}"
+      = @gene.name ? "#{t('job.transcript.gene')}: #{@gene.converted_id} (#{@gene.name})" : "#{t('job.transcript.gene')}: #{@gene.converted_id}"
     p class='transcript'
-      = @transcript.name ? "#{t('job.transcript.trans')}: #{@transcript.ensembl_id} (#{@transcript.name})" : "#{t('job.transcript.trans')}: #{@gene.ensembl_id}"
+      = @transcript.name ? "#{t('job.transcript.trans')}: #{@transcript.converted_id} (#{@transcript.name})" : "#{t('job.transcript.trans')}: #{@gene.converted_id}"
     p class='separator'
+
+    - if @transcript.proteins.size > 0 && (@transcript.utr3 || '').size < 300
+      div class="bs-callout bs-callout-warning"
+        h4 = t('job.transcript.no_utr.title')
+        p = t('job.transcript.no_utr.content')
+    - elsif @transcript.proteins.size == 0
+      div class="bs-callout bs-callout-warning"
+        h4 = t('job.transcript.no_proteins.title')
+        p = t('job.transcript.no_proteins.content')
 
   div class="trans-info"
     - if @transcript.utr5
       div class='info'
         ul class="fasta-view"
-          li
-            h4  5' UTR
           li class='fasta-show'
             button type="button" class="btn btn-primary" Show
           li class='fasta-hide'
             button type="button" class="btn btn-default" Hide
+          li
+            h4 = "5' UTR (#{@transcript.utr5.size} bp)"
         - fasta = format_fasta(@transcript.utr5)
         div class='fasta'
           - fasta.each do |f|
@@ -37,16 +46,30 @@ div class="tabs-content"
     - if @transcript.utr3
       div class='info'
         ul class="fasta-view"
-          li
-            h4  3' UTR
           li class='fasta-show'
             button type="button" class="btn btn-primary" Show
           li class='fasta-hide'
             button type="button" class="btn btn-default" Hide
+          li
+            h4 = "3' UTR (#{@transcript.utr3.size} bp)"
         - fasta = format_fasta(@transcript.utr3)
         div class='fasta'
           - fasta.each do |f|
             p = f
+    - if @transcript.downstream
+      div class='info'
+        ul class="fasta-view"
+          li class='fasta-show'
+            button type="button" class="btn btn-primary" Show
+          li class='fasta-hide'
+            button type="button" class="btn btn-default" Hide
+          li
+            h4 = "3' downstream (#{@transcript.downstream.size} bp)"
+        - fasta = format_fasta(@transcript.downstream)
+        div class='fasta'
+          - fasta.each do |f|
+            p = f
+
 
   - if @transcript.proteins.size > 0
     div class="table-container table-responsive" id="protein-table-wrapper"

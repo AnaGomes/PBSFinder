@@ -4,11 +4,10 @@
   - content_for :javascripts do
     = javascript_include_tag 'jquery.thead.min', 'jobs/table_header'
 
-  - unless @job.species
+  - unless @job.valid
     div class="bs-callout bs-callout-danger"
       h4 = t('job.view.bad_job.notice.title')
       p = t('job.view.bad_job.notice.content')
-
 
 - else
   - content_for :javascripts do
@@ -23,7 +22,7 @@
 
 div class="info"
   div class="general-info"
-    - if @job.species
+    - if @job.valid
       div class="btn-group pull-right"
         button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
           span = "#{t('job.view.download')} "
@@ -34,15 +33,14 @@ div class="info"
           li
             = link_to 'TSV', url_for(:jobs, :job, @job.id, :format => :tsv)
 
-    p class='species' = @job.species ? "#{t('job.view.species')}: #{@job.species}" : (@job.completed ? "#{t('job.view.species')}: #{t('job.view.species_none')}" : "#{t('job.view.species')}: #{t('job.view.species_wait')}")
-    - if @job.species && @job.time
-      p class='stats'
+    - if @job.valid && @job.time
+      p class='species'
         = "#{@job.genes.size} #{@job.genes.size == 1 ? 'gene' : 'genes'} analyzed in #{Time.at(@job.time).utc.strftime("%H:%M:%S")}"
     p class='separator'
     h4 = t('job.view.description')
     p class='description' = @job.description
 
-  - if @job.species
+  - if @job.valid
     div class="legend"
       h4 = t('job.view.legend')
       table
@@ -58,6 +56,7 @@ div class="info"
       table class="table table-condensed table-hover" id="protein-table"
         thead
           tr
+            th Species
             th Gene
             th Transcript
             - @job.bind_proteins.each do |prot|
@@ -69,35 +68,39 @@ div class="info"
             /* Bad gene (no conversion) */
             - if gene.transcripts.size == 0
               tr class="#{even ? 'striped' : ''}"
-                td colspan="2" class="bad-gene"
-                  = gene.ensembl_id
+                td colspan="3" class="bad-gene"
+                  = gene.original_id
                 td colspan="#{@job.bind_proteins.size}" class="no-bind"
 
             /* No binding */
             - elsif !gene.binds
               tr class="#{even ? 'striped' : ''}"
                 td rowspan="#{gene.transcripts.size}"
-                  = gene.name ? "#{gene.ensembl_id} (#{gene.name})" : gene.ensembl_id
+                  = gene.species
+                td rowspan="#{gene.transcripts.size}"
+                  = gene.name ? "#{gene.converted_id} (#{gene.name})" : gene.converted_id
                 td
                   - trans = gene.transcripts.first
-                  = link_to (trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
+                  = link_to (trans.name ? "#{trans.converted_id} (#{trans.name})" : trans.converted_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
                 td colspan="#{@job.bind_proteins.size}" class="no-bind"
                 - gene.transcripts.drop(1).each do |trans|
                   tr class="#{even ? 'striped' : ''}"
                     td
-                      = link_to (trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
+                      = link_to (trans.name ? "#{trans.converted_id} (#{trans.name})" : trans.converted_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
                     td colspan="#{@job.bind_proteins.size}" class="no-bind"
 
             /* Normal gene */
             - else
-              /* Just one transcripts */
+              /* Just one transcript */
               - if gene.transcripts.size == 1
                   tr class="#{even ? 'striped' : ''}"
                     td
-                      = gene.name ? "#{gene.ensembl_id} (#{gene.name})" : gene.ensembl_id
+                      = gene.species
+                    td
+                      = gene.name ? "#{gene.converted_id} (#{gene.name})" : gene.converted_id
                     - trans = gene.transcripts.first
                     td
-                      = link_to (trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
+                      = link_to (trans.name ? "#{trans.converted_id} (#{trans.name})" : trans.converted_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
                     - trans.matches.each do |prot|
                       td class="#{prot ? 'match protein' : 'protein'}"
 
@@ -105,11 +108,12 @@ div class="info"
               - else
                 tr class="#{even ? 'striped' : ''}"
                   td rowspan="#{gene.transcripts.size + 1}"
-                    = gene.name ? "#{gene.ensembl_id} (#{gene.name})" : gene.ensembl_id
+                    = gene.species
+                  td rowspan="#{gene.transcripts.size + 1}"
+                    = gene.name ? "#{gene.converted_id} (#{gene.name})" : gene.converted_id
                 - gene.transcripts.each do |trans|
                   tr class="#{even ? 'striped' : ''}"
                     td
-                      = link_to (trans.name ? "#{trans.ensembl_id} (#{trans.name})" : trans.ensembl_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
+                      = link_to (trans.name ? "#{trans.converted_id} (#{trans.name})" : trans.converted_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
                     - trans.matches.each do |prot|
                       td class="#{prot ? 'match protein' : 'protein'}"
-

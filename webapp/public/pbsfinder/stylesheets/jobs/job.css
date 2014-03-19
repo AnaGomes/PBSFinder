@@ -56,6 +56,8 @@
           border: none; }
       .table-container .table td.bad-gene {
         color: #ff4949; }
+      .table-container .table td:nth-child(1) {
+        min-width: 170px; }
     .table-container .table tr {
       border-bottom: solid 1px #dddddd; }
       .table-container .table tr.striped {

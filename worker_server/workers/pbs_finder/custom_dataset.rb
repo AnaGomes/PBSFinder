@@ -1,3 +1,13 @@
+################################################################################
+#
+# This code is part of Darren Oakley's work in the Ruby Biomart gem
+# (https://github.com/dazoakley/biomart). The code here is a copy of the
+# original version, with a small modification, to allow attribute like filters
+# like the 'downstream_flank' attribute. Be careful if you use this file, as I
+# don't know the full extent of the changes produced by the injected code.
+#
+################################################################################
+
 module Biomart
   class Dataset
     include Biomart
@@ -58,5 +68,3 @@ module Biomart
     end
   end
 end
-
-

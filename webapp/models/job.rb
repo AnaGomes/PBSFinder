@@ -9,8 +9,8 @@ class Job
   embeds_many :genes, :cascade_callbacks => true
 
   field :completed,     :type => Boolean, :default => false
+  field :valid,         :type => Boolean, :default => false
   field :description,   :type => String
-  field :species,       :type => String
   field :email,         :type => Boolean, :default => false
   field :time,          :type => Integer
   field :bind_proteins, :type => Array

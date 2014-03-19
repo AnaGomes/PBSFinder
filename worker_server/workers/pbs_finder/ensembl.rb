@@ -1,3 +1,4 @@
+require 'json'
 require 'biomart'
 require_relative 'gene'
 require_relative 'custom_dataset'
@@ -30,13 +31,6 @@ module Pbs
     # Output:
     #   - array of Gene objects
     def find_protein_binding_sites(genes)
-      # 1. Divide by species.
-      # 2. Find trascripts.
-      # 3. Get UTRs.
-      #   3.1. If 3'UTR to short (< 300bp) get downstream 3'UTR.
-      # 4. Get protein binding sites.
-      # 5. Build results.
-
       # Divide by species.
       species = genes.map { |gene| [gene.species, nil] }.to_h
       species.keys.each { |spec| species[spec] = genes.select { |gene| gene.species == spec } }
@@ -59,16 +53,41 @@ module Pbs
         end
 
         # UTRs.
+        begin
         utr5 = find_transcript_utr(transcript_ids, dataset, @helper.config[:ensembl_biomart][:attributes][:utr5])[:data]
         utr3 = find_transcript_utr(transcript_ids, dataset, @helper.config[:ensembl_biomart][:attributes][:utr3])[:data]
         downstream = find_transcript_downstream(transcript_ids, dataset)[:data]
+        build_fasta_sequences(ids, utr5, :utr5)
+        build_fasta_sequences(ids, utr3, :utr3)
+        build_fasta_sequences(ids, downstream, :downstream)
+        rescue Exception => e
+          puts e.message, e.backtrace
+        end
       end
+
+      # Find protein binding sites.
+      genes.each do |gene|
+        if gene.transcripts
+          gene.transcripts.each do |trans, values|
+            fasta = values[:utr3] && values[:utr3].size >= 300 ? values[:utr3] : values[:downstream]
+            values[:proteins] = @helper.find_transcript_pbs(fasta) if fasta
+          end
+        end
+      end
+      return genes
     end
 
     ############################################################################
     # PRIVATE METHODS
     ############################################################################
     private
+
+    def build_fasta_sequences(genes, sequences, key)
+      sequences.each do |fasta|
+        gene = genes.find { |gene| gene.id == fasta[1] }
+        gene.transcripts[fasta[2]][key] = (fasta[0] =~ /unavailable/ ? nil : fasta[0]) if gene
+      end
+    end
 
     def find_transcript_utr(ids, dt, utr)
       biomart = Biomart::Server.new(@helper.config[:ensembl_biomart][:url])

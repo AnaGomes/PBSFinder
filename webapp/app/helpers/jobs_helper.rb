@@ -6,7 +6,7 @@ require 'set'
 PbsSite::App.helpers do
 
   def prepare_ids(ids)
-    ids.split("\n").collect(&:strip).reject { |x| x.empty? }
+    ids.split("\n").collect(&:strip).reject { |x| x.empty? }.uniq
   end
 
   def long_job(job, url, data)
@@ -30,18 +30,15 @@ PbsSite::App.helpers do
   end
 
   def build_job_results(job, json)
-    if json['species']
-      job.species = json['species'].split("_").each_with_index.map { |x, i| i == 0 ? x.capitalize : x }.join(" ")
-      job.time = json['time']
-      bind_proteins = _get_proteins(json)
-      _build_genes(job, json, bind_proteins)
-      job.bind_proteins = bind_proteins
-    end
+    job.time = json['time']
+    bind_proteins = get_proteins(json)
+    build_genes(job, json, bind_proteins)
+    job.bind_proteins = bind_proteins
     job.completed = true
   end
 
   private
-  def _get_proteins(json)
+  def get_proteins(json)
     set = Set.new
     (json['genes'] || []).each do |k1, gene|
       next unless gene
@@ -57,37 +54,41 @@ PbsSite::App.helpers do
     set.to_a
   end
 
-  def _build_genes(job, json, bind)
+  def build_genes(job, json, bind)
     if json['genes']
+      found = false
       json['genes'].each do |gene, values|
         if values
-          g = Gene.new(:ensembl_id => gene, :name => values['name'])
-          _build_transcripts(g, values, bind)
+          g = Gene.new(:original_id => gene, :converted_id => values['id'], :name => values['name'], :species => values['species'])
+          build_transcripts(g, values, bind)
           job.genes << g
+          found ||= g.transcripts.size > 0
         else
           job.genes << Gene.new(:ensembl_id => gene)
         end
       end
+      job.valid = found
     end
   end
 
-  def _build_transcripts(gene, json, bind)
+  def build_transcripts(gene, json, bind)
     if json['transcripts']
       json['transcripts'].each do |trans, values|
         t = Transcript.new(
-          :ensembl_id => trans,
+          :converted_id => trans,
           :name => values['name'],
           :utr5 => values['utr5'],
-          :utr3 => values['utr3']
+          :utr3 => values['utr3'],
+          :downstream => values['downstream']
         )
-        _build_proteins(t, values, bind)
+        build_proteins(t, values, bind)
         gene.binds ||= t.proteins.size > 0
         gene.transcripts << t
       end
     end
   end
 
-  def _build_proteins(trans, json, bind)
+  def build_proteins(trans, json, bind)
     if json['proteins']
       set = Set.new
       json['proteins'].each do |protein, values|

@@ -66,6 +66,12 @@ en:
     big_title: Create an account
   job:
     transcript:
+      no_utr:
+        title: Insufficient 3' UTR information
+        content: The 3' UTR sequence for this transcript was too short to analyze. The 3' downstream sequence was analyzed instead.
+      no_proteins:
+        title: No protein binding sites found
+        content: There is not enough information available to conduct the analysis.
       not_found: The specified transcript doesn't exist.
       big_title: Protein matching results
       gene: Gene

@@ -1,3 +1,5 @@
+require 'nokogiri'
+
 module Pbs
   class Helper
 
@@ -78,6 +80,61 @@ module Pbs
         end
       end
       return result
+    end
+
+    # Consolidates all the job information into a JSON string, ready to send.
+    #
+    # Input:
+    #   - genes: array of Gene objects
+    # Output:
+    #   - JSON string
+    def consolidate_results(genes)
+      result = {}
+      genes.each do |gene|
+        if gene.transcripts.nil? || gene.transcripts.size == 0
+          result[gene.original_id] = {}
+        else
+          result[gene.original_id] = {
+            name: gene.name,
+            id: gene.id,
+            species: gene.species,
+            transcripts: gene.transcripts || []
+          }
+        end
+      end
+      return result
+    end
+
+    # Returns a list of protein that bind to the transcript, and their stats.
+    #
+    # Input:
+    #   - fasta: nucleotide sequence in fasta format
+    # Output:
+    #   - hash with protein names as keys, and protein stats as values
+    def find_transcript_pbs(fasta)
+      proteins = {}
+      uri = URI(@config[:rbpdb][:url] + @config[:rbpdb][:pbs_path])
+      res = Net::HTTP.post_form(
+        uri,
+        'thresh' => 0.8,
+        'seq'   => fasta
+      )
+      page = Nokogiri::HTML(res.body)
+      page.css('table.pme-main tr.pme-row-0, table.pme-main tr.pme-row-1').each do |row|
+        score = row.children[1].text[0...-1].to_i
+        prot = row.children[2].children[0].text
+        s_start = row.children[3].text.to_i
+        s_end = row.children[4].text.to_i
+        seq = row.children[5].text
+        res = {}
+        res[:score] = score
+        res[:start] = s_start
+        res[:end] = s_end
+        res[:seq] = seq
+        proteins[prot] ||= []
+        proteins[prot] << res
+      end
+      return proteins
     end
 
     ############################################################################

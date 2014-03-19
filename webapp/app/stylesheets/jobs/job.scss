@@ -74,6 +74,9 @@
       &.bad-gene {
         color:rgb(255, 73, 73);
       }
+      &:nth-child(1) {
+        min-width:170px;
+      }
     }
 
     tr {
