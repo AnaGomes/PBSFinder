@@ -10,6 +10,8 @@
 :ensembl_biomart:
   :url: http://www.ensembl.org/biomart
   :attributes:
+    :cflak: coding_transcript_flank
+    :downf: downstream_flank
     :engid: ensembl_gene_id
     :entid: ensembl_transcript_id
     :engna: external_gene_id
@@ -27,3 +29,73 @@
   :entid: Ensembl Transcript ID
   :ezgid: Gene ID
   :ezgsy: Gene Symbol
+  :genna: GenBank Nucleotide Accession
+  :rseqr: RefSeq mRNA Accession
+
+:species:
+  ENSAME:   Ailuropoda melanoleuca (Panda)
+  ENSACA:   Anolis carolinensis (Anole lizard)
+  ENSBTA:   Bos taurus (Cow)
+  ENSCJA:   Callithrix jacchus (Marmoset)
+  ENSCPO:   Cavia porcellus (Guinea Pig)
+  ENSCIN:   Ciona intestinalis
+  ENSDAR:   Danio rerio (Zebrafish)
+  ENSDOR:   Dipodomys ordii (Kangaroo rat)
+  ENSETE:   Echinops telfairi (Lesser hedgehog tenrec)
+  ENSEEU:   Erinaceus europaeus (Hedgehog)
+  ENSFAL:   Ficedula albicollis (Flycatcher)
+  ENSGAL:   Gallus gallus (Chicken)
+  ENSGGO:   Gorilla gorilla gorilla (Gorilla)
+  ENSSTO:   Ictidomys tridecemlineatus (Squirrel)
+  ENSLOC:   Lepisosteus oculatus (Spotted gar)
+  ENSMMU:   Macaca mulatta (Macaque)
+  ENSMGA:   Meleagris gallopavo (Turkey)
+  ENSMOD:   Monodelphis domestica (Opossum)
+  ENSMPU:   Mustela putorius furo (Ferret)
+  ENSNLE:   Nomascus leucogenys (Gibbon)
+  ENSONI:   Oreochromis niloticus (Tilapia)
+  ENSOCU:   Oryctolagus cuniculus (Rabbit)
+  ENSOGA:   Otolemur garnettii (Bushbaby)
+  ENSPTR:   Pan troglodytes (Chimpanzee)
+  ENSPMA:   Petromyzon marinus (Lamprey)
+  ENSPCA:   Procavia capensis (Hyrax)
+  ENSRNO:   Rattus norvegicus (Rat)
+  ENSSHA:   Sarcophilus harrisii (Tasmanian devil)
+  ENSSSC:   Sus scrofa (Pig)
+  ENSTRU:   Takifugu rubripes (Fugu)
+  ENSTNI:   Tetraodon nigroviridis (Tetraodon)
+  ENSTTR:   Tursiops truncatus (Dolphin)
+  ENSXET:   Xenopus tropicalis (Xenopus)
+  ENSAPL:   Anas platyrhynchos (Duck)
+  ENSAMX:   Astyanax mexicanus (Cave fish)
+  ENSCEL:   Caenorhabditis elegans (Caenorhabditis elegans)
+  ENSCAF:   Canis lupus familiaris (Dog)
+  ENSCHO:   Choloepus hoffmanni (Sloth)
+  ENSCSAV:  Ciona savignyi
+  ENSDNO:   Dasypus novemcinctus (Armadillo)
+  FB:       Drosophila melanogaster (Fruitfly)
+  ENSECA:   Equus caballus (Horse)
+  ENSFCA:   Felis catus (Cat)
+  ENSGMO:   Gadus morhua (Cod)
+  ENSGAC:   Gasterosteus aculeatus (Stickleback)
+  ENS:      Homo sapiens (Human)
+  ENSLAC:   Latimeria chalumnae (Coelacanth)
+  ENSLAF:   Loxodonta africana (Elephant)
+  ENSMEU:   Macropus eugenii (Wallaby)
+  ENSMIC:   Microcebus murinus (Mouse Lemur)
+  ENSMUS:   Mus musculus (Mouse)
+  ENSMLU:   Myotis lucifugus (Microbat)
+  ENSOPR:   Ochotona princeps (Pika)
+  ENSOAN:   Ornithorhynchus anatinus (Platypus)
+  ENSORL:   Oryzias latipes (Medaka)
+  ENSOAR:   Ovis aries (Sheep)
+  ENSPSI:   Pelodiscus sinensis (Chinese softshell turtle)
+  ENSPPY:   Pongo abelii (Orangutan)
+  ENSPVA:   Pteropus vampyrus (Megabat)
+  ENSSCE:   Saccharomyces cerevisiae (Saccharomyces cerevisiae)
+  ENSSAR:   Sorex araneus (Shrew)
+  ENSTGU:   Taeniopygia guttata (Zebra Finch)
+  ENSTSY:   Tarsius syrichta (Tarsier)
+  ENSTBE:   Tupaia belangeri (Tree Shrew)
+  ENSVPA:   Vicugna pacos (Alpaca)
+  ENSXMA:   Xiphophorus maculatus (Platyfish)

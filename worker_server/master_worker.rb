@@ -21,7 +21,7 @@ Dir["#{WORKER_DIR}/*.rb"].each { |file| require file }
 #
 # Every worker class should the following methods:
 #   * def initialize()
-#   * def setup(id, config_loader, temp_saver, notifier, *args)
+#   * def setup(id, helper, *args)
 #   * def work()
 #
 ################################################################################

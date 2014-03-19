@@ -33,3 +33,6 @@ gem "nokogiri", "~> 1.6.1"
 
 # Needed for multipart file posts.
 gem "multipart-post", "~> 2.0.0"
+
+# Needed for advanced GenBank parsing.
+gem "bio", "~> 1.4.3.0001"

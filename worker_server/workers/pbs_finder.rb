@@ -7,6 +7,9 @@ require 'uri'
 require 'net/http'
 require 'nokogiri'
 require 'net/http/post/multipart'
+require_relative './pbs_finder/ensembl.rb'
+require_relative './pbs_finder/ncbi.rb'
+require_relative './pbs_finder/helper.rb'
 
 class PbsFinder
 
