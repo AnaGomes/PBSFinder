@@ -75,6 +75,16 @@ div class="tabs-content"
             p == f.gsub(/((?<=[^N])N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
 
   - if @transcript.proteins.size > 0
+
+    /* Chart */
+    - content_for :javascripts do
+      = javascript_include_tag 'jquery.thead.min', 'jobs/transcript'
+    span style="display:none;" id="dataset"
+      = @transcript.dataset_json
+    h4 class="chart-name" = t('job.view.proteins_bind')
+    div class="chart" id="protein-chart"
+
+    /* Table */
     div class="table-container table-responsive" id="protein-table-wrapper"
       table class="table table-condensed table-hover" id="protein-table"
         thead

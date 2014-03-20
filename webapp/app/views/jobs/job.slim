@@ -3,6 +3,8 @@
 - if @job.completed
   - content_for :javascripts do
     = javascript_include_tag 'jquery.thead.min', 'jobs/table_header'
+- if @job.valid
+  - content_for :javascripts do
     = javascript_include_tag 'jquery.thead.min', 'jobs/toggle_ids'
 
   - unless @job.valid
