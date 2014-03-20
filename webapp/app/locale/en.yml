@@ -95,6 +95,7 @@ en:
       species: Species
       description: Job description
       legend: Legend
+      proteins: Protein binding occurrences
       legend_stripe: Gene with no protein binding sites #Genes for which no protein binding sites where found
       legend_red: Unidentified ID # IDs that could not be identified
       legend_blue: Additional information available #Click ID for more information

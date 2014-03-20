@@ -3,6 +3,7 @@
 - if @job.completed
   - content_for :javascripts do
     = javascript_include_tag 'jquery.thead.min', 'jobs/table_header'
+    = javascript_include_tag 'jquery.thead.min', 'jobs/toggle_ids'
 
   - unless @job.valid
     div class="bs-callout bs-callout-danger"
@@ -65,6 +66,12 @@ div class="info"
     p class='description' = @job.description
 
   - if @job.valid
+    span style="display:none;" id="dataset"
+      = @job.dataset_json
+
+    h4 class="chart-name" = t('job.view.proteins')
+    div class="chart" id="protein-chart"
+
     div class="legend"
       h4 = t('job.view.legend')
       table
@@ -81,10 +88,14 @@ div class="info"
         thead
           tr
             th Species
-            th Gene
+            th
+              span Gene 
+              a href="#" class="toggle-original" (view original)
+              a href="#" class="toggle-converted" (view converted)
             th Transcript
             - @job.bind_proteins.each do |prot|
               th = prot
+
         tbody
           - even = false
           - @job.genes.each do |gene|
@@ -102,7 +113,8 @@ div class="info"
                 td rowspan="#{gene.transcripts.size}"
                   = gene.species
                 td rowspan="#{gene.transcripts.size}"
-                  = gene.name ? "#{gene.converted_id} (#{gene.name})" : gene.converted_id
+                  span class="converted" = gene.name ? "#{gene.converted_id} (#{gene.name})" : gene.converted_id
+                  span class="original" = gene.original_id
                 td
                   - trans = gene.transcripts.first
                   = link_to (trans.name ? "#{trans.converted_id} (#{trans.name})" : trans.converted_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
@@ -121,7 +133,8 @@ div class="info"
                     td
                       = gene.species
                     td
-                      = gene.name ? "#{gene.converted_id} (#{gene.name})" : gene.converted_id
+                      span class="converted" = gene.name ? "#{gene.converted_id} (#{gene.name})" : gene.converted_id
+                      span class="original" = gene.original_id
                     - trans = gene.transcripts.first
                     td
                       = link_to (trans.name ? "#{trans.converted_id} (#{trans.name})" : trans.converted_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
@@ -134,7 +147,8 @@ div class="info"
                   td rowspan="#{gene.transcripts.size + 1}"
                     = gene.species
                   td rowspan="#{gene.transcripts.size + 1}"
-                    = gene.name ? "#{gene.converted_id} (#{gene.name})" : gene.converted_id
+                    span class="converted" = gene.name ? "#{gene.converted_id} (#{gene.name})" : gene.converted_id
+                    span class="original" = gene.original_id
                 - gene.transcripts.each do |trans|
                   tr class="#{even ? 'striped' : ''}"
                     td

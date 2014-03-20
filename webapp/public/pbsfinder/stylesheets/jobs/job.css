@@ -99,3 +99,12 @@ th {
   resize: none; }
 #report-form .explain {
   text-align: justify; }
+
+.original, .toggle-converted {
+  display: none; }
+
+.chart-name {
+  margin-top: 20px; }
+
+.chart {
+  height: 320px; }

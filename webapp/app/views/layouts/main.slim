@@ -19,6 +19,7 @@ html lang="en" xmlns="http://www.w3.org/1999/xhtml"
     = favicon_tag 'favicon.ico'
     = stylesheet_link_tag 'bootstrap-new', 'main'
     = javascript_include_tag 'jquery.min', 'application', (Padrino.env == :production ? 'bootstrap/bootstrap.min' : %w[bootstrap/affix bootstrap/alert bootstrap/button bootstrap/carousel bootstrap/collapse bootstrap/dropdown  bootstrap/tooltip bootstrap/transition  bootstrap/modal bootstrap/popover bootstrap/scrollspy bootstrap/tab]), :application
+    script type="text/javascript" src="https://www.google.com/jsapi"
 
     / PER PAGE ASSETS
     = yield_content :stylesheets
