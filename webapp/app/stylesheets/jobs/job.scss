@@ -15,6 +15,10 @@
   }
   .btn-group {
     padding-top:5px;
+    margin-left:10px;
+  }
+  .report {
+    padding-top:5px;
   }
   .separator {
     padding-bottom:20px;
@@ -124,4 +128,12 @@
 th {
   white-space: nowrap;
   background-color:#fff !important;
+}
+#report-form {
+  textarea {
+    resize:none;
+  }
+  .explain {
+    text-align:justify;
+  }
 }

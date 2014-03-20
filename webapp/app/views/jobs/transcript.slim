@@ -24,6 +24,10 @@ div class="tabs-content"
       div class="bs-callout bs-callout-warning"
         h4 = t('job.transcript.no_utr.title')
         p = t('job.transcript.no_utr.content')
+        - utr, down = @transcript.utr3 || '', @transcript.downstream || ''
+        - if (utr.size >= 300 && utr.include?('N')) || (utr.size < 300 && down.include?('N'))
+          h4 = t('job.transcript.no_n.title')
+          p = t('job.transcript.no_n.content')
     - elsif @transcript.proteins.size == 0
       div class="bs-callout bs-callout-warning"
         h4 = t('job.transcript.no_proteins.title')
@@ -42,7 +46,7 @@ div class="tabs-content"
         - fasta = format_fasta(@transcript.utr5)
         div class='fasta'
           - fasta.each do |f|
-            p = f
+            p == f.gsub(/((?<=(A|C|G|T))N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
     - if @transcript.utr3
       div class='info'
         ul class="fasta-view"
@@ -55,7 +59,7 @@ div class="tabs-content"
         - fasta = format_fasta(@transcript.utr3)
         div class='fasta'
           - fasta.each do |f|
-            p = f
+            p == f.gsub(/((?<=(A|C|G|T))N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
     - if @transcript.downstream
       div class='info'
         ul class="fasta-view"
@@ -68,8 +72,7 @@ div class="tabs-content"
         - fasta = format_fasta(@transcript.downstream)
         div class='fasta'
           - fasta.each do |f|
-            p = f
-
+            p == f.gsub(/((?<=[^N])N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
 
   - if @transcript.proteins.size > 0
     div class="table-container table-responsive" id="protein-table-wrapper"

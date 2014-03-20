@@ -59,4 +59,13 @@ PbsSite::App.mailer :notification do
     content_type :plain
   end
 
+  email :job_problem_report_email do |name, email, message, url, receiver|
+    from email
+    to receiver
+    subject "[PBS Finder] Error report"
+    locals :name => name, :email => email, :message => message, :url => url
+    render 'notification/job_problem_report_email'
+    content_type :plain
+  end
+
 end

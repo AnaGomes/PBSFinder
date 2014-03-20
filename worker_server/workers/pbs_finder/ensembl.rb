@@ -84,8 +84,8 @@ module Pbs
 
     def build_fasta_sequences(genes, sequences, key)
       sequences.each do |fasta|
-        gene = genes.find { |gene| gene.id == fasta[1] }
-        gene.transcripts[fasta[2]][key] = (fasta[0] =~ /unavailable/ ? nil : fasta[0]) if gene
+        gene = genes.find { |g| g.id == fasta[1] }
+        gene.transcripts[fasta[2]][key] = (fasta[0] =~ /unavailable/ ? nil : fasta[0].upcase) if gene
       end
     end
 

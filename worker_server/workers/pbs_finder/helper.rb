@@ -12,38 +12,6 @@ module Pbs
       @config = config
     end
 
-    # Returns a list of protein binding sites for a given nucleotide sequence.
-    #
-    # Input:
-    #   - fasta: nucleotide sequence in fasta format
-    # Output:
-    #   - hash with protein names as keys and arrays of protein stats as values.
-    def fetch_protein_binding_sites(fasta)
-      proteins = {}
-      uri = URI(@config[:rbpdb][:url] + @config[:rbpdb][:pbs_path])
-      res = Net::HTTP.post_form(
-        uri,
-        'thresh' => 0.8,
-        'seq'   => fasta
-      )
-      page = Nokogiri::HTML(res.body)
-      page.css('table.pme-main tr.pme-row-0, table.pme-main tr.pme-row-1').each do |row|
-        score = row.children[1].text[0...-1].to_i
-        prot = row.children[2].children[0].text
-        s_start = row.children[3].text.to_i
-        s_end = row.children[4].text.to_i
-        seq = row.children[5].text
-        res = {}
-        res[:score] = score
-        res[:start] = s_start
-        res[:end] = s_end
-        res[:seq] = seq
-        proteins[prot] ||= []
-        proteins[prot] << res
-      end
-      return proteins
-    end
-
     # Converts a list of IDs from "input" format to "output" format(s).
     #
     # Input:
@@ -113,26 +81,29 @@ module Pbs
     #   - hash with protein names as keys, and protein stats as values
     def find_transcript_pbs(fasta)
       proteins = {}
-      uri = URI(@config[:rbpdb][:url] + @config[:rbpdb][:pbs_path])
-      res = Net::HTTP.post_form(
-        uri,
-        'thresh' => 0.8,
-        'seq'   => fasta
-      )
-      page = Nokogiri::HTML(res.body)
-      page.css('table.pme-main tr.pme-row-0, table.pme-main tr.pme-row-1').each do |row|
-        score = row.children[1].text[0...-1].to_i
-        prot = row.children[2].children[0].text
-        s_start = row.children[3].text.to_i
-        s_end = row.children[4].text.to_i
-        seq = row.children[5].text
-        res = {}
-        res[:score] = score
-        res[:start] = s_start
-        res[:end] = s_end
-        res[:seq] = seq
-        proteins[prot] ||= []
-        proteins[prot] << res
+      fasta = (fasta || '').gsub(/(n|N)/, '')
+      unless fasta.empty?
+        uri = URI(@config[:rbpdb][:url] + @config[:rbpdb][:pbs_path])
+        res = Net::HTTP.post_form(
+          uri,
+          'thresh' => 0.8,
+          'seq'   => fasta
+        )
+        page = Nokogiri::HTML(res.body)
+        page.css('table.pme-main tr.pme-row-0, table.pme-main tr.pme-row-1').each do |row|
+          score = row.children[1].text[0...-1].to_i
+          prot = row.children[2].children[0].text
+          s_start = row.children[3].text.to_i
+          s_end = row.children[4].text.to_i
+          seq = row.children[5].text
+          res = {}
+          res[:score] = score
+          res[:start] = s_start
+          res[:end] = s_end
+          res[:seq] = seq
+          proteins[prot] ||= []
+          proteins[prot] << res
+        end
       end
       return proteins
     end

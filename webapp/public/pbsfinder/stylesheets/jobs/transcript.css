@@ -10,7 +10,10 @@
   .trans-info .fasta p {
     font-family: Ubuntu Mono;
     font-size: 1.2em;
-    line-height: 12px; }
+    line-height: 12px;
+    letter-spacing: 0.15em; }
+  .trans-info .fasta .n-fasta {
+    color: #adadad; }
 
 .fasta-view {
   padding-left: 0; }

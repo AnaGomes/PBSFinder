@@ -69,6 +69,9 @@ en:
       no_utr:
         title: Insufficient 3' UTR information
         content: The 3' UTR sequence for this transcript was too short to analyze. The 3' downstream sequence was analyzed instead.
+      no_n:
+        title: Unknown sequences omitted
+        content: Unknown parts of the nucleotide sequences (N regions) are removed before analysis. The remaining nucleotides are analyzed as a continuous sequence.
       no_proteins:
         title: No protein binding sites found
         content: There is not enough information available to conduct the analysis.
@@ -78,6 +81,16 @@ en:
       trans: Transcript
       back: Back to job
     view:
+      report:
+        sent: Problem report sent successfully.
+        failed: Failed to send the problem report.
+        explain: Use this form to report a problem with this specific job and add a problem description, as appropriate. Please do not delete the job, as it is important to find what went wrong. For more general problems or suggestions please use the contact page.
+        message: Problem description
+        example: "Ex: message to send (optional)"
+        button: Report a problem
+        close: Close
+        submit: Send
+        title: Report a problem
       download: Download results
       species: Species
       description: Job description

@@ -10,6 +10,9 @@
   color: #428bca;
   font-size: 1.2em; }
 .general-info .btn-group {
+  padding-top: 5px;
+  margin-left: 10px; }
+.general-info .report {
   padding-top: 5px; }
 .general-info .separator {
   padding-bottom: 20px; }
@@ -91,3 +94,8 @@
 th {
   white-space: nowrap;
   background-color: #fff !important; }
+
+#report-form textarea {
+  resize: none; }
+#report-form .explain {
+  text-align: justify; }

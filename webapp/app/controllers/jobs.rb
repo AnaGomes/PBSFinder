@@ -27,6 +27,26 @@ PbsSite::App.controllers :jobs do
     end
   end
 
+  post :report, :with => :id do
+    job = Job.find(params[:id])
+    if job
+      deliver(
+        :notification,
+        :job_problem_report_email,
+        "#{job.account.name} #{job.account.surname}",
+        job.account.email,
+        params[:message].empty? ? 'NO DESCRIPTION' : params[:message],
+        absolute_url(:jobs, :job, job.id),
+        settings.main_conf['contact']['email']
+      )
+      flash[:success] = t('job.view.report.sent')
+      redirect back
+    else
+      flash[:error] = t('job.view.report.failed')
+      redirect back
+    end
+  end
+
   get :list do
     @jobs = current_account.jobs.where(completed: true).desc(:created_at)
     @jobs = @jobs.paginate(:page => params[:page] || 1, :per_page => 10)
