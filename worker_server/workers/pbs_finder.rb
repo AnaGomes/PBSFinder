@@ -35,7 +35,7 @@ class PbsFinder
       ensembl = Pbs::Ensembl.new(helper)
       ncbi = Pbs::Ncbi.new(helper)
       bench = Benchmark.measure do
-        genes = helper.divide_ids(@data, ensembl.process_ids(@data) + ncbi.process_ids(@data))
+        genes = helper.divide_ids(@data, ncbi.process_ids(@data) + ensembl.process_ids(@data))
         ensembl.find_protein_binding_sites(genes[:ensembl])
         ncbi.find_protein_binding_sites(genes[:ncbi])
         resp['genes'] = helper.consolidate_results(genes[:ensembl] + genes[:ncbi] + genes[:invalid])

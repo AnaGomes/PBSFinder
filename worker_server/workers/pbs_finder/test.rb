@@ -60,23 +60,34 @@ class TestPbsFinder < Test::Unit::TestCase
 
   def test_helper_divide_ids
     # Setup.
-    ens = Pbs::Ensembl.new(@helper)
-    ids = %w{ ENSRNOG00000015821 FBgn0032250 ENSRNOT00000021169 FBtr0080009 10283775 ENSRNOT99001021169 }
-    result = @helper.divide_ids(ids, ens.process_ids(ids))
+    #ens = Pbs::Ensembl.new(@helper)
+    #ids = %w{ ENSRNOG00000015821 FBgn0032250 ENSRNOT00000021169 FBtr0080009 10283775 ENSRNOT99001021169 }
+    #result = @helper.divide_ids(ids, ens.process_ids(ids))
 
     # Testing.
-    assert(false, "TODO")
+    #assert(false, "TODO")
   end
 
   def test_ensembl_find_protein_binding_sites
     # Setup.
-    ens = Pbs::Ensembl.new(@helper)
-    ids = %w{ ENSRNOG00000015821 FBgn0032250 ENSRNOT00000021169 FBtr0080009 10283775 ENSRNOT99001021169 }
-    result = @helper.divide_ids(ids, ens.process_ids(ids))
-    result = ens.find_protein_binding_sites(result[:ensembl])
+    #ens = Pbs::Ensembl.new(@helper)
+    #ids = %w{ ENSRNOG00000015821 FBgn0032250 ENSRNOT00000021169 FBtr0080009 10283775 ENSRNOT99001021169 }
+    #result = @helper.divide_ids(ids, ens.process_ids(ids))
+    #result = ens.find_protein_binding_sites(result[:ensembl])
 
     # Testing.
-    assert(false, "TODO")
+    #assert(false, "TODO")
+  end
+
+  def test_helper_convert_ids
+    # Setup.
+    ids = %w{ NM_001107622 NM_001013133 NM_001107645 NM_001106461 X56541 NM_030990 NM_000000000 292588 }
+    expected = [ %w{309722}, %w{306004}, %w{309922}, %w{295342}, %w{81651}, %w{24943}, [nil]]
+    result = @helper.convert_ids(ids, @config[:formats][:genna], [ @config[:formats][:engid], @config[:formats][:ezgid] ])
+    puts result.inspect
+
+    # Testing.
+    #assert(false, "TODO")
   end
 
 end

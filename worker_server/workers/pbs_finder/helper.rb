@@ -25,9 +25,24 @@ module Pbs
       result = {}
       ids.drop(1).each do |id|
         id = id.split("\t")
-        result[id[0]] = id[1].split(";").map(&:strip).map { |x| x =~ /^-$/ ? nil : x }
+        id.drop(1).each do |i|
+          result[id[0]] ||= []
+          result[id[0]] += i.split(";").map(&:strip).map { |x| x =~ /^-$/ ? nil : x }
+        end
       end
       return result
+    end
+
+    def determine_ensembl_species(genes)
+      species = @config[:species].keys
+      genes.each do |gene|
+        species.each do |s|
+          if gene.id =~ (s =~ /^FB$/ ? /^#{s}gn[0-9]{7}$/ : /^#{s}G[0-9]{11}$/)
+            gene.type = :ensembl
+            gene.species = @config[:species][s]
+          end
+        end
+      end
     end
 
     # Divides the ID list into multiple types. Prelimarily filters invalid IDs.

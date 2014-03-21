@@ -2,6 +2,9 @@
   = stylesheet_link_tag 'jobs/transcript'
 - content_for :javascripts do
     = javascript_include_tag 'jobs/fasta', 'jquery.thead.min', 'jobs/table_header'
+- if @transcript.proteins.size > 0
+  - content_for :javascripts do
+    = javascript_include_tag 'jquery.thead.min', 'jobs/transcript'
 
 ul class="nav nav-tabs job-list"
   - @gene.transcripts.each do |trans|
@@ -77,8 +80,6 @@ div class="tabs-content"
   - if @transcript.proteins.size > 0
 
     /* Chart */
-    - content_for :javascripts do
-      = javascript_include_tag 'jquery.thead.min', 'jobs/transcript'
     span style="display:none;" id="dataset"
       = @transcript.dataset_json
     h4 class="chart-name" = t('job.view.proteins_bind')
