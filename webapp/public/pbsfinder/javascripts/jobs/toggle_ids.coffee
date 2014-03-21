@@ -30,6 +30,9 @@ $(document).ready ->
         slantedTextAngle: 45,
         maxAlternation: 0,
         showTextEvery: 1,
+      },
+      vAxis: {
+        minValue:0,
       }
     }
     chart = new google.visualization.ColumnChart(document.getElementById('protein-chart'))
