@@ -9,6 +9,16 @@ PbsSite::App.helpers do
     ids.split("\n").collect(&:strip).reject { |x| x.empty? }.uniq
   end
 
+  def gene_link(id, name, species)
+    complete = name ? "#{id} (#{name})" : id
+    species = species.split(' ').first(2).join('_').capitalize
+    if id =~ /^[0-9]+$/
+      return "<a href=\"http://www.ncbi.nlm.nih.gov/gene/#{id}\">#{complete}</a>"
+    else
+      return "<a href=\"http://www.ensembl.org/#{species}/Gene/Summary?db=core;g=#{id}\">#{complete}</a>"
+    end
+  end
+
   def long_job(job, url, data)
     remote = DRbObject.new_with_uri(settings.worker_server)
     json = { :url => url, :data => data }.to_json

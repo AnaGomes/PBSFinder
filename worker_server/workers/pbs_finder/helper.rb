@@ -21,13 +21,21 @@ module Pbs
     # Output:
     #   - hash with original IDs as keys, and arrays of converted IDs as values.
     def convert_ids(list, input, output)
-      ids = fetch_conversion_job(create_conversion_job(list, input, output)).split("\n")
+      complete = false
+      while !complete
+        begin
+          ids = fetch_conversion_job(create_conversion_job(list, input, output)).split("\n")
+          complete = true
+        rescue Exception => e
+          puts e.message, e.backtrace
+        end
+      end
       result = {}
       ids.drop(1).each do |id|
         id = id.split("\t")
         id.drop(1).each do |i|
           result[id[0]] ||= []
-          result[id[0]] += i.split(";").map(&:strip).map { |x| x =~ /^-$/ ? nil : x }
+          result[id[0]] += i.split(";").map(&:strip).map { |x| (x.empty? || x =~ /^-$/) ? nil : x }
         end
       end
       return result
@@ -54,6 +62,7 @@ module Pbs
     #   - hash with keys for each type and arrays of gene objects as values
     def divide_ids(ids, genes)
       result = {}
+      genes = genes.uniq { |gene| gene.id }
       result[:ensembl] = genes.select { |gene| gene.type == :ensembl && gene.id }
       result[:ncbi] = genes.select { |gene| gene.type == :ncbi && gene.id }
       result[:invalid] = []
@@ -98,26 +107,34 @@ module Pbs
       proteins = {}
       fasta = (fasta || '').gsub(/(n|N)/, '')
       unless fasta.empty?
-        uri = URI(@config[:rbpdb][:url] + @config[:rbpdb][:pbs_path])
-        res = Net::HTTP.post_form(
-          uri,
-          'thresh' => 0.8,
-          'seq'   => fasta
-        )
-        page = Nokogiri::HTML(res.body)
-        page.css('table.pme-main tr.pme-row-0, table.pme-main tr.pme-row-1').each do |row|
-          score = row.children[1].text[0...-1].to_i
-          prot = row.children[2].children[0].text
-          s_start = row.children[3].text.to_i
-          s_end = row.children[4].text.to_i
-          seq = row.children[5].text
-          res = {}
-          res[:score] = score
-          res[:start] = s_start
-          res[:end] = s_end
-          res[:seq] = seq
-          proteins[prot] ||= []
-          proteins[prot] << res
+        complete = false
+        while !complete
+          begin
+            uri = URI(@config[:rbpdb][:url] + @config[:rbpdb][:pbs_path])
+            res = Net::HTTP.post_form(
+              uri,
+              'thresh' => 0.8,
+              'seq'   => fasta
+            )
+            page = Nokogiri::HTML(res.body)
+            page.css('table.pme-main tr.pme-row-0, table.pme-main tr.pme-row-1').each do |row|
+              score = row.children[1].text[0...-1].to_i
+              prot = row.children[2].children[0].text
+              s_start = row.children[3].text.to_i
+              s_end = row.children[4].text.to_i
+              seq = row.children[5].text
+              res = {}
+              res[:score] = score
+              res[:start] = s_start
+              res[:end] = s_end
+              res[:seq] = seq
+              proteins[prot] ||= []
+              proteins[prot] << res
+            end
+            complete = true
+          rescue Exception => e
+            puts e.message, e.backtrace
+          end
         end
       end
       return proteins

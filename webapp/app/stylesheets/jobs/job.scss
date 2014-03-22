@@ -116,11 +116,14 @@
   .red {
     color:rgb(255, 73, 73);
   }
+  .green {
+    color:#47a447;
+  }
   .blue {
     color:#428bca;
   }
   .stripe {
-    width:100px;
+    width:70px;
     background-image:url('../../images/stripe.png');
     background-repeat:repeat;
   }
@@ -145,4 +148,7 @@ th {
 }
 .chart {
   height:320px;
+}
+.converted a {
+  color:#47a447;
 }

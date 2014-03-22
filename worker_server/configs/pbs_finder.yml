@@ -1,3 +1,11 @@
+:ncbi:
+  :url:           eutils.ncbi.nlm.nih.gov
+  :fetch_path:    /entrez/eutils/efetch.fcgi
+  :parameters:
+    db:           nuccore
+    rettype:      gb
+  :parameter_id:   id
+
 :biodbnet:
   :url:              http://biodbnet.abcc.ncifcrf.gov
   :fetch_path:       /db/dbResFileTxt.php

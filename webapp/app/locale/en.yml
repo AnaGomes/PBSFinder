@@ -69,6 +69,9 @@ en:
       no_utr:
         title: Insufficient 3' UTR information
         content: The 3' UTR sequence for this transcript was too short to analyze. The 3' downstream sequence was analyzed instead.
+      no_downstream:
+        title: Insufficient 3' UTR information
+        content: The 3' UTR sequence is too short (less than 300 bp). However, due to the lack of the 3' downstream sequence, the 3' UTR sequence was analyzed.
       no_n:
         title: Unknown sequences omitted
         content: Unknown parts of the nucleotide sequences (N regions) are removed before analysis. The remaining nucleotides are analyzed as a continuous sequence.
@@ -99,6 +102,7 @@ en:
       proteins_bind: Number of possible bind locations
       legend_stripe: Gene with no protein binding sites #Genes for which no protein binding sites where found
       legend_red: Unidentified ID # IDs that could not be identified
+      legend_green: External site # IDs that could not be identified
       legend_blue: Additional information available #Click ID for more information
       species_wait: Detecting
       species_none: Not found

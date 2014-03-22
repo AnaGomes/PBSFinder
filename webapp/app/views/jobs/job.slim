@@ -82,6 +82,8 @@ div class="info"
           td = t('job.view.legend_stripe')
           td class="red visual divider" GENE ID
           td = t('job.view.legend_red')
+          td class="green visual divider" GENE ID
+          td = t('job.view.legend_green')
           td class="blue visual divider" TRANSCRIPT ID
           td = t('job.view.legend_blue')
 
@@ -115,7 +117,7 @@ div class="info"
                 td rowspan="#{gene.transcripts.size}"
                   = gene.species
                 td rowspan="#{gene.transcripts.size}"
-                  span class="converted" = gene.name ? "#{gene.converted_id} (#{gene.name})" : gene.converted_id
+                  span class="converted" == gene_link(gene.converted_id, gene.name, gene.species)
                   span class="original" = gene.original_id
                 td
                   - trans = gene.transcripts.first
@@ -135,7 +137,7 @@ div class="info"
                     td
                       = gene.species
                     td
-                      span class="converted" = gene.name ? "#{gene.converted_id} (#{gene.name})" : gene.converted_id
+                      span class="converted" == gene_link(gene.converted_id, gene.name, gene.species)
                       span class="original" = gene.original_id
                     - trans = gene.transcripts.first
                     td
@@ -149,7 +151,7 @@ div class="info"
                   td rowspan="#{gene.transcripts.size + 1}"
                     = gene.species
                   td rowspan="#{gene.transcripts.size + 1}"
-                    span class="converted" = gene.name ? "#{gene.converted_id} (#{gene.name})" : gene.converted_id
+                    span class="converted" == gene_link(gene.converted_id, gene.name, gene.species)
                     span class="original" = gene.original_id
                 - gene.transcripts.each do |trans|
                   tr class="#{even ? 'striped' : ''}"

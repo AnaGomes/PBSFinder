@@ -84,10 +84,12 @@
   padding-right: 0; }
 .legend .red {
   color: #ff4949; }
+.legend .green {
+  color: #47a447; }
 .legend .blue {
   color: #428bca; }
 .legend .stripe {
-  width: 100px;
+  width: 70px;
   background-image: url("../../images/stripe.png");
   background-repeat: repeat; }
 
@@ -108,3 +110,6 @@ th {
 
 .chart {
   height: 320px; }
+
+.converted a {
+  color: #47a447; }

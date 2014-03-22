@@ -20,13 +20,17 @@ div class="tabs-content"
     p class='gene'
       = @gene.name ? "#{t('job.transcript.gene')}: #{@gene.converted_id} (#{@gene.name})" : "#{t('job.transcript.gene')}: #{@gene.converted_id}"
     p class='transcript'
-      = @transcript.name ? "#{t('job.transcript.trans')}: #{@transcript.converted_id} (#{@transcript.name})" : "#{t('job.transcript.trans')}: #{@gene.converted_id}"
+      = @transcript.name ? "#{t('job.transcript.trans')}: #{@transcript.converted_id} (#{@transcript.name})" : "#{t('job.transcript.trans')}: #{@transcript.converted_id}"
     p class='separator'
 
     - if @transcript.proteins.size > 0 && (@transcript.utr3 || '').size < 300
       div class="bs-callout bs-callout-warning"
-        h4 = t('job.transcript.no_utr.title')
-        p = t('job.transcript.no_utr.content')
+        - if @transcript.downstream
+          h4 = t('job.transcript.no_utr.title')
+          p = t('job.transcript.no_utr.content')
+        - else
+          h4 = t('job.transcript.no_downstream.title')
+          p = t('job.transcript.no_downstream.content')
         - utr, down = @transcript.utr3 || '', @transcript.downstream || ''
         - if (utr.size >= 300 && utr.include?('N')) || (utr.size < 300 && down.include?('N'))
           h4 = t('job.transcript.no_n.title')
