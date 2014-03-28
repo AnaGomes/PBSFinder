@@ -1,17 +1,15 @@
 - content_for :stylesheets do
   = stylesheet_link_tag 'jobs/job'
-- if @job.valid
-  - content_for :javascripts do
-    = javascript_include_tag 'jquery.thead.min', 'jobs/toggle_ids'
-
-- else
-  div class="bs-callout bs-callout-danger"
-    h4 = t('job.view.bad_job.notice.title')
-    p = t('job.view.bad_job.notice.content')
-
 - if @job.completed
   - content_for :javascripts do
     = javascript_include_tag 'jquery.thead.min', 'jobs/table_header'
+  - if @job.valid
+    - content_for :javascripts do
+      = javascript_include_tag 'jquery.thead.min', 'jobs/toggle_ids'
+  - else
+    div class="bs-callout bs-callout-danger"
+      h4 = t('job.view.bad_job.notice.title')
+      p = t('job.view.bad_job.notice.content')
 - else
   - content_for :javascripts do
     = javascript_include_tag 'jobs/check_job'
