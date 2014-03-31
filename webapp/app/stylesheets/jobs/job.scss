@@ -53,6 +53,7 @@
     margin-bottom:0px;
 
     td {
+      min-width:30px;
       vertical-align:middle;
       text-align:center;
       &.protein {
@@ -151,4 +152,40 @@ th {
 }
 .converted a {
   color:#47a447;
+}
+table th.rotate-45{
+}
+table th.rotate-45 span {
+  width:30px;
+  display:inline-block;
+  transform: rotate(-90deg); /* W3C */
+  -webkit-transform: rotate(-90deg); /* Safari & Chrome */
+  -moz-transform: rotate(-90deg); /* Firefox */
+  -ms-transform: rotate(-90deg); /* Internet Explorer */
+  -o-transform: rotate(-90deg); /* Opera */
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.rotated-text {
+  display: inline-block;
+  overflow: hidden;
+  width: 1.5em;
+  line-height: 1.5;
+}
+
+.rotated-text-inner {
+  display: inline-block;
+  white-space: nowrap;
+  transform: rotate(-90deg); /* W3C */
+  -webkit-transform: rotate(-90deg); /* Safari & Chrome */
+  -moz-transform: rotate(-90deg); /* Firefox */
+  -ms-transform: rotate(-90deg); /* Internet Explorer */
+  -o-transform: rotate(-90deg); /* Opera */
+  transform-origin: 0 0;
+}
+.rotated-text-inner:after {
+  content: "";
+  float: left;
+  margin-top: 100%;
 }
