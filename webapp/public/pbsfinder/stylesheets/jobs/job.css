@@ -115,22 +115,6 @@ th {
 .converted a {
   color: #47a447; }
 
-table th.rotate-45 span {
-  width: 30px;
-  display: inline-block;
-  transform: rotate(-90deg);
-  /* W3C */
-  -webkit-transform: rotate(-90deg);
-  /* Safari & Chrome */
-  -moz-transform: rotate(-90deg);
-  /* Firefox */
-  -ms-transform: rotate(-90deg);
-  /* Internet Explorer */
-  -o-transform: rotate(-90deg);
-  /* Opera */
-  overflow: hidden;
-  text-overflow: ellipsis; }
-
 .rotated-text {
   display: inline-block;
   overflow: hidden;
@@ -140,19 +124,20 @@ table th.rotate-45 span {
 .rotated-text-inner {
   display: inline-block;
   white-space: nowrap;
-  transform: rotate(-90deg);
-  /* W3C */
-  -webkit-transform: rotate(-90deg);
-  /* Safari & Chrome */
-  -moz-transform: rotate(-90deg);
-  /* Firefox */
-  -ms-transform: rotate(-90deg);
-  /* Internet Explorer */
-  -o-transform: rotate(-90deg);
-  /* Opera */
-  transform-origin: 0 0; }
+  -webkit-transform: translate(1.5em, 0) rotate(90deg);
+  -moz-transform: translate(1.5em, 0) rotate(90deg);
+  -o-transform: translate(1.5em, 0) rotate(90deg);
+  transform: translate(1.5em, 0) rotate(90deg);
+  -webkit-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -ms-transform: none;
+  -ms-transform-origin: none;
+  -ms-writing-mode: tb-rl;
+  *writing-mode: tb-rl; }
 
-.rotated-text-inner:after {
+.rotated-text-inner:before {
   content: "";
   float: left;
   margin-top: 100%; }
