@@ -13,7 +13,7 @@ class Job
   field :description,   :type => String
   field :email,         :type => Boolean, :default => false
   field :time,          :type => Integer
-  field :bind_proteins, :type => Array
+  field :bind_proteins, :type => Hash
 
   validates_presence_of :query, :if => :query_required
   validates_presence_of :completed
@@ -38,17 +38,8 @@ class Job
 
   def dataset_json
     dataset = [['Proteins', 'Occurrences']]
-    bind_proteins.each { |prot| dataset << [prot, 0] }
-    genes.each do |gene|
-      gene.transcripts.each do |trans|
-        trans.matches.each_with_index do |match, i|
-          if match
-            dataset[i + 1][1] += 1
-          end
-        end
-      end
-    end
-    dataset.to_json
+    bind_proteins.each { |prot, sum| dataset << [prot, sum] }
+    return dataset.to_json
   end
 
   private

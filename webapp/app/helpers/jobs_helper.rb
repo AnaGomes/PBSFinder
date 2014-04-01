@@ -49,19 +49,19 @@ PbsSite::App.helpers do
 
   private
   def get_proteins(json)
-    set = Set.new
+    hash = {}
     (json['genes'] || []).each do |k1, gene|
       next unless gene
       (gene['transcripts'] || []).each do |k2, trans|
         next unless trans
         (trans['proteins'] || []).each do |protein, v1|
           if protein
-            set.add(protein)
+            hash[protein] = (hash[protein] || 0) + 1
           end
         end
       end
     end
-    set.to_a
+    return hash
   end
 
   def build_genes(job, json, bind)
@@ -115,7 +115,7 @@ PbsSite::App.helpers do
         set.add(protein)
       end
       res = []
-      bind.each do |prot|
+      bind.each do |prot, v|
         res << set.include?(prot)
       end
       trans.matches = res

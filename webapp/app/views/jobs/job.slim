@@ -95,7 +95,7 @@ div class="info"
               a href="#" class="toggle-original" (view original)
               a href="#" class="toggle-converted" (view converted)
             th Transcript
-            - @job.bind_proteins.each do |prot|
+            - @job.bind_proteins.each do |prot, v|
               th
                 span class="rotated-text"
                   span class="rotated-text-inner" = prot

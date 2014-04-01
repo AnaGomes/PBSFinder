@@ -67,7 +67,7 @@ module Pbs
       result[:ncbi] = genes.select { |gene| gene.type == :ncbi && gene.id }
       result[:invalid] = []
       ids.each do |id|
-        unless genes.find_index { |gene| gene.original_id == id && gene.id }
+        unless genes.find_index { |gene| (gene.original_id == id || gene.id == id) && gene.id }
           result[:invalid] << Gene.new(id)
         end
       end
