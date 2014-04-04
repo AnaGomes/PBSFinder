@@ -31,46 +31,48 @@ module Pbs
     # Output:
     #   - array of Gene objects
     def find_protein_binding_sites(genes)
-      # Divide by species.
-      species = genes.map { |gene| [gene.species, nil] }.to_h
-      species.keys.each { |spec| species[spec] = genes.select { |gene| gene.species == spec } }
+      if genes && genes.size > 0
+        # Divide by species.
+        species = Hash[genes.map { |gene| [gene.species, nil] }]
+        species.keys.each { |spec| species[spec] = genes.select { |gene| gene.species == spec } }
 
-      # Find transcripts for each species and their respective UTRs.
-      species.each do |spec, ids|
-        # Transcripts.
-        dataset = species_to_dataset(spec)
-        transcript_ids = []
-        transcripts = find_transcript_ids(ids.map { |gene| gene.id }, dataset)[:data]
-        ids.each do |gene|
-          transcripts.each do |trans|
-            if trans[0] == gene.id
-              gene.name = trans[1]
-              gene.transcripts ||= {}
-              gene.transcripts[trans[2]] = { name: trans[3] }
-              transcript_ids << trans[2]
+        # Find transcripts for each species and their respective UTRs.
+        species.each do |spec, ids|
+          # Transcripts.
+          dataset = species_to_dataset(spec)
+          transcript_ids = []
+          transcripts = find_transcript_ids(ids.map { |gene| gene.id }, dataset)[:data]
+          ids.each do |gene|
+            transcripts.each do |trans|
+              if trans[0] == gene.id
+                gene.name = trans[1]
+                gene.transcripts ||= {}
+                gene.transcripts[trans[2]] = { name: trans[3] }
+                transcript_ids << trans[2]
+              end
             end
+          end
+
+          # UTRs.
+          begin
+          utr5 = find_transcript_utr(transcript_ids, dataset, @helper.config[:ensembl_biomart][:attributes][:utr5])[:data]
+          utr3 = find_transcript_utr(transcript_ids, dataset, @helper.config[:ensembl_biomart][:attributes][:utr3])[:data]
+          downstream = find_transcript_downstream(transcript_ids, dataset)[:data]
+          build_fasta_sequences(ids, utr5, :utr5)
+          build_fasta_sequences(ids, utr3, :utr3)
+          build_fasta_sequences(ids, downstream, :downstream)
+          rescue Exception => e
+            puts e.message, e.backtrace
           end
         end
 
-        # UTRs.
-        begin
-        utr5 = find_transcript_utr(transcript_ids, dataset, @helper.config[:ensembl_biomart][:attributes][:utr5])[:data]
-        utr3 = find_transcript_utr(transcript_ids, dataset, @helper.config[:ensembl_biomart][:attributes][:utr3])[:data]
-        downstream = find_transcript_downstream(transcript_ids, dataset)[:data]
-        build_fasta_sequences(ids, utr5, :utr5)
-        build_fasta_sequences(ids, utr3, :utr3)
-        build_fasta_sequences(ids, downstream, :downstream)
-        rescue Exception => e
-          puts e.message, e.backtrace
-        end
-      end
-
-      # Find protein binding sites.
-      genes.each do |gene|
-        if gene.transcripts
-          gene.transcripts.each do |trans, values|
-            fasta = values[:utr3] && values[:utr3].size >= 300 ? values[:utr3] : values[:downstream]
-            values[:proteins] = @helper.find_transcript_pbs(fasta) if fasta
+        # Find protein binding sites.
+        genes.each do |gene|
+          if gene.transcripts
+            gene.transcripts.each do |trans, values|
+              fasta = values[:utr3] && values[:utr3].size >= 300 ? values[:utr3] : values[:downstream]
+              values[:proteins] = @helper.find_transcript_pbs(fasta) if fasta
+            end
           end
         end
       end

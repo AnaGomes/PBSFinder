@@ -1,0 +1,19 @@
+development:
+  sessions:
+    default:
+      database: pbs_site_development
+      hosts:
+        - localhost:27017
+production:
+  sessions:
+    default:
+      database: pbs_site_production
+      hosts:
+        - localhost:27017
+test:
+  sessions:
+    default:
+      database: pbs_site_test
+      hosts:
+        - localhost:27017
+

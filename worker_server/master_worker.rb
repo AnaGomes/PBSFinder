@@ -1,18 +1,28 @@
 require 'drb'
 require 'thread'
 require 'yaml'
+require 'mongoid'
 
 SERVER_URL = 'druby://localhost:5555'
-CONFIG_DIR = File.join(__dir__, './configs')
-WORKER_DIR = File.join(__dir__, './workers')
-TEMP_F_DIR = File.join(__dir__, './temp')
-TEMP_W_DIR = File.join(__dir__, './temp_work')
+CONFIG_DIR = File.expand_path('../configs', __FILE__)
+WORKER_DIR = File.expand_path('../workers', __FILE__)
+MODELS_DIR = File.readlink(File.expand_path('../db/models', __FILE__))
+TEMP_F_DIR = File.expand_path('../temp', __FILE__)
+TEMP_W_DIR = File.expand_path('../temp_work', __FILE__)
+DB_ENV = ARGV.size == 1 ? ARGV[0] : 'development'
+
+# Load database ODM.
+Mongoid.load!(File.expand_path('../db/database.yml', __FILE__), DB_ENV)
 
 # Require the worker helper.
-require File.join(__dir__, './worker_helper.rb')
+require_relative 'worker_helper'
 
 # Require all workers.
 Dir["#{WORKER_DIR}/*.rb"].each { |file| require file }
+
+# Require all models.
+Dir["#{MODELS_DIR}/*.rb"].each { |file| require file }
+
 
 ################################################################################
 #

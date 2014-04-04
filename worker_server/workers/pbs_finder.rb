@@ -42,24 +42,23 @@ class PbsFinder
       end
       resp['time'] = bench.real < 0 ? 1 : bench.real.to_i
       resp = resp.to_json
+
+      # Respond to server.
+      uri = URI(@resp_url)
+      @helper.save_file(@id, resp)
+      req = Net::HTTP::Post::Multipart.new uri.path,
+        "result" => UploadIO.new(File.new(@helper.file_path(@id)), "application/json", "result.json")
+      Net::HTTP.start(uri.host, uri.port) do |http|
+        http.request(req)
+      end
+      @helper.delete_file(@id)
+
+      # Notify master.
+      @helper.notify_finish(@id, 'PBSFinder')
     rescue Exception => e
       puts e.message, e.backtrace
       @helper.notify_finish(@id, 'PBSFinder')
       return
     end
-
-    # Respond to server.
-    uri = URI(@resp_url)
-    @helper.save_file(@id, resp)
-    req = Net::HTTP::Post::Multipart.new uri.path,
-      "result" => UploadIO.new(File.new(@helper.file_path(@id)), "application/json", "result.json")
-    Net::HTTP.start(uri.host, uri.port) do |http|
-      http.request(req)
-    end
-    @helper.delete_file(@id)
-
-    # Notify master.
-    @helper.notify_finish(@id, 'PBSFinder')
   end
-
 end

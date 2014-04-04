@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Ruby required version.
-ruby '2.1.1'
+#ruby=2.1.1
 
 ################################################################################
 # Environment gems and configurations
@@ -36,3 +36,6 @@ gem "multipart-post", "~> 2.0.0"
 
 # Needed for advanced GenBank parsing.
 gem "bio", "~> 1.4.3.0001"
+
+# Mongoid MongoDB ODM.
+gem 'mongoid', '~>3.0.0'

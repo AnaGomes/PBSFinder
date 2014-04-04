@@ -35,9 +35,11 @@ module Pbs
     # Output:
     #   - array of Gene objects
     def find_protein_binding_sites(genes)
-      ids = find_transcript_ids(genes)
-      process_transcript_ids(ids, genes)
-      find_pbs(genes)
+      if genes && genes.size > 0
+        ids = find_transcript_ids(genes)
+        process_transcript_ids(ids, genes)
+        find_pbs(genes)
+      end
       return genes
     end
 
