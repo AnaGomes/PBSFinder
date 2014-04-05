@@ -21,6 +21,8 @@ class Job
   validates_presence_of :description
   validates_length_of   :description, :within => 5..256
 
+  index({ created_at: 1 }, {})
+
   def self.find_by_id(id)
     find(id) rescue nil
   end
