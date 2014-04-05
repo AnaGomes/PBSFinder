@@ -17,6 +17,7 @@ class PbsFinder
     @helper = nil
     @job_id = nil
     @data = nil
+    @resp_url = nil
   end
 
   def setup(id, helper, args)
@@ -24,6 +25,7 @@ class PbsFinder
     @config = @helper.load_config('pbs_finder.yml')
     json = JSON.parse(args)
     @job_id = json['id']
+    @resp_url = json['url']
     @data = json['data']
   end
 
@@ -49,6 +51,18 @@ class PbsFinder
           build_job_results(job, genes, time)
         rescue Exception => e
           puts e.message, e.backtrace
+        end
+      end
+
+      # Notify job completion.
+      notified = false
+      while !notified
+        begin
+          uri = URI(@resp_url)
+          Net::HTTP.post_form(uri, {})
+          notified = true
+        rescue Exception => e1
+          puts e1.message
         end
       end
 

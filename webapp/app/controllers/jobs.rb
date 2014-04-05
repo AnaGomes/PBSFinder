@@ -13,7 +13,7 @@ PbsSite::App.controllers :jobs do
     if server_running?
       if @job.save
         ids = prepare_ids(@job.query)
-        long_job('PbsFinder', @job.id, ids)
+        long_job('PbsFinder', @job.id, absolute_url(:jobs, :response, @job.id), ids)
         flash[:success] = t('job.create.success')
         redirect(url_for(:jobs, :job, @job.id))
       else
@@ -134,21 +134,16 @@ PbsSite::App.controllers :jobs do
 
   post :response, :with => :id, :csrf_protection => false do
     job = Job.find(params[:id])
-    if job && !job.completed
-      json = JSON.parse(params[:result][:tempfile].read)
-      build_job_results(job, json)
-      job.save
-      if job.email
-        deliver(
-          :notification,
-          :job_notification_email,
-          "#{job.account.name} #{job.account.surname}",
-          job.account.email,
-          job.id,
-          absolute_url(:jobs, :job, job.id),
-          job.description
-        )
-      end
+    if job && job.completed && job.email
+      deliver(
+        :notification,
+        :job_notification_email,
+        "#{job.account.name} #{job.account.surname}",
+        job.account.email,
+        job.id,
+        absolute_url(:jobs, :job, job.id),
+        job.description
+      )
     end
   end
 
