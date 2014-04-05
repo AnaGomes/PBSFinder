@@ -126,6 +126,7 @@ module Pbs
     end
 
     def convert_ids(ids, input, output)
+      return [] unless ids.size > 0
       genes = []
       ensembl = []
       converted_ids = @helper.convert_ids(ids, input, output)
@@ -148,6 +149,7 @@ module Pbs
     end
 
     def convert_from_geneid(ids)
+      return [] unless ids.size > 0
       genes = []
       ensembl = []
       converted_ids = @helper.convert_ids(ids, @helper.config[:formats][:ezgid], [ @helper.config[:formats][:engid] ])
