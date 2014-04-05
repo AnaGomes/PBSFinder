@@ -68,7 +68,7 @@ module Pbs
       result[:invalid] = []
       ids.each do |id|
         unless genes.find_index { |gene| (gene.original_id == id || gene.id == id) && gene.id }
-          result[:invalid] << Gene.new(id)
+          result[:invalid] << GeneContainer.new(id)
         end
       end
       return result
@@ -77,7 +77,7 @@ module Pbs
     # Consolidates all the job information into a JSON string, ready to send.
     #
     # Input:
-    #   - genes: array of Gene objects
+    #   - genes: array of GeneContainer objects
     # Output:
     #   - JSON string
     def consolidate_results(genes)

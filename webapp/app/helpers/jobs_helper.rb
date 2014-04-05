@@ -19,9 +19,9 @@ PbsSite::App.helpers do
     end
   end
 
-  def long_job(job, url, data)
+  def long_job(job, id, data)
     remote = DRbObject.new_with_uri(settings.worker_server)
-    json = { :url => url, :data => data }.to_json
+    json = { :id => id, :data => data }.to_json
     remote.start_new_worker(job, json)
   end
 

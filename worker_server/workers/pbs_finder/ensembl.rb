@@ -1,6 +1,6 @@
 require 'json'
 require 'biomart'
-require_relative 'gene'
+require_relative 'gene_container'
 require_relative 'custom_dataset'
 
 module Pbs
@@ -19,7 +19,7 @@ module Pbs
     # Input:
     #   - ids: array of strings (IDs)
     # Output:
-    #   - array of Gene objects
+    #   - array of GeneContainer objects
     def process_ids(ids)
       return identify_ensembl_genes(ids) + identify_ensembl_trascripts(ids)
     end
@@ -27,9 +27,9 @@ module Pbs
     # Finds protein binding sites for a list of genes.
     #
     # Input:
-    #   - array of Gene objects
+    #   - array of GeneContainer objects
     # Output:
-    #   - array of Gene objects
+    #   - array of GeneContainer objects
     def find_protein_binding_sites(genes)
       if genes && genes.size > 0
         # Divide by species.
@@ -55,12 +55,12 @@ module Pbs
 
           # UTRs.
           begin
-          utr5 = find_transcript_utr(transcript_ids, dataset, @helper.config[:ensembl_biomart][:attributes][:utr5])[:data]
-          utr3 = find_transcript_utr(transcript_ids, dataset, @helper.config[:ensembl_biomart][:attributes][:utr3])[:data]
-          downstream = find_transcript_downstream(transcript_ids, dataset)[:data]
-          build_fasta_sequences(ids, utr5, :utr5)
-          build_fasta_sequences(ids, utr3, :utr3)
-          build_fasta_sequences(ids, downstream, :downstream)
+            utr5 = find_transcript_utr(transcript_ids, dataset, @helper.config[:ensembl_biomart][:attributes][:utr5])[:data]
+            utr3 = find_transcript_utr(transcript_ids, dataset, @helper.config[:ensembl_biomart][:attributes][:utr3])[:data]
+            downstream = find_transcript_downstream(transcript_ids, dataset)[:data]
+            build_fasta_sequences(ids, utr5, :utr5)
+            build_fasta_sequences(ids, utr3, :utr3)
+            build_fasta_sequences(ids, downstream, :downstream)
           rescue Exception => e
             puts e.message, e.backtrace
           end
@@ -156,7 +156,7 @@ module Pbs
       ids.each do |id|
         species.each do |s|
           if id =~ (s =~ /^FB$/ ? /^#{s}gn[0-9]{7}$/ : /^#{s}G[0-9]{11}$/)
-            g = Gene.new id
+            g = GeneContainer.new id
             g.id = id
             g.type = :ensembl
             g.species = @helper.config[:species][s]
@@ -177,7 +177,7 @@ module Pbs
         species.each do |s|
           if id =~ (s =~ /^FB$/ ? /^#{s}tr[0-9]{7}$/ : /^#{s}T[0-9]{11}$/)
             to_convert << id
-            g = Gene.new id
+            g = GeneContainer.new id
             g.type = :ensembl
             g.species = @helper.config[:species][s]
             genes << g

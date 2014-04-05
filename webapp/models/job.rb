@@ -27,7 +27,7 @@ class Job
 
   def to_csv(options = {})
     CSV.generate(options) do |csv|
-      csv << %w[species gene_id gene_name transcript_id transcript_name] + self.bind_proteins
+      csv << %w[species gene_id gene_name transcript_id transcript_name] + self.bind_proteins.keys
       genes.each do |gene|
         gene.transcripts.each do |trans|
           csv << [gene.species, gene.converted_id, gene.name, trans.converted_id, trans.name] + trans.matches.map { |x| x ? 'x' : '' }

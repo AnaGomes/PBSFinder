@@ -1,5 +1,5 @@
 module Pbs
-  class Gene
+  class GeneContainer
 
     attr_accessor :id, :original_id, :transcripts, :name, :species, :type
     def initialize(original_id = nil)

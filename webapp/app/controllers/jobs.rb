@@ -13,7 +13,7 @@ PbsSite::App.controllers :jobs do
     if server_running?
       if @job.save
         ids = prepare_ids(@job.query)
-        long_job('PbsFinder', absolute_url(:jobs, :response, @job.id), ids)
+        long_job('PbsFinder', @job.id, ids)
         flash[:success] = t('job.create.success')
         redirect(url_for(:jobs, :job, @job.id))
       else

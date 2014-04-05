@@ -1,4 +1,4 @@
-require_relative 'gene'
+require_relative 'gene_container'
 require 'bio'
 require 'open-uri'
 require 'date'
@@ -19,7 +19,7 @@ module Pbs
     # Input:
     #   - ids: array of strings (IDs)
     # Output:
-    #   - array of Gene objects
+    #   - array of GeneContainer objects
     def process_ids(ids)
       clean_ids(ids)
       genes = convert_ids(ids.select { |id| id =~ /^[A-Z]+[0-9]+$/ }, @helper.config[:formats][:genna], [ @helper.config[:formats][:engid], @helper.config[:formats][:ezgid] ])
@@ -31,9 +31,9 @@ module Pbs
     # Finds protein binding sites for a list of genes.
     #
     # Input:
-    #   - array of Gene objects
+    #   - array of GeneContainer objects
     # Output:
-    #   - array of Gene objects
+    #   - array of GeneContainer objects
     def find_protein_binding_sites(genes)
       if genes && genes.size > 0
         ids = find_transcript_ids(genes)
@@ -130,7 +130,7 @@ module Pbs
       ensembl = []
       converted_ids = @helper.convert_ids(ids, input, output)
       converted_ids.each do |id, values|
-        gene = Gene.new(id)
+        gene = GeneContainer.new(id)
         converted = values.find { |x| x }
         if converted
           if converted =~ /^[0-9]+$/
@@ -152,7 +152,7 @@ module Pbs
       ensembl = []
       converted_ids = @helper.convert_ids(ids, @helper.config[:formats][:ezgid], [ @helper.config[:formats][:engid] ])
       converted_ids.each do |id, values|
-        gene = Gene.new(id)
+        gene = GeneContainer.new(id)
         converted = values.find { |x| x }
         if converted
           gene.id = converted

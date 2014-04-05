@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.1'
+#ruby=2.1.1
 
 # This is a gemset definition for RVM. If you don't want to use this specific
 # gemset just delete the line. If RVM is not installed this line can be left,
