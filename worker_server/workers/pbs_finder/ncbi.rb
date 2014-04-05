@@ -79,9 +79,17 @@ module Pbs
         :query => URI.encode_www_form(
           @helper.config[:ncbi][:parameters].merge({@helper.config[:ncbi][:parameter_id] => ids.join(",")})
       ))
+      completed = false
+      flat = nil
+      while !completed
+        begin
+          flat = Bio::FlatFile.open_uri(uri)
+          completed = true
+        rescue Exception => e
+          puts e.message
+        end
+      end
       begin
-        flat = Bio::FlatFile.open_uri(uri)
-
         # Build each transcript.
         flat.each do |gb|
           species = gb.source['common_name']
@@ -121,7 +129,7 @@ module Pbs
           end
         end
       rescue Exception => e
-        puts e.message, e.backtrace
+        puts e.message
       end
     end
 

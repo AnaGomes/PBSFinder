@@ -62,7 +62,7 @@ module Pbs
             build_fasta_sequences(ids, utr3, :utr3)
             build_fasta_sequences(ids, downstream, :downstream)
           rescue Exception => e
-            puts e.message, e.backtrace
+            puts e.message
           end
         end
 
@@ -92,56 +92,79 @@ module Pbs
     end
 
     def find_transcript_utr(ids, dt, utr)
-      biomart = Biomart::Server.new(@helper.config[:ensembl_biomart][:url])
-      dataset = biomart.datasets[dt]
-      transcripts = dataset.search(
-        filters: {
-          @helper.config[:ensembl_biomart][:attributes][:entid] => ids.join(",")
-        },
-        attributes: [
-          @helper.config[:ensembl_biomart][:attributes][:engid],
-          @helper.config[:ensembl_biomart][:attributes][:entid],
-          utr
-        ]
-      )
+      transcripts = nil
+      completed = false
+      while !completed
+        begin
+          biomart = Biomart::Server.new(@helper.config[:ensembl_biomart][:url])
+          dataset = biomart.datasets[dt]
+          transcripts = dataset.search(
+            filters: {
+              @helper.config[:ensembl_biomart][:attributes][:entid] => ids.join(",")
+            },
+            attributes: [
+              @helper.config[:ensembl_biomart][:attributes][:engid],
+              @helper.config[:ensembl_biomart][:attributes][:entid],
+              utr
+            ]
+          )
+          completed = true
+        rescue Exception => e
+          puts e.message
+        end
+      end
       return transcripts
     end
 
     def find_transcript_downstream(ids, dt)
-      begin
-        biomart = Biomart::Server.new(@helper.config[:ensembl_biomart][:url])
-        dataset = biomart.datasets[dt]
-        transcripts = dataset.search(
-          filters: {
-            @helper.config[:ensembl_biomart][:attributes][:downf] => "1000",
-            @helper.config[:ensembl_biomart][:attributes][:entid] => ids.join(",")
-          },
-          attributes: [
-            @helper.config[:ensembl_biomart][:attributes][:engid],
-            @helper.config[:ensembl_biomart][:attributes][:entid],
-            @helper.config[:ensembl_biomart][:attributes][:cflak]
-          ]
-        )
-        return transcripts
-      rescue
-        return { data: [] }
+      transcripts = nil
+      completed = false
+      while !completed
+        begin
+          biomart = Biomart::Server.new(@helper.config[:ensembl_biomart][:url])
+          dataset = biomart.datasets[dt]
+          transcripts = dataset.search(
+            filters: {
+              @helper.config[:ensembl_biomart][:attributes][:downf] => "1000",
+              @helper.config[:ensembl_biomart][:attributes][:entid] => ids.join(",")
+            },
+            attributes: [
+              @helper.config[:ensembl_biomart][:attributes][:engid],
+              @helper.config[:ensembl_biomart][:attributes][:entid],
+              @helper.config[:ensembl_biomart][:attributes][:cflak]
+            ]
+          )
+          completed = true
+        rescue Exception => e
+          puts e.message
+        end
       end
+      return transcripts
     end
 
     def find_transcript_ids(ids, dt)
-      biomart = Biomart::Server.new(@helper.config[:ensembl_biomart][:url])
-      dataset = biomart.datasets[dt]
-      transcripts = dataset.search(
-        filters: {
-          @helper.config[:ensembl_biomart][:attributes][:engid] => ids.join(",")
-        },
-        attributes: [
-          @helper.config[:ensembl_biomart][:attributes][:engid],
-          @helper.config[:ensembl_biomart][:attributes][:engna],
-          @helper.config[:ensembl_biomart][:attributes][:entid],
-          @helper.config[:ensembl_biomart][:attributes][:entna]
-        ]
-      )
+      transcripts = nil
+      completed = false
+      while !completed
+        begin
+          biomart = Biomart::Server.new(@helper.config[:ensembl_biomart][:url])
+          dataset = biomart.datasets[dt]
+          transcripts = dataset.search(
+            filters: {
+              @helper.config[:ensembl_biomart][:attributes][:engid] => ids.join(",")
+            },
+            attributes: [
+              @helper.config[:ensembl_biomart][:attributes][:engid],
+              @helper.config[:ensembl_biomart][:attributes][:engna],
+              @helper.config[:ensembl_biomart][:attributes][:entid],
+              @helper.config[:ensembl_biomart][:attributes][:entna]
+            ]
+          )
+          completed = true
+        rescue Exception => e
+          puts e.message
+        end
+      end
       return transcripts
     end
 

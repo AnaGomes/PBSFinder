@@ -27,7 +27,7 @@ module Pbs
           ids = fetch_conversion_job(create_conversion_job(list, input, output)).split("\n")
           complete = true
         rescue Exception => e
-          puts e.message, e.backtrace
+          puts e.message
         end
       end
       result = {}
@@ -133,7 +133,7 @@ module Pbs
             end
             complete = true
           rescue Exception => e
-            puts e.message, e.backtrace
+            puts e.message
           end
         end
       end
