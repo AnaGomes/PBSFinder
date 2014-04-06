@@ -41,6 +41,7 @@
     margin-bottom: 0px; }
     .table-container .table td {
       min-width: 30px;
+      min-height: 50px;
       vertical-align: middle;
       text-align: center; }
       .table-container .table td.protein {
@@ -48,8 +49,10 @@
       .table-container .table td.match {
         background-color: #428bca;
         opacity: 0.8;
-        border: solid 1px #428bca; }
+        border: solid 1px #428bca;
+        height: 50px; }
       .table-container .table td.no-bind, .table-container .table td.no-bind.striped {
+        height: 50px;
         background-image: url("../../images/stripe.png");
         background-repeat: repeat;
         border: solid 1px #dddddd;
@@ -63,7 +66,8 @@
       .table-container .table td:nth-child(1) {
         min-width: 170px; }
     .table-container .table tr {
-      border-bottom: solid 1px #dddddd; }
+      border-bottom: solid 1px #dddddd;
+      min-height: 50px; }
       .table-container .table tr.striped {
         /*background-color: #fafafa;*/ }
       .table-container .table tr:hover {

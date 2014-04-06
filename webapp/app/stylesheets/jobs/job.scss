@@ -64,8 +64,10 @@
         background-color: #428bca;
         opacity: 0.8;
         border: solid 1px #428bca;
+        height:50px;
       }
       &.no-bind, &.no-bind.striped {
+        height:50px;
         background-image:url('../../images/stripe.png');
         background-repeat:repeat;
         border: solid 1px #dddddd;
