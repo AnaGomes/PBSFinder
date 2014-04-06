@@ -65,7 +65,7 @@
     .table-container .table tr {
       border-bottom: solid 1px #dddddd; }
       .table-container .table tr.striped {
-        background-color: #fafafa; }
+        /*background-color: #fafafa;*/ }
       .table-container .table tr:hover {
         opacity: 1;
         background-color: #428bca; }
