@@ -54,6 +54,7 @@
 
     td {
       min-width:30px;
+      min-height:50px;
       vertical-align:middle;
       text-align:center;
       &.protein {
@@ -86,6 +87,7 @@
 
     tr {
       border-bottom: solid 1px #dddddd;
+      min-height:50px;
       &.striped {
         /*background-color: #fafafa;*/
       }
