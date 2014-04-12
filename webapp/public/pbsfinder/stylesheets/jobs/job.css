@@ -90,7 +90,7 @@
 .legend .red {
   color: #ff4949; }
 .legend .green {
-  color: #47a447; }
+  color: #009235; }
 .legend .blue {
   color: #428bca; }
 .legend .stripe {
@@ -116,8 +116,8 @@ th {
 .chart {
   height: 320px; }
 
-.converted a {
-  color: #47a447; }
+.converted a, .external a {
+  color: #009235; }
 
 .rotated-text {
   display: inline-block;

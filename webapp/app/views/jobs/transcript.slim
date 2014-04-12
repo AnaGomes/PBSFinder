@@ -17,6 +17,8 @@ div class="tabs-content"
     - if @job.valid
       = link_to t('job.transcript.back'), url_for(:jobs, :job, @job.id), :class => 'btn btn-primary pull-right'
 
+    p class='species'
+      = "Species: #{@gene.species}"
     p class='gene'
       = @gene.name ? "#{t('job.transcript.gene')}: #{@gene.converted_id} (#{@gene.name})" : "#{t('job.transcript.gene')}: #{@gene.converted_id}"
     p class='transcript'
@@ -95,6 +97,7 @@ div class="tabs-content"
         thead
           tr
             th Protein
+            th External references
             th Score
             th Start
             th End
@@ -105,6 +108,13 @@ div class="tabs-content"
             - even = !even
             tr class="#{even ? 'striped' : ''}"
               td rowspan="#{prot.positions.size + 1}" class="protein" = prot.name
+
+              / Additional information and links.
+              td rowspan="#{prot.positions.size + 1}" class="external protein"
+                - if prot.uniprot_id
+                  a href="http://www.uniprot.org/uniprot/#{prot.uniprot_id}" UniProt
+                  br
+
               - prot.positions.each do |position|
                 tr class="#{even ? 'striped' : ''}"
                   td = "#{position.score}%"

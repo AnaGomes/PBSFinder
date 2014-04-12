@@ -122,7 +122,7 @@
     color:rgb(255, 73, 73);
   }
   .green {
-    color:#47a447;
+    color:#009235;
   }
   .blue {
     color:#428bca;
@@ -154,8 +154,8 @@ th {
 .chart {
   height:320px;
 }
-.converted a {
-  color:#47a447;
+.converted a, .external a {
+  color:#009235;
 }
 .rotated-text {
   display: inline-block;

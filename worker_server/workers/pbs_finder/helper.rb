@@ -47,7 +47,8 @@ module Pbs
         species.each do |s|
           if gene.id =~ (s =~ /^FB$/ ? /^#{s}gn[0-9]{7}$/ : /^#{s}G[0-9]{11}$/)
             gene.type = :ensembl
-            gene.species = @config[:species][s]
+            gene.taxon = @config[:species][s]
+            gene.species = @config[:taxons][g.taxon]
           end
         end
       end
@@ -119,7 +120,7 @@ module Pbs
             page = Nokogiri::HTML(res.body)
             page.css('table.pme-main tr.pme-row-0, table.pme-main tr.pme-row-1').each do |row|
               score = row.children[1].text[0...-1].to_i
-              prot = row.children[2].children[0].text
+              prot = row.children[2].children[0].text.upcase
               s_start = row.children[3].text.to_i
               s_end = row.children[4].text.to_i
               seq = row.children[5].text
@@ -128,8 +129,8 @@ module Pbs
               res[:start] = s_start
               res[:end] = s_end
               res[:seq] = seq
-              proteins[prot] ||= []
-              proteins[prot] << res
+              proteins[prot] ||= { positions: [] }
+              proteins[prot][:positions] << res
             end
             complete = true
           rescue Exception => e

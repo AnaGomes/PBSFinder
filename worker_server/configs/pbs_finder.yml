@@ -15,6 +15,15 @@
   :url:         http://beta.rest.ensembl.org
   :lookup_path: /lookup/id
 
+:uniprot:
+  :url:               www.uniprot.org
+  :entry_path:        /uniprot
+  :parameter_query:   query
+  :parameters:
+    columns:          id,reviewed,genes,taxon,organism-id
+    format:           tab
+    compress:         no
+
 :ensembl_biomart:
   :url: http://www.ensembl.org/biomart
   :attributes:
@@ -41,69 +50,134 @@
   :rseqr: RefSeq mRNA Accession
 
 :species:
-  ENSAME:   Ailuropoda melanoleuca (Panda)
-  ENSACA:   Anolis carolinensis (Anole lizard)
-  ENSBTA:   Bos taurus (Cow)
-  ENSCJA:   Callithrix jacchus (Marmoset)
-  ENSCPO:   Cavia porcellus (Guinea Pig)
-  ENSCIN:   Ciona intestinalis
-  ENSDAR:   Danio rerio (Zebrafish)
-  ENSDOR:   Dipodomys ordii (Kangaroo rat)
-  ENSETE:   Echinops telfairi (Lesser hedgehog tenrec)
-  ENSEEU:   Erinaceus europaeus (Hedgehog)
-  ENSFAL:   Ficedula albicollis (Flycatcher)
-  ENSGAL:   Gallus gallus (Chicken)
-  ENSGGO:   Gorilla gorilla gorilla (Gorilla)
-  ENSSTO:   Ictidomys tridecemlineatus (Squirrel)
-  ENSLOC:   Lepisosteus oculatus (Spotted gar)
-  ENSMMU:   Macaca mulatta (Macaque)
-  ENSMGA:   Meleagris gallopavo (Turkey)
-  ENSMOD:   Monodelphis domestica (Opossum)
-  ENSMPU:   Mustela putorius furo (Ferret)
-  ENSNLE:   Nomascus leucogenys (Gibbon)
-  ENSONI:   Oreochromis niloticus (Tilapia)
-  ENSOCU:   Oryctolagus cuniculus (Rabbit)
-  ENSOGA:   Otolemur garnettii (Bushbaby)
-  ENSPTR:   Pan troglodytes (Chimpanzee)
-  ENSPMA:   Petromyzon marinus (Lamprey)
-  ENSPCA:   Procavia capensis (Hyrax)
-  ENSRNO:   Rattus norvegicus (Rat)
-  ENSSHA:   Sarcophilus harrisii (Tasmanian devil)
-  ENSSSC:   Sus scrofa (Pig)
-  ENSTRU:   Takifugu rubripes (Fugu)
-  ENSTNI:   Tetraodon nigroviridis (Tetraodon)
-  ENSTTR:   Tursiops truncatus (Dolphin)
-  ENSXET:   Xenopus tropicalis (Xenopus)
-  ENSAPL:   Anas platyrhynchos (Duck)
-  ENSAMX:   Astyanax mexicanus (Cave fish)
-  ENSCEL:   Caenorhabditis elegans (Caenorhabditis elegans)
-  ENSCAF:   Canis lupus familiaris (Dog)
-  ENSCHO:   Choloepus hoffmanni (Sloth)
-  ENSCSAV:  Ciona savignyi
-  ENSDNO:   Dasypus novemcinctus (Armadillo)
-  FB:       Drosophila melanogaster (Fruitfly)
-  ENSECA:   Equus caballus (Horse)
-  ENSFCA:   Felis catus (Cat)
-  ENSGMO:   Gadus morhua (Cod)
-  ENSGAC:   Gasterosteus aculeatus (Stickleback)
-  ENS:      Homo sapiens (Human)
-  ENSLAC:   Latimeria chalumnae (Coelacanth)
-  ENSLAF:   Loxodonta africana (Elephant)
-  ENSMEU:   Macropus eugenii (Wallaby)
-  ENSMIC:   Microcebus murinus (Mouse Lemur)
-  ENSMUS:   Mus musculus (Mouse)
-  ENSMLU:   Myotis lucifugus (Microbat)
-  ENSOPR:   Ochotona princeps (Pika)
-  ENSOAN:   Ornithorhynchus anatinus (Platypus)
-  ENSORL:   Oryzias latipes (Medaka)
-  ENSOAR:   Ovis aries (Sheep)
-  ENSPSI:   Pelodiscus sinensis (Chinese softshell turtle)
-  ENSPPY:   Pongo abelii (Orangutan)
-  ENSPVA:   Pteropus vampyrus (Megabat)
-  ENSSCE:   Saccharomyces cerevisiae (Saccharomyces cerevisiae)
-  ENSSAR:   Sorex araneus (Shrew)
-  ENSTGU:   Taeniopygia guttata (Zebra Finch)
-  ENSTSY:   Tarsius syrichta (Tarsier)
-  ENSTBE:   Tupaia belangeri (Tree Shrew)
-  ENSVPA:   Vicugna pacos (Alpaca)
-  ENSXMA:   Xiphophorus maculatus (Platyfish)
+  ENSAME: '9646'
+  ENSACA: '28377'
+  ENSBTA: '9913'
+  ENSCJA: '9483'
+  ENSCPO: '10141'
+  ENSDAR: '7955'
+  ENSDOR: '10020'
+  ENSETE: '9371'
+  ENSEEU: '9365'
+  ENSFAL: '59894'
+  ENSGAL: '9031'
+  ENSGGO: '9595'
+  ENSSTO: '43179'
+  ENSLOC: '7918'
+  ENSMMU: '9544'
+  ENSMGA: '9103'
+  ENSMOD: '13616'
+  ENSMPU: '9669'
+  ENSNLE: '61853'
+  ENSONI: '8128'
+  ENSOCU: '9986'
+  ENSOGA: '30611'
+  ENSPTR: '9598'
+  ENSPMA: '7757'
+  ENSPCA: '9813'
+  ENSRNO: '10116'
+  ENSSHA: '9305'
+  ENSSSC: '9823'
+  ENSTRU: '31033'
+  ENSTNI: '99883'
+  ENSTTR: '9739'
+  ENSAPL: '8839'
+  ENSAMX: '7994'
+  ENSCEL: '6239'
+  ENSCAF: '9615'
+  ENSCHO: '9358'
+  ENSDNO: '9361'
+  FB: '7227'
+  ENSECA: '9796'
+  ENSFCA: '9685'
+  ENSGMO: '8049'
+  ENSGAC: '69293'
+  ENS: '9606'
+  ENSLAC: '7897'
+  ENSLAF: '9785'
+  ENSMEU: '9315'
+  ENSMIC: '30608'
+  ENSMUS: '10090'
+  ENSMLU: '59463'
+  ENSOPR: '9978'
+  ENSOAN: '9258'
+  ENSORL: '8090'
+  ENSOAR: '9940'
+  ENSPSI: '13735'
+  ENSPPY: '9601'
+  ENSPVA: '132908'
+  ENSSCE: '4932'
+  ENSSAR: '42254'
+  ENSTGU: '59729'
+  ENSTSY: '9478'
+  ENSTBE: '37347'
+  ENSVPA: '30538'
+  ENSXMA: '8083'
+
+:taxons:
+  '9646': Ailuropoda melanoleuca (Panda)
+  '28377': Anolis carolinensis (Anole lizard)
+  '9913': Bos taurus (Cow)
+  '9483': Callithrix jacchus (Marmoset)
+  '10141': Cavia porcellus (Guinea Pig)
+  '7955': Danio rerio (Zebrafish)
+  '10020': Dipodomys ordii (Kangaroo rat)
+  '9371': Echinops telfairi (Lesser hedgehog tenrec)
+  '9365': Erinaceus europaeus (Hedgehog)
+  '59894': Ficedula albicollis (Flycatcher)
+  '9031': Gallus gallus (Chicken)
+  '9595': Gorilla gorilla gorilla (Gorilla)
+  '43179': Ictidomys tridecemlineatus (Squirrel)
+  '7918': Lepisosteus oculatus (Spotted gar)
+  '9544': Macaca mulatta (Macaque)
+  '9103': Meleagris gallopavo (Turkey)
+  '13616': Monodelphis domestica (Opossum)
+  '9669': Mustela putorius furo (Ferret)
+  '61853': Nomascus leucogenys (Gibbon)
+  '8128': Oreochromis niloticus (Tilapia)
+  '9986': Oryctolagus cuniculus (Rabbit)
+  '30611': Otolemur garnettii (Bushbaby)
+  '9598': Pan troglodytes (Chimpanzee)
+  '7757': Petromyzon marinus (Lamprey)
+  '9813': Procavia capensis (Hyrax)
+  '10116': Rattus norvegicus (Rat)
+  '9305': Sarcophilus harrisii (Tasmanian devil)
+  '9823': Sus scrofa (Pig)
+  '31033': Takifugu rubripes (Fugu)
+  '99883': Tetraodon nigroviridis (Tetraodon)
+  '9739': Tursiops truncatus (Dolphin)
+  '8839': Anas platyrhynchos (Duck)
+  '7994': Astyanax mexicanus (Cave fish)
+  '6239': Caenorhabditis elegans (Caenorhabditis elegans)
+  '9615': Canis lupus familiaris (Dog)
+  '9358': Choloepus hoffmanni (Sloth)
+  '9361': Dasypus novemcinctus (Armadillo)
+  '7227': Drosophila melanogaster (Fruitfly)
+  '9796': Equus caballus (Horse)
+  '9685': Felis catus (Cat)
+  '8049': Gadus morhua (Cod)
+  '69293': Gasterosteus aculeatus (Stickleback)
+  '9606': Homo sapiens (Human)
+  '7897': Latimeria chalumnae (Coelacanth)
+  '9785': Loxodonta africana (Elephant)
+  '9315': Macropus eugenii (Wallaby)
+  '30608': Microcebus murinus (Mouse Lemur)
+  '10090': Mus musculus (Mouse)
+  '59463': Myotis lucifugus (Microbat)
+  '9978': Ochotona princeps (Pika)
+  '9258': Ornithorhynchus anatinus (Platypus)
+  '8090': Oryzias latipes (Medaka)
+  '9940': Ovis aries (Sheep)
+  '13735': Pelodiscus sinensis (Chinese softshell turtle)
+  '9601': Pongo abelii (Orangutan)
+  '132908': Pteropus vampyrus (Megabat)
+  '4932': Saccharomyces cerevisiae (Saccharomyces cerevisiae)
+  '42254': Sorex araneus (Shrew)
+  '59729': Taeniopygia guttata (Zebra Finch)
+  '9478': Tarsius syrichta (Tarsier)
+  '37347': Tupaia belangeri (Tree Shrew)
+  '30538': Vicugna pacos (Alpaca)
+  '8083': Xiphophorus maculatus (Platyfish)
+  '7719': Ciona intestinalis (Vase tunicate)
+  '8364': Xenopus tropicalis (Western clawed frog)
+  '51511': Ciona savignyi (Pacific transparent sea squirt)

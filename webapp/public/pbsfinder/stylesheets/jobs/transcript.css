@@ -39,6 +39,8 @@
       padding-bottom: 0px; }
       .table-container .table td.protein {
         text-align: center; }
+        .table-container .table td.protein.external a {
+          color: #009235; }
     .table-container .table tr {
       border-bottom: solid 1px #dddddd; }
       .table-container .table tr.striped {
@@ -48,14 +50,18 @@
     font-size: 1.2em;
     margin-bottom: 0; }
 
-.general-info .gene {
+.general-info .species {
   font-family: Ubuntu;
   color: #428bca;
   font-size: 1.8em; }
+.general-info .gene {
+  font-family: Ubuntu;
+  color: #428bca;
+  font-size: 1.3em; }
 .general-info .transcript {
   font-family: Ubuntu;
   color: #428bca;
-  font-size: 1.2em; }
+  font-size: 1.3em; }
 .general-info .separator {
   padding-bottom: 20px; }
 

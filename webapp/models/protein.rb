@@ -4,5 +4,6 @@ class Protein
   embeds_many :positions, :cascade_callbacks => true
 
   field :name,        :type => String
+  field :uniprot_id,  :type => String
 
 end

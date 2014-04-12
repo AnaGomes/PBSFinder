@@ -101,9 +101,9 @@ en:
       proteins: Protein binding occurrences
       proteins_bind: Number of possible bind locations
       legend_stripe: Gene with no protein binding sites #Genes for which no protein binding sites where found
-      legend_red: Unidentified ID # IDs that could not be identified
-      legend_green: External site # IDs that could not be identified
-      legend_blue: Additional information available #Click ID for more information
+      legend_red: Unknown ID # IDs that could not be identified
+      legend_green: External reference # IDs that could not be identified
+      legend_blue: Additional information #Click ID for more information
       species_wait: Detecting
       species_none: Not found
       bad_job:

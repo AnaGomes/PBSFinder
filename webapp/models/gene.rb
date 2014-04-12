@@ -9,5 +9,7 @@ class Gene
   field :original_id,   :type => String
   field :binds,         :type => Boolean, :default => false
   field :species,       :type => String
+  field :taxon,         :type => String
+  field :org,           :type => Symbol
 
 end

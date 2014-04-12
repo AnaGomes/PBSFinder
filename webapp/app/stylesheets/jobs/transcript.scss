@@ -50,6 +50,9 @@
       padding-bottom: 0px;
       &.protein {
         text-align:center;
+        &.external a {
+          color:#009235;
+        }
       }
     }
 
@@ -67,15 +70,20 @@
   }
 }
 .general-info {
+  .species {
+    font-family: Ubuntu;
+    color: #428bca;
+    font-size:1.8em;
+  }
   .gene {
     font-family: Ubuntu;
     color: #428bca;
-    font-size: 1.8em;
+    font-size: 1.3em;
   }
   .transcript {
     font-family: Ubuntu;
     color: #428bca;
-    font-size: 1.2em;
+    font-size: 1.3em;
   }
   .separator {
     padding-bottom:20px;

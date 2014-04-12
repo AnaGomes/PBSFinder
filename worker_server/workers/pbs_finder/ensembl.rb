@@ -182,7 +182,8 @@ module Pbs
             g = GeneContainer.new id
             g.id = id
             g.type = :ensembl
-            g.species = @helper.config[:species][s]
+            g.taxon = @helper.config[:species][s]
+            g.species = @helper.config[:taxons][g.taxon]
             genes << g
           end
         end
@@ -202,7 +203,8 @@ module Pbs
             to_convert << id
             g = GeneContainer.new id
             g.type = :ensembl
-            g.species = @helper.config[:species][s]
+            g.taxon = @helper.config[:species][s]
+            g.species = @helper.config[:taxons][g.taxon]
             genes << g
           end
         end

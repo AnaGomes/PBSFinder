@@ -72,6 +72,8 @@ module Pbs
     end
 
     def process_transcript_ids(ids, genes)
+      return unless ids.size > 0
+
       # Request transcript GenBank pages.
       uri = URI::HTTP.build(
         :host => @helper.config[:ncbi][:url],
@@ -92,7 +94,8 @@ module Pbs
       begin
         # Build each transcript.
         flat.each do |gb|
-          species = gb.source['common_name']
+          taxon = (gb.features.find { |f| f.feature == 'source' } || { 'db_xref' => nil })['db_xref'].split(':')[1]
+          species = @helper.config[:taxons][taxon]
           id, name, transcript_id, utr5, utr3, date = nil
           transcript_id = gb.locus.entry_id
           date = Date.parse(gb.locus.date) if gb.locus.date
@@ -109,11 +112,12 @@ module Pbs
           end
 
           # If some data is missing ignore this document.
-          unless species.to_s.empty? || id.to_s.empty? || transcript_id.to_s.empty? || !date
+          unless species.to_s.empty? || id.to_s.empty? || transcript_id.to_s.empty? || !date || taxon.to_s.empty?
             gene = genes.find { |g| g.id == id }
             if gene
               gene.species ||= species
               gene.name ||= name
+              gene.taxon ||= taxon
               gene.transcripts ||= {}
               if gene.transcripts.size == 0 || transcript_id =~ /^NM_[0-9]+/
                 gene.transcripts.delete_if { |k, v| k =~ /^XM_[0-9]+/ }

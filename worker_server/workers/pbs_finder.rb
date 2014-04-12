@@ -5,6 +5,7 @@ require 'uri'
 require 'net/http'
 require_relative 'pbs_finder/ensembl'
 require_relative 'pbs_finder/ncbi'
+require_relative 'pbs_finder/uniprot'
 require_relative 'pbs_finder/gene_container'
 require_relative 'pbs_finder/helper'
 
@@ -35,12 +36,15 @@ class PbsFinder
       helper = Pbs::Helper.new(@config)
       ensembl = Pbs::Ensembl.new(helper)
       ncbi = Pbs::Ncbi.new(helper)
-      genes = nil
+      uniprot = Pbs::Uniprot.new(helper)
+      genes, bind_proteins = nil, nil
       bench = Benchmark.measure do
         genes = helper.divide_ids(@data, ncbi.process_ids(@data) + ensembl.process_ids(@data))
         ensembl.find_protein_binding_sites(genes[:ensembl])
         ncbi.find_protein_binding_sites(genes[:ncbi])
         genes = genes[:ensembl] + genes[:ncbi] + genes[:invalid]
+        bind_proteins = get_proteins(genes)
+        uniprot.find_additional_info(genes, bind_proteins)
       end
       time = bench.real < 0 ? 1 : bench.real.to_i
 
@@ -48,7 +52,7 @@ class PbsFinder
       job = Job.find(@job_id)
       if job
         begin
-          build_job_results(job, genes, time)
+          build_job_results(job, genes, bind_proteins, time)
         rescue Exception => e
           puts e.message, e.backtrace
         end
@@ -76,9 +80,8 @@ class PbsFinder
   end
 
   private
-  def build_job_results(job, genes, time)
+  def build_job_results(job, genes, bind_proteins, time)
     job.time = time
-    bind_proteins = get_proteins(genes)
     build_genes(job, genes, bind_proteins)
     job.bind_proteins = bind_proteins
     job.completed = true
@@ -92,7 +95,8 @@ class PbsFinder
         next unless v1
         (v1[:proteins] || []).each do |protein, v2|
           if protein
-            hash[protein] = (hash[protein] || 0) + 1
+            hash[protein] ||= { count: 0 }
+            hash[protein][:count] += 1
           end
         end
       end
@@ -108,7 +112,9 @@ class PbsFinder
           :original_id => gene.original_id,
           :converted_id => gene.id,
           :name => gene.name,
-          :species => gene.species
+          :species => gene.species,
+          :taxon => gene.taxon,
+          :org => gene.type
         )
         if gene.transcripts && gene.transcripts.size > 0
           build_transcripts(g, gene.transcripts, bind)
@@ -139,8 +145,11 @@ class PbsFinder
     if proteins && proteins.size > 0
       set = Set.new
       proteins.each do |protein, values|
-        p = Protein.new(:name => protein)
-        values.each do |pos|
+        p = Protein.new(
+          :name => protein,
+          :uniprot_id => values[:uniprot_id]
+        )
+        values[:positions].each do |pos|
           p.positions << Position.new(
             :seq_start => pos[:start],
             :seq_end => pos[:end],
@@ -152,11 +161,14 @@ class PbsFinder
         set.add(protein)
       end
       res = []
+
+      # Builds protein occurrence array.
       bind.each do |prot, v|
         res << set.include?(prot)
       end
       trans.matches = res
     else
+      # Protein occurrence array (all false).
       trans.matches = Array.new(bind.size, false)
     end
   end
