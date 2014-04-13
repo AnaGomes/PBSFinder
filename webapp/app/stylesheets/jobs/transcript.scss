@@ -50,8 +50,11 @@
       padding-bottom: 0px;
       &.protein {
         text-align:center;
-        &.external a {
-          color:#009235;
+        &.external {
+          width:70px;
+          a {
+            color:#009235;
+          }
         }
       }
     }

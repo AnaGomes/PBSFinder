@@ -97,7 +97,7 @@ div class="tabs-content"
         thead
           tr
             th Protein
-            th External references
+            th colspan="4" External references
             th Score
             th Start
             th End
@@ -110,9 +110,29 @@ div class="tabs-content"
               td rowspan="#{prot.positions.size + 1}" class="protein" = prot.name
 
               / Additional information and links.
+
+              / UniProt
               td rowspan="#{prot.positions.size + 1}" class="external protein"
                 - if prot.uniprot_id
-                  a href="http://www.uniprot.org/uniprot/#{prot.uniprot_id}" UniProt
+                  == gene_link(prot.uniprot_id, :uniprot, nil, @gene.species, 'UniProt')
+                  br
+
+              / Ensembl
+              td rowspan="#{prot.positions.size + 1}" class="external protein"
+                - if prot.ensembl_id
+                  == gene_link(prot.ensembl_id, :ensembl, nil, @gene.species, 'Ensembl')
+                  br
+
+              / NCBI
+              td rowspan="#{prot.positions.size + 1}" class="external protein"
+                - if prot.ncbi_id
+                  == gene_link(prot.ncbi_id, :ncbi, nil, @gene.species, 'NCBI')
+                  br
+
+              / StringDB
+              td rowspan="#{prot.positions.size + 1}" class="external protein"
+                - if prot.ensembl_id
+                  == gene_link(prot.ensembl_id, :stringdb, nil, @gene.species, 'StringDB')
                   br
 
               - prot.positions.each do |position|

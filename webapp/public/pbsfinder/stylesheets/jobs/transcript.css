@@ -39,8 +39,10 @@
       padding-bottom: 0px; }
       .table-container .table td.protein {
         text-align: center; }
-        .table-container .table td.protein.external a {
-          color: #009235; }
+        .table-container .table td.protein.external {
+          width: 70px; }
+          .table-container .table td.protein.external a {
+            color: #009235; }
     .table-container .table tr {
       border-bottom: solid 1px #dddddd; }
       .table-container .table tr.striped {

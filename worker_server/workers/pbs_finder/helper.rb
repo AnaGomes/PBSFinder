@@ -35,7 +35,7 @@ module Pbs
         id = id.split("\t")
         id.drop(1).each do |i|
           result[id[0]] ||= []
-          result[id[0]] += i.split(";").map(&:strip).map { |x| (x.empty? || x =~ /^-$/) ? nil : x }
+          result[id[0]] += i.split(";").map(&:strip).map { |x| (x.empty? || x =~ /^-$/) ? nil : x.upcase }
         end
       end
       return result

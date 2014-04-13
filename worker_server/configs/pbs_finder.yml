@@ -48,6 +48,7 @@
   :ezgsy: Gene Symbol
   :genna: GenBank Nucleotide Accession
   :rseqr: RefSeq mRNA Accession
+  :unprt: UniProt Accession
 
 :species:
   ENSAME: '9646'

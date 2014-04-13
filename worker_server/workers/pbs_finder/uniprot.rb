@@ -14,9 +14,9 @@ module Pbs
     # Input:
     #   - genes: array GeneContainer objects
     # Output:
-    #   - none
+    #   - array of used Uniprot IDs
     def find_additional_info(genes, proteins)
-      return unless genes.size > 0 && proteins.size > 0
+      return [] unless genes.size > 0 && proteins.size > 0
 
       # Build query.
       taxons = find_taxons(genes)
@@ -33,8 +33,8 @@ module Pbs
         while response.code == "301" || response.code == "302"
           response = Net::HTTP.get_response(URI.parse(response.header['location']))
         end
-        return unless response.body && !response.body.empty?
-        parse_uniprot_response(genes, proteins, response.body)
+        return [] unless response.body && !response.body.empty?
+        return parse_uniprot_response(genes, proteins, response.body)
       rescue Exception => e
         puts e.message, e.backtrace
         retry
@@ -59,16 +59,19 @@ module Pbs
       end
 
       # Build proteins by transcript.
+      used = []
       genes.each do |gene|
         (gene.transcripts || []).each do |trans, v1|
           next unless v1
           (v1[:proteins] || []).each do |protein, v2|
             if protein
               v2[:uniprot_id] = find_uniprot_id(uniprots[gene.taxon], protein) || find_uniprot_id(uniprots['9606'], protein)
+              used << v2[:uniprot_id] if v2[:uniprot_id]
             end
           end
         end
       end
+      return used
     end
 
     def find_uniprot_id(results, protein)

@@ -6,16 +6,21 @@ require 'set'
 PbsSite::App.helpers do
 
   def prepare_ids(ids)
-    ids.split("\n").collect(&:strip).reject { |x| x.empty? }.uniq
+    ids.split("\n").map(&:strip).map(&:upcase).reject { |x| x.empty? }.uniq
   end
 
-  def gene_link(id, type, name, species)
-    complete = name ? "#{id} (#{name})" : id
+  def gene_link(id, type, name, species, text = nil)
+    complete = text || (name ? "#{id} (#{name})" : id)
     species = species.split(' ').first(2).join('_').capitalize
-    if type == :ncbi
+    case type
+    when :ncbi
       return "<a href=\"http://www.ncbi.nlm.nih.gov/gene/#{id}\">#{complete}</a>"
-    elsif type == :ensembl
+    when :ensembl
       return "<a href=\"http://www.ensembl.org/#{species}/Gene/Summary?db=core;g=#{id}\">#{complete}</a>"
+    when :uniprot
+      return "<a href=\"http://www.uniprot.org/uniprot/#{id}\">#{complete}</a>"
+    when :stringdb
+      return "<a href=\"http://string-db.org/newstring_cgi/show_network_section.pl?identifier=#{id}\">#{complete}</a>"
     end
   end
 

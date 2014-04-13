@@ -6,6 +6,7 @@ require 'net/http'
 require_relative 'pbs_finder/ensembl'
 require_relative 'pbs_finder/ncbi'
 require_relative 'pbs_finder/uniprot'
+require_relative 'pbs_finder/external'
 require_relative 'pbs_finder/gene_container'
 require_relative 'pbs_finder/helper'
 
@@ -33,18 +34,24 @@ class PbsFinder
   def work
     # Finding protein binding sites.
     begin
+      # Initialize different data processors.
       helper = Pbs::Helper.new(@config)
       ensembl = Pbs::Ensembl.new(helper)
       ncbi = Pbs::Ncbi.new(helper)
       uniprot = Pbs::Uniprot.new(helper)
+      external = Pbs::External.new(helper)
       genes, bind_proteins = nil, nil
       bench = Benchmark.measure do
+        # Build and retrieve gene information.
         genes = helper.divide_ids(@data, ncbi.process_ids(@data) + ensembl.process_ids(@data))
         ensembl.find_protein_binding_sites(genes[:ensembl])
         ncbi.find_protein_binding_sites(genes[:ncbi])
         genes = genes[:ensembl] + genes[:ncbi] + genes[:invalid]
+
+        # Build additional protein info.
         bind_proteins = get_proteins(genes)
-        uniprot.find_additional_info(genes, bind_proteins)
+        used = uniprot.find_additional_info(genes, bind_proteins)
+        external.find_additional_info(genes, used)
       end
       time = bench.real < 0 ? 1 : bench.real.to_i
 
@@ -147,7 +154,9 @@ class PbsFinder
       proteins.each do |protein, values|
         p = Protein.new(
           :name => protein,
-          :uniprot_id => values[:uniprot_id]
+          :uniprot_id => values[:uniprot_id],
+          :ensembl_id => values[:ensembl_id],
+          :ncbi_id => values[:ncbi_id]
         )
         values[:positions].each do |pos|
           p.positions << Position.new(

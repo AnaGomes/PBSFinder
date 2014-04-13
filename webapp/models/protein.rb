@@ -5,5 +5,7 @@ class Protein
 
   field :name,        :type => String
   field :uniprot_id,  :type => String
+  field :ensembl_id,  :type => String
+  field :ncbi_id,  :type => String
 
 end
