@@ -17,7 +17,7 @@ PbsSite::App.helpers do
       return "<a href=\"http://www.ncbi.nlm.nih.gov/gene/#{id}\">#{complete}</a>"
     when :ensembl
       if id =~ /^ENS(G|T)[0-9]+$/
-        return "<a href=\"http://www.ensembl.org/Home_sapiens/Gene/Summary?db=core;g=#{id}\">#{complete}</a>"
+        return "<a href=\"http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=#{id}\">#{complete}</a>"
       else
         return "<a href=\"http://www.ensembl.org/#{species}/Gene/Summary?db=core;g=#{id}\">#{complete}</a>"
       end
