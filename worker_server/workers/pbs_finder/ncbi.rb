@@ -94,7 +94,8 @@ module Pbs
       begin
         # Build each transcript.
         flat.each do |gb|
-          taxon = (gb.features.find { |f| f.feature == 'source' } || { 'db_xref' => nil })['db_xref'].split(':')[1]
+          t = gb.features.find { |f| f.feature == 'source' }
+          taxon = t['db_xref'][0].split(':')[1] if t && t['db_xref']
           species = @helper.config[:taxons][taxon]
           id, name, transcript_id, utr5, utr3, date = nil
           transcript_id = gb.locus.entry_id
@@ -133,7 +134,7 @@ module Pbs
           end
         end
       rescue Exception => e
-        puts e.message
+        puts e.message, e.backtrace
       end
     end
 

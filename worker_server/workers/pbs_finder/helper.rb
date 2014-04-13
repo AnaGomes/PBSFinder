@@ -48,7 +48,7 @@ module Pbs
           if gene.id =~ (s =~ /^FB$/ ? /^#{s}gn[0-9]{7}$/ : /^#{s}G[0-9]{11}$/)
             gene.type = :ensembl
             gene.taxon = @config[:species][s]
-            gene.species = @config[:taxons][g.taxon]
+            gene.species = @config[:taxons][gene.taxon]
           end
         end
       end
