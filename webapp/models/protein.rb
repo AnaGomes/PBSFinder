@@ -1,11 +1,13 @@
 class Protein
   include Mongoid::Document
-  embedded_in :transcript
-  embeds_many :positions, :cascade_callbacks => true
 
-  field :name,        :type => String
-  field :uniprot_id,  :type => String
-  field :ensembl_id,  :type => String
-  field :ncbi_id,  :type => String
+  has_and_belongs_to_many   :transcripts
+  belongs_to                :transcript
+  embeds_many               :positions, :cascade_callbacks => true
+
+  field :protein_id,        :type => String
+  field :name,              :type => String
+  field :external_ids,      :type => Hash
+  field :tissues,           :type => Array
 
 end

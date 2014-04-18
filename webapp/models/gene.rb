@@ -1,15 +1,16 @@
 class Gene
 
   include Mongoid::Document
-  embedded_in :job
-  embeds_many :transcripts, :cascade_callbacks => true
 
+  belongs_to  :job
+  has_many    :transcripts, :dependent => :delete, :autosave => true
+
+  field :query_id,      :type => String
+  field :gene_id,       :type => String
   field :name,          :type => String
-  field :converted_id,  :type => String
-  field :original_id,   :type => String
-  field :binds,         :type => Boolean, :default => false
   field :species,       :type => String
   field :taxon,         :type => String
-  field :org,           :type => Symbol
+  field :id_type,       :type => Symbol
+  field :binds,         :type => Boolean, :default => false
 
 end

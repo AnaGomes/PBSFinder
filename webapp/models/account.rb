@@ -1,7 +1,8 @@
 class Account
   include Mongoid::Document
   attr_accessor :password, :password_confirmation
-  has_many :jobs, :dependent => :destroy
+
+  has_many :jobs, :dependent => :delete
 
   # Fields
   field :name,             :type => String
