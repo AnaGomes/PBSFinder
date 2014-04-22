@@ -6,18 +6,18 @@ div class="page-header"
     small Protein Binding Sites Finder
 
 div class="description"
-  div class="bs-callout bs-callout-danger"
-    h4 = t('base.beta_title')
-    p = t('base.beta')
 
-  div class="bs-callout bs-callout-info"
-    h4 = t('base.description.title1')
-    p = t('base.description.description1')
-    h4 = t('base.description.title2')
-    p = t('base.description.description2')
-    h4 = t('base.description.title3')
-    p = t('base.description.description3')
-    h4 = t('base.description.title4')
-    p = t('base.description.description4')
+  = partial 'layouts/notice', locals: { \
+    type: 'danger', \
+    notice: { t('base.beta_title') => t('base.beta') } \
+  }
 
-
+  = partial 'layouts/notice', locals: { \
+    type: 'info', \
+    notice: { \
+      t('base.description.title1') => t('base.description.description1'), \
+      t('base.description.title2') => t('base.description.description2'), \
+      t('base.description.title3') => t('base.description.description3'), \
+      t('base.description.title4') => t('base.description.description4') \
+    } \
+  }

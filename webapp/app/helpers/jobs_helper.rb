@@ -5,10 +5,6 @@ require 'set'
 
 PbsSite::App.helpers do
 
-  def prepare_ids(ids)
-    ids.split("\n").map(&:strip).map(&:upcase).reject { |x| x.empty? }.uniq
-  end
-
   def gene_link(id, type, name, species, text = nil)
     complete = text || (name ? "#{id} (#{name})" : id)
     species = species.split(' ').first(2).join('_').capitalize
@@ -41,7 +37,7 @@ PbsSite::App.helpers do
     rescue
       return false
     end
-    return true
+    true
   end
 
   def format_fasta(fasta, max = 80)

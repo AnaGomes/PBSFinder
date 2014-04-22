@@ -8,12 +8,11 @@ PbsSite::App.controllers :jobs do
 
   post :create do
     @job = Job.new(params[:job])
-    @job.completed = false
+    @job.complete = false
     @job.account = current_account
     if server_running?
       if @job.save
-        ids = prepare_ids(@job.query)
-        long_job('PbsFinder', @job.id, absolute_url(:jobs, :response, @job.id), ids)
+        long_job('PbsFinder', @job.id, absolute_url(:jobs, :response, @job.id), @job.query)
         flash[:success] = t('job.create.success')
         redirect(url_for(:jobs, :job, @job.id))
       else
@@ -63,18 +62,20 @@ PbsSite::App.controllers :jobs do
     render 'jobs/list'
   end
 
-  get :transcript, :map => '/jobs/job/:job_id/gene/:gene_id/transcript/:trans_id' do
-    begin
-      @job = Job.find(params[:job_id])
-      @gene = @job.genes.find(params[:gene_id])
-      @transcript = @gene.transcripts.find(params[:trans_id])
-      raise '' unless @transcript
+  get :transcript, :map => '/jobs/transcript/:trans_id' do
+    @transcript = Transcript.find(params[:trans_id])
+    if @transcript
+      @gene = @transcript.gene
       @big_title = t('job.transcript.big_title')
-    rescue
+      render 'jobs/transcript'
+    else
       flash[:error] = t('job.transcript.not_found')
       redirect url('/')
     end
-    render 'jobs/transcript'
+  end
+
+  get :protein, :map => '/jobs/protein/:prot_id' do
+    # TODO, make protein view.
   end
 
   get :job, :with => :id, :provides => [:html, :csv, :tsv] do

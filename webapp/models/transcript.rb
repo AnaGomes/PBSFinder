@@ -1,17 +1,13 @@
 class Transcript
-
   include Mongoid::Document
-
   belongs_to              :gene
-  has_and_belongs_to_many :proteins, :dependent => :delete
-  has_one                 :protein, :dependent => :delete
+  has_many                :proteins, :dependent => :delete, :autosave => true
 
   field :transcript_id,   :type => String
   field :name,            :type => String
   field :utr5,            :type => String
   field :utr3,            :type => String
   field :downstream,      :type => String
-  field :id_type,         :type => Symbol
   field :matches,         :type => Array
 
   def dataset_json
@@ -21,5 +17,4 @@ class Transcript
     end
     dataset.to_json
   end
-
 end

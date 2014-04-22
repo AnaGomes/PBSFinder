@@ -1,5 +1,3 @@
-require_relative 'gene_container'
-
 module Pbs
   class External
 

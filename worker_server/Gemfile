@@ -39,3 +39,6 @@ gem "bio", "~> 1.4.3.0001"
 
 # Mongoid MongoDB ODM.
 gem 'mongoid', '~>3.0.0'
+
+# Rubocop syntax checker.
+gem 'rubocop', '~> 0.20.1'

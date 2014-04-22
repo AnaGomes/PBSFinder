@@ -1,7 +1,5 @@
 class Gene
-
   include Mongoid::Document
-
   belongs_to  :job
   has_many    :transcripts, :dependent => :delete, :autosave => true
 
@@ -12,5 +10,4 @@ class Gene
   field :taxon,         :type => String
   field :id_type,       :type => Symbol
   field :binds,         :type => Boolean, :default => false
-
 end

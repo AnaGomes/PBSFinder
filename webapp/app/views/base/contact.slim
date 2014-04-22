@@ -1,9 +1,10 @@
 - content_for :stylesheets do
   = stylesheet_link_tag 'base/contact'
 
-div class="bs-callout bs-callout-info"
-  h4 = t('contact.notice.title')
-  p = t('contact.notice.description')
+= partial 'layouts/notice', locals: { \
+  type: 'info', \
+  notice: { t('contact.notice.title') => t('contact.notice.description') } \
+}
 
 = form_for :contact, url('/contact'), :class => 'form-horizontal', :id => 'job-form' do |f|
   - error = @contact.errors.include?(:name)

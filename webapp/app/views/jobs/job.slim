@@ -1,6 +1,6 @@
 - content_for :stylesheets do
   = stylesheet_link_tag 'jobs/job'
-- if @job.completed
+- if @job.complete
   - content_for :javascripts do
     = javascript_include_tag 'jquery.thead.min', 'jobs/table_header'
   - if @job.valid
@@ -33,7 +33,7 @@ div class="info"
             = link_to 'CSV', url_for(:jobs, :job, @job.id, :format => :csv)
           li
             = link_to 'TSV', url_for(:jobs, :job, @job.id, :format => :tsv)
-    - if @job.completed
+    - if @job.complete
 
       /* Report problem form */
       div class="pull-right report"

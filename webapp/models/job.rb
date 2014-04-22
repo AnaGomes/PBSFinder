@@ -1,14 +1,13 @@
 require 'csv'
 
 class Job
-
   include Mongoid::Document
   include Mongoid::Timestamps
-  attr_accessor :query
-
   belongs_to  :account
   embeds_many :binds,   :cascade_callbacks => true
   has_many    :genes,   :dependent => :delete, :autosave => true
+
+  attr_accessor :query
 
   field :complete,      :type => Boolean, :default => false
   field :description,   :type => String
@@ -46,7 +45,6 @@ class Job
 
   private
   def query_required
-    return !self.completed
+    return !self.complete
   end
-
 end

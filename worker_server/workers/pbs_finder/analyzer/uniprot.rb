@@ -1,7 +1,3 @@
-require_relative 'gene_container'
-require 'set'
-require 'csv'
-
 module Pbs
   class Uniprot
 
