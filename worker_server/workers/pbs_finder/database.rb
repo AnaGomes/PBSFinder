@@ -58,6 +58,10 @@ module Pbs
         save_protein(prot, p)
         db.proteins << p
       end
+      if trans.own_protein
+        p = Protein.new
+        db.own_protein = save_protein(trans.own_protein, p)
+      end
     end
 
     def self.save_protein(prot, db)

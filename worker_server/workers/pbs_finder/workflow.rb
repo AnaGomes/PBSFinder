@@ -41,6 +41,7 @@ module Pbs
     private
 
     def start_base_dataset_analysis
+      Analyzer::Dataset.build_own_proteins!(@job)
       Analyzer::Dataset.build_lists!(@job)
       Analyzer::Dataset.build_matches!(@job)
     end

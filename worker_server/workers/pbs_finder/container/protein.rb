@@ -7,7 +7,7 @@ module Pbs
         :positions,
         :protein_id,
         :external_ids,
-        :tissues
+        :tissues,
       )
 
       def initialize(params = {})

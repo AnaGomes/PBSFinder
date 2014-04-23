@@ -29,6 +29,16 @@ module Pbs
         end
       end
 
+      def self.build_own_proteins!(job)
+        job.genes.each do |gene|
+          gene.transcripts.each do |trans_id, trans|
+            if gene.name
+              trans.own_protein = Container::Protein.new(name: gene.name)
+            end
+          end
+        end
+      end
+
       def self.build_lists!(job)
         job.genes.each do |gene|
           job.species.add(gene.species)

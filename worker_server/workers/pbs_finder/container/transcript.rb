@@ -2,7 +2,17 @@ module Pbs
   module Container
     # Simple container for transcript information.
     class Transcript
-      attr_accessor :name, :transcript_id, :proteins, :utr5, :utr3, :downstream, :date, :matches
+      attr_accessor(
+        :name,
+        :transcript_id,
+        :proteins,
+        :utr5,
+        :utr3,
+        :downstream,
+        :date,
+        :matches,
+        :own_protein
+      )
 
       def initialize(params = {})
         @name = params.fetch(:name, nil)
@@ -13,6 +23,7 @@ module Pbs
         @downstream = params.fetch(:downstream, nil)
         @date = params.fetch(:date, nil)
         @matches = params.fetch(:matches, [])
+        @own_protein = params.fetch(:own_protein, nil)
       end
     end
   end
