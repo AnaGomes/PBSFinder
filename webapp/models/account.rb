@@ -2,14 +2,14 @@ class Account
   include Mongoid::Document
   attr_accessor :password, :password_confirmation
 
-  has_many :jobs, :dependent => :delete
+  has_many :jobs, dependent: :delete
 
   # Fields
-  field :name,             :type => String
-  field :surname,          :type => String
-  field :email,            :type => String
-  field :crypted_password, :type => String
-  field :role,             :type => String
+  field :name,             type: String
+  field :surname,          type: String
+  field :email,            type: String
+  field :crypted_password, type: String
+  field :role,             type: String
 
   # Validations
   validates_presence_of     :name
