@@ -60,7 +60,8 @@ module Pbs
       end
       if trans.own_protein
         p = Protein.new
-        db.own_protein = save_protein(trans.own_protein, p)
+        save_protein(trans.own_protein, p)
+        db.own_protein = p
       end
     end
 
