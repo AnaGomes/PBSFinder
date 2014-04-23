@@ -4,15 +4,15 @@ class Job
   include Mongoid::Document
   include Mongoid::Timestamps
   belongs_to  :account
-  embeds_many :binds,   :cascade_callbacks => true
-  has_many    :genes,   :dependent => :delete, :autosave => true
+  embeds_many :binds,   cascade_callbacks: true
+  has_many    :genes,   dependent: :delete, autosave: true
 
   attr_accessor :query
 
-  field :complete,      :type => Boolean, :default => false
-  field :description,   :type => String
-  field :notify,        :type => Boolean, :default => false
-  field :time,          :type => Integer
+  field :complete,      type: Boolean, default: false
+  field :description,   type: String
+  field :notify,        type: Boolean, default: false
+  field :time,          type: Integer
 
   validates_presence_of :query, :if => :query_required
   validates_presence_of :complete
