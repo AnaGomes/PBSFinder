@@ -23,8 +23,8 @@ PbsSite::App.controllers '/' do
     end
   end
 
-  get :about, :map => '/about' do
-    render 'base/about'
-  end
+  #get :about, :map => '/about' do
+    #render 'base/about'
+  #end
 
 end
