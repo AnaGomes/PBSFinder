@@ -2,16 +2,17 @@
   = stylesheet_link_tag 'jobs/new'
 - content_for :javascripts do
     = javascript_include_tag 'jobs/create_mail'
-div class="tabs-content"
 
+div class="tabs-content"
   div class="description"
-    div class="bs-callout bs-callout-info"
-      h4 = t('job.create.notice.notice1.title')
-      p = t('job.create.notice.notice1.content')
-      h4 = t('job.create.notice.notice3.title')
-      p = t('job.create.notice.notice3.content')
-      h4 = t('job.create.notice.notice4.title')
-      p = t('job.create.notice.notice4.content')
+    = partial 'layouts/notice', locals: { \
+      type: 'info', \
+      notice: { \
+        t('job.create.notice.notice1.title') => t('job.create.notice.notice1.content'), \
+        t('job.create.notice.notice3.title') => t('job.create.notice.notice3.content'), \
+        t('job.create.notice.notice4.title') => t('job.create.notice.notice4.content') \
+      } \
+    }
 
   = form_for :job, url(:jobs, :create), :class => 'form-horizontal', :id => 'job-form' do |f|
     = partial 'jobs/form', :locals => { :f => f }

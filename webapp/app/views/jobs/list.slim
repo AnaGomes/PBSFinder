@@ -1,20 +1,31 @@
 - content_for :stylesheets do
   = stylesheet_link_tag 'jobs/list'
+
+/* Tab names. */
 ul class="nav nav-tabs job-list"
-  li class="#{@completed ? 'active' : ''}" = link_to t('job.list.tab.done'), url(:jobs, :list)
-  li class="#{@completed ? '' : 'active'}" = link_to t('job.list.tab.pending'), url(:jobs, :pending)
+  li class="#{@complete ? 'active' : ''}" = link_to t('job.list.tab.done'), url(:jobs, :list)
+  li class="#{@complete ? '' : 'active'}" = link_to t('job.list.tab.pending'), url(:jobs, :pending)
 
+/* Tab content. */
 div class="tabs-content"
-  -if @jobs.size == 0
-    div class="bs-callout bs-callout-info"
-      h4 = t('job.list.title_no_job')
-      p = t('job.list.description_no_job')
 
+  /* Show notice if no jobs are available. */
+  - if @jobs.size == 0
+    = partial 'layouts/notice', locals: { \
+      type: 'info', \
+      notice: { \
+        t('job.list.title_no_job') => t('job.list.description_no_job') \
+      } \
+    }
+
+  /* Otherwise, create a table of jobs. */
   - else
     div class="table-responsive"
       table class="table table-hover table-condensed" id="list"
         thead
           tr
+
+            /* Table delete controls. */
             th class='header list-menu'
               div class='dropdown'
                 a href='#' class='list-menu-toggle.dropdown-toggle dropdown-toggle' data-toggle='dropdown'
@@ -34,6 +45,8 @@ div class="tabs-content"
                           = hidden_field_tag :job_ids, :'data-delete-many-ids' => true
                           = submit_tag  pat(:delete), :class =>'list-menu-popover-delete-selected-btn btn btn-danger btn-small'
                           div class='btn btn-default btn-small cancel' = pat(:cancel)
+
+            /* Table headers. */
             th class='header br' = t('job.list.table.results')
             th class='header br' = t('job.list.table.date')
             th class='header br' = t('job.list.table.ids')
@@ -41,15 +54,20 @@ div class="tabs-content"
             th class='header' = t('job.list.table.description')
             th class='header list-row-action-header'
 
+        /* Iterate through every job. */
         tbody
           - @jobs.each do |job|
             tr class='list-row'
+
+              /* Job info. */
               td class='list-column list-selectable' = check_box_tag 'job_ids[]', :value => job.id, :class => 'list-selectable-checkbox'
               td class='list-column br' = link_to(t('job.list.table.view_results'), url_for(:jobs, :job, job.id))
               td class='list-column br' = job.created_at.strftime("%F %H:%M")
-              td class='list-column br' = job.completed ? job.genes.size : 'N/A'
-              td class='list-column br' = job.completed && job.time ? Time.at(job.time).utc.strftime("%H:%M:%S") : 'N/A'
+              td class='list-column br' = job.complete ? job.genes.size : 'N/A'
+              td class='list-column br' = job.complete && job.time ? Time.at(job.time).utc.strftime("%H:%M:%S") : 'N/A'
               td class='list-column' = job.description
+
+              /* Delete controls. */
               td class='list-column list-row-action'
                 div class='list-row-action-wrapper'
                   = link_to tag_icon(:trash), :rel => :tooltip, :title => "#{pat(:delete)} account", :class => 'list-row-action-delete-one list-row-action-wrapper-link'
@@ -60,4 +78,6 @@ div class="tabs-content"
                       = form_tag url(:jobs, :destroy, :id => job.id), :method => :delete do
                         = submit_tag pat(:delete), :class =>'list-row-action-popover-delete-one-btn btn btn-danger btn-small'
                         div class='btn btn-default btn-small cancel' = pat(:cancel)
+
+    /* Table pagination. */
     = will_paginate @jobs, { :class => 'pager', :outer_winder => 2, :inner_window => 1 }
