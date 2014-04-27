@@ -7,13 +7,13 @@ module Pbs
         :positions,
         :protein_id,
         :external_ids,
-        :tissues,
+        :tissues
       )
 
       def initialize(params = {})
         @name = params.fetch(:name, nil)
         @positions = params.fetch(:positions, [])
-        @protein_id = params.fetch(:protein_id, [])
+        @protein_id = params.fetch(:protein_id, nil)
         @external_ids = params.fetch(:external_ids, {})
         @tissues = params.fetch(:tissues, [])
       end
