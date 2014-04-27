@@ -1,4 +1,9 @@
 div class="bs-callout bs-callout-#{type}"
   - notice.each do |title, description|
     h4 = title
-    p = description
+    - if description.is_a?(Array)
+      - description.each do |desc|
+        - if desc
+          p = desc
+    - else
+      p = description

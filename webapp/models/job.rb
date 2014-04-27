@@ -39,7 +39,7 @@ class Job
 
   def dataset_json
     dataset = [['Proteins', 'Occurrences']]
-    bind_proteins.each { |prot, values| dataset << [prot, values['count']] }
+    binds.each { |bind| dataset << [bind.name, bind.count] }
     return dataset.to_json
   end
 

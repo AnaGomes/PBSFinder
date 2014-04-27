@@ -62,7 +62,7 @@ div class="tabs-content"
               /* Job info. */
               td class='list-column list-selectable' = check_box_tag 'job_ids[]', :value => job.id, :class => 'list-selectable-checkbox'
               td class='list-column br' = link_to(t('job.list.table.view_results'), url_for(:jobs, :job, job.id))
-              td class='list-column br' = job.created_at.strftime("%F %H:%M")
+              td class='list-column br' = job.created_at.strftime("%F - %H:%M")
               td class='list-column br' = job.complete ? job.genes.size : 'N/A'
               td class='list-column br' = job.complete && job.time ? Time.at(job.time).utc.strftime("%H:%M:%S") : 'N/A'
               td class='list-column' = job.description

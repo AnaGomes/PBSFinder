@@ -1,29 +1,43 @@
 - content_for :stylesheets do
   = stylesheet_link_tag 'jobs/job'
+
+/* Conditional script loading. */
 - if @job.complete
   - content_for :javascripts do
     = javascript_include_tag 'jquery.thead.min', 'jobs/table_header'
-  - if @job.valid
+  - if @job.time
     - content_for :javascripts do
-      = javascript_include_tag 'jquery.thead.min', 'jobs/toggle_ids'
-  - else
-    div class="bs-callout bs-callout-danger"
-      h4 = t('job.view.bad_job.notice.title')
-      p = t('job.view.bad_job.notice.content')
+      = javascript_include_tag 'jobs/toggle_ids'
 - else
   - content_for :javascripts do
     = javascript_include_tag 'jobs/check_job'
 
-  div class="bs-callout bs-callout-info"
-    h4 = t('job.view.notice.title')
-    p = t('job.view.notice.notice1')
-    - if @job.email
-      p = t('job.view.notice.notice2')
-    p = t('job.view.notice.notice3')
+/* Conditional notice presentation. */
+- if @job.complete && !@job.time
+  = partial 'layouts/notice', locals: { \
+    type: 'danger', \
+    notice: { \
+      t('job.view.bad_job.notice.title') => t('job.view.bad_job.notice.content') \
+    } \
+  }
+- elsif !@job.complete
+  = partial 'layouts/notice', locals: { \
+    type: 'info', \
+    notice: { \
+      t('job.view.notice.title') => [ \
+        t('job.view.notice.notice1'), \
+        (@job.notify ? t('job.view.notice.notice2') : nil), \
+        t('job.view.notice.notice3') \
+      ] \
+    } \
+  }
 
+/* View structure. */
 div class="info"
   div class="general-info"
-    - if @job.valid
+
+    /* Data download. */
+    - if @job.complete && @job.time
       div class="btn-group pull-right"
         button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
           span = "#{t('job.view.download')} "
@@ -33,133 +47,114 @@ div class="info"
             = link_to 'CSV', url_for(:jobs, :job, @job.id, :format => :csv)
           li
             = link_to 'TSV', url_for(:jobs, :job, @job.id, :format => :tsv)
-    - if @job.complete
 
-      /* Report problem form */
-      div class="pull-right report"
-        button class="btn btn-default" data-toggle="modal" data-target="#report" = t('job.view.report.button')
-      div class="modal fade" id="report" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-        div class="modal-dialog"
-          div class="modal-content"
-            div class="modal-header"
-              button type="button" class="close" data-dismiss="modal" aria-hidden="true" &times;
-              h4 class="modal-title" id="myModalLabel" = t('job.view.report.title')
+    /* Problem reporting. */
+    = partial 'jobs/report_form', :locals => { job_id: @job.id }
 
-            = form_tag url(:jobs, :report, @job.id), :class => 'form-horizontal', :id => 'report-form' do |f|
-              div class="modal-body"
-                p class='explain' = t('job.view.report.explain')
-                fieldset class='control-group'
-                  = label_tag t('job.view.report.message'), :class => 'control-label'
-                  div class='controls'
-                    = text_area_tag :message, :class => 'form-control input-large input-with-feedback', :rows => 6
-                    span class='help-inline' = t('job.view.report.example')
-
-              div class="modal-footer"
-                = submit_tag t('job.view.report.submit'), :class => 'btn btn-primary'
-                button type="button" class="btn btn-info" data-dismiss="modal" = t('job.view.report.close')
-
-    - if @job.valid && @job.time
+    /* Job basic information. */
+    - if @job.time
       p class='species'
         = "#{@job.genes.size} #{@job.genes.size == 1 ? 'gene' : 'genes'} analyzed in #{Time.at(@job.time).utc.strftime("%H:%M:%S")}"
     p class='separator'
     h4 = t('job.view.description')
     p class='description' = @job.description
+    h4 = t('job.view.date')
+    p class='description' = @job.created_at.strftime("%F - %H:%M")
 
-  - if @job.valid
-    span style="display:none;" id="dataset"
-      = @job.dataset_json
+    /* Gene table (only if the job is valid). */
+    - if @job.complete && @job.time
 
-    h4 class="chart-name" = t('job.view.proteins')
-    div class="chart" id="protein-chart"
+      /* Protein chart. */
+      span style="display:none;" id="dataset"
+        = @job.dataset_json
+      h4 class="chart-name" = t('job.view.proteins')
+      div class="chart" id="protein-chart"
 
-    div class="legend"
-      h4 = t('job.view.legend')
-      table
-        tr
-          td class="stripe visual"
-          td = t('job.view.legend_stripe')
-          td class="red visual divider" IDENTIFIER
-          td = t('job.view.legend_red')
-          td class="green visual divider" IDENTIFIER
-          td = t('job.view.legend_green')
-          td class="blue visual divider" IDENTIFIER
-          td = t('job.view.legend_blue')
-
-    div class="table-container table-responsive" id="protein-table-wrapper"
-      table class="table table-condensed table-hover" id="protein-table"
-        thead
+      /* Table legend. */
+      div class="legend"
+        h4 = t('job.view.legend')
+        table
           tr
-            th Species
-            th
-              span Gene 
-              a href="#" class="toggle-original" (view original)
-              a href="#" class="toggle-converted" (view converted)
-            th Transcript
-            - @job.bind_proteins.each do |prot, v|
+            td class="stripe visual"
+            td = t('job.view.legend_stripe')
+            td class="red visual divider" IDENTIFIER
+            td = t('job.view.legend_red')
+            td class="green visual divider" IDENTIFIER
+            td = t('job.view.legend_green')
+            td class="blue visual divider" IDENTIFIER
+            td = t('job.view.legend_blue')
+
+      /* Protein table header. */
+      div class="table-container table-responsive" id="protein-table-wrapper"
+        table class="table table-condensed table-hover" id="protein-table"
+          thead
+            tr
+              th Species
               th
-                span class="rotated-text"
-                  - if v['id']
-                    span class="rotated-text-inner external"
-                      a href="http://www.uniprot.org/uniprot/#{v['id']}" = prot
-                  - else
-                    span class="rotated-text-inner" = prot
+                span Gene 
+                a href="#" class="toggle-original" (view original)
+                a href="#" class="toggle-converted" (view converted)
+              th Transcript
+              th Protein
+              - @job.binds.each do |bind|
+                th
+                  span class="rotated-text"
+                    - if bind.protein_id
+                      span class="rotated-text-inner external"
+                        a href="http://www.uniprot.org/uniprot/#{bind.protein_id}" = bind.name
+                    - else
+                      span class="rotated-text-inner" = bind.name
 
-        tbody
-          - even = false
-          - @job.genes.each do |gene|
-            - even = !even
-            /* Bad gene (no conversion) */
-            - if gene.transcripts.size == 0
-              tr class="#{even ? 'striped' : ''}"
-                td colspan="3" class="bad-gene"
-                  = gene.original_id
-                td colspan="#{@job.bind_proteins.size}" class="no-bind"
+          /* Protein table body. */
+          tbody
+            - @job.genes.each do |gene|
 
-            /* No binding */
-            - elsif !gene.binds
-              tr class="#{even ? 'striped' : ''}"
-                td rowspan="#{gene.transcripts.size}"
-                  = gene.species
-                td rowspan="#{gene.transcripts.size}"
-                  span class="converted" == gene_link(gene.converted_id, gene.org, gene.name, gene.species)
-                  span class="original" = gene.original_id
-                td
-                  - trans = gene.transcripts.first
-                  = link_to (trans.name ? "#{trans.converted_id} (#{trans.name})" : trans.converted_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
-                td colspan="#{@job.bind_proteins.size}" class="no-bind"
-                - gene.transcripts.drop(1).each do |trans|
-                  tr class="#{even ? 'striped' : ''}"
-                    td
-                      = link_to (trans.name ? "#{trans.converted_id} (#{trans.name})" : trans.converted_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
-                    td colspan="#{@job.bind_proteins.size}" class="no-bind"
+              /* Bad gene (no conversion). */
+              - if gene.transcripts.size == 0
+                tr
+                  td colspan="3" class="bad-gene"
+                    = gene.query_id
+                  td colspan="#{ @job.bind_proteins.size + 1 }" class="no-bind"
 
-            /* Normal gene */
-            - else
-              /* Just one transcript */
-              - if gene.transcripts.size == 1
-                  tr class="#{even ? 'striped' : ''}"
-                    td
-                      = gene.species
-                    td
-                      span class="converted" == gene_link(gene.converted_id, gene.org, gene.name, gene.species)
-                      span class="original" = gene.original_id
-                    - trans = gene.transcripts.first
-                    td
-                      = link_to (trans.name ? "#{trans.converted_id} (#{trans.name})" : trans.converted_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
-                    - trans.matches.each do |prot|
-                      td class="#{prot ? 'match protein' : 'protein'}"
-
-              /* Variant splicing */
-              - else
-                tr class="#{even ? 'striped' : ''}"
-                  td rowspan="#{gene.transcripts.size + 1}"
-                    = gene.species
-                  td rowspan="#{gene.transcripts.size + 1}"
-                    span class="converted" == gene_link(gene.converted_id, gene.org, gene.name, gene.species)
-                    span class="original" = gene.original_id
+              /* No binding gene. */
+              - elsif !gene.binds
+                tr
+                  td rowspan="#{ gene.transcripts.size + 1 }" = gene.species
+                  td rowspan="#{ gene.transcripts.size + 1 }"
+                    span class="converted" == gene_link(gene.gene_id, gene.id_type, gene.name, gene.species)
+                    span class="original" = gene.query_id
                 - gene.transcripts.each do |trans|
-                  tr class="#{even ? 'striped' : ''}"
+                  tr
                     td
-                      = link_to (trans.name ? "#{trans.converted_id} (#{trans.name})" : trans.converted_id), url(:jobs, :transcript, @job.id, gene.id, trans.id)
+                      = link_to (trans.name ? "#{ trans.transcript_id } (#{ trans.name })" : trans.transcript_id), url(:jobs, :transcript, trans.id)
+                    td
+                      - prot = trans.own_protein
+                      - if prot && prot.protein_id
+                        = link_to (prot.name ? "#{ prot.protein_id } (#{ prot.name })" : prot.protein_id), url(:jobs, :protein, prot.id)
+                      - elsif prot && prot.name
+                        = "(#{ prot.name })"
+                      - else
+                        | N/A
+                    td colspan="#{ @job.binds.size }" class="no-bind"
+
+              /* Normal gene (with or without variant splicing). */
+              - else
+                tr
+                  td rowspan="#{ gene.transcripts.size + 1 }" = gene.species
+                  td rowspan="#{ gene.transcripts.size + 1 }"
+                    span class="converted" == gene_link(gene.gene_id, gene.id_type, gene.name, gene.species)
+                    span class="original" = gene.query_id
+                - gene.transcripts.each do |trans|
+                  tr
+                    td
+                      = link_to (trans.name ? "#{ trans.transcript_id } (#{ trans.name })" : trans.transcript_id), url(:jobs, :transcript, trans.id)
+                    td
+                      - prot = trans.own_protein
+                      - if prot && prot.protein_id
+                        = link_to (prot.name ? "#{ prot.protein_id } (#{ prot.name })" : prot.protein_id), url(:jobs, :protein, prot.id)
+                      - elsif prot && prot.name
+                        = "(#{ prot.name })"
+                      - else
+                        | N/A
                     - trans.matches.each do |prot|
-                      td class="#{prot ? 'match protein' : 'protein'}"
+                      td class="#{ prot ? 'match protein' : 'protein' }"

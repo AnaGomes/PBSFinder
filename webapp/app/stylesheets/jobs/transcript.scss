@@ -51,8 +51,7 @@
       &.protein {
         text-align:center;
         &.external {
-          width:70px;
-          text-align:left;
+          width:180px;
           a {
             color:#009235;
           }
@@ -98,4 +97,7 @@
 }
 .chart {
   height:320px;
+}
+.external a {
+  color:#009235;
 }

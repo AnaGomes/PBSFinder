@@ -66,6 +66,7 @@ PbsSite::App.controllers :jobs do
     @transcript = Transcript.find(params[:trans_id])
     if @transcript
       @gene = @transcript.gene
+      @protein = @transcript.own_protein
       @big_title = t('job.transcript.big_title')
       render 'jobs/transcript'
     else
@@ -105,7 +106,7 @@ PbsSite::App.controllers :jobs do
       return { result: false }.to_json
     else
       job = Job.find(params[:id])
-      return { result: (job ? job.completed : false) }.to_json
+      return { result: (job ? job.complete : false) }.to_json
     end
   end
 

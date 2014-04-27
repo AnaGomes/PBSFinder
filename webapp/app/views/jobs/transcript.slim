@@ -1,48 +1,66 @@
 - content_for :stylesheets do
   = stylesheet_link_tag 'jobs/transcript'
 - content_for :javascripts do
-    = javascript_include_tag 'jobs/fasta', 'jquery.thead.min', 'jobs/table_header'
+  = javascript_include_tag 'jobs/fasta', 'jquery.thead.min', 'jobs/table_header'
+
+/* Conditional script loading. */
 - if @transcript.proteins.size > 0
   - content_for :javascripts do
-    = javascript_include_tag 'jquery.thead.min', 'jobs/transcript'
+    = javascript_include_tag 'jobs/transcript'
 
+/* Transcript tab definiton. */
 ul class="nav nav-tabs job-list"
   - @gene.transcripts.each do |trans|
-    li class="#{trans.id == @transcript.id ? 'active' : ''}"
-      = link_to (trans.name ? "#{trans.converted_id} (#{trans.name})" : trans.converted_id), url(:jobs, :transcript, @job.id, @gene.id, trans.id)
+    li class="#{ trans.id == @transcript.id ? 'active' : '' }"
+      = link_to (trans.name ? "#{ trans.transcript_id } (#{ trans.name })" : trans.transcript_id), url(:jobs, :transcript, trans.id)
 
+/* Tab content. */
 div class="tabs-content"
 
+  /* General transcript information. */
   div class="general-info"
-    - if @job.valid
-      = link_to t('job.transcript.back'), url_for(:jobs, :job, @job.id), :class => 'btn btn-primary pull-right'
 
-    p class='species'
-      = "Species: #{@gene.species}"
+    /* Notices. */
+    - utr, down, notices = (@transcript.utr3 || ''), (@transcript.downstream || ''), {}
+    - if @transcript.proteins.size > 0
+      - if utr.size < 300 && down.size > 0
+        - notices[t('job.transcript.no_utr.title')] = t('job.transcript.no_utr.content')
+      - if utr.size < 300 && down.size == 0
+        - notices[t('job.transcript.no_downstream.title')] = t('job.transcript.no_downstream.content')
+      - if (utr.size >= 300 && utr.include?('N')) || (utr.size < 300 && down.include?('N'))
+        - notices[t('job.transcript.no_n.title')] = t('job.transcript.no_n.content')
+      - if notices.size > 0
+        = partial 'layouts/notice', locals: { \
+          type: 'warning', \
+          notice: notices \
+        }
+    - else @transcript.proteins.size == 0
+      = partial 'layouts/notice', locals: { \
+        type: 'warning', \
+        notice: { \
+          t('job.transcript.no_proteins.title') => t('job.transcript.no_proteins.content') \
+        } \
+      }
+
+    /* Relevant links and info. */
+    = link_to t('job.transcript.back'), url_for(:jobs, :job, @gene.job_id), :class => 'btn btn-primary pull-right'
+    p class='species' = "Species: #{ @gene.species }"
     p class='gene'
-      = @gene.name ? "#{t('job.transcript.gene')}: #{@gene.converted_id} (#{@gene.name})" : "#{t('job.transcript.gene')}: #{@gene.converted_id}"
+      span = "#{ t('job.transcript.gene') }: "
+      span.external == gene_link(@gene.gene_id, @gene.id_type, @gene.name, @gene.species)
     p class='transcript'
-      = @transcript.name ? "#{t('job.transcript.trans')}: #{@transcript.converted_id} (#{@transcript.name})" : "#{t('job.transcript.trans')}: #{@transcript.converted_id}"
+      span = "#{ t('job.transcript.trans') }: "
+      span.external == transcript_link(@transcript.transcript_id, @gene.id_type, @transcript.name, @gene.species)
+    - if @protein && @protein.protein_id
+      p class='protein'
+        span = "#{ t('job.transcript.protein') }: "
+        span = link_to (@protein.name ? "#{@protein.protein_id} (#{@protein.name})" : @protein.protein_id), url_for(:jobs, :protein, @protein.id)
     p class='separator'
 
-    - if @transcript.proteins.size > 0 && (@transcript.utr3 || '').size < 300
-      div class="bs-callout bs-callout-warning"
-        - if @transcript.downstream
-          h4 = t('job.transcript.no_utr.title')
-          p = t('job.transcript.no_utr.content')
-        - else
-          h4 = t('job.transcript.no_downstream.title')
-          p = t('job.transcript.no_downstream.content')
-        - utr, down = @transcript.utr3 || '', @transcript.downstream || ''
-        - if (utr.size >= 300 && utr.include?('N')) || (utr.size < 300 && down.include?('N'))
-          h4 = t('job.transcript.no_n.title')
-          p = t('job.transcript.no_n.content')
-    - elsif @transcript.proteins.size == 0
-      div class="bs-callout bs-callout-warning"
-        h4 = t('job.transcript.no_proteins.title')
-        p = t('job.transcript.no_proteins.content')
-
+  /* Sequence info. */
   div class="trans-info"
+
+    /* 5UTR info. */
     - if @transcript.utr5
       div class='info'
         ul class="fasta-view"
@@ -51,11 +69,13 @@ div class="tabs-content"
           li class='fasta-hide'
             button type="button" class="btn btn-default" Hide
           li
-            h4 = "5' UTR (#{@transcript.utr5.size} bp)"
+            h4 = "5' UTR (#{ @transcript.utr5.size } bp)"
         - fasta = format_fasta(@transcript.utr5)
         div class='fasta'
           - fasta.each do |f|
             p == f.gsub(/((?<=(A|C|G|T))N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
+
+    /* 3UTR info. */
     - if @transcript.utr3
       div class='info'
         ul class="fasta-view"
@@ -64,11 +84,13 @@ div class="tabs-content"
           li class='fasta-hide'
             button type="button" class="btn btn-default" Hide
           li
-            h4 = "3' UTR (#{@transcript.utr3.size} bp)"
+            h4 = "3' UTR (#{ @transcript.utr3.size } bp)"
         - fasta = format_fasta(@transcript.utr3)
         div class='fasta'
           - fasta.each do |f|
             p == f.gsub(/((?<=(A|C|G|T))N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
+
+    /* 3UTR downstream info. */
     - if @transcript.downstream
       div class='info'
         ul class="fasta-view"
@@ -77,67 +99,48 @@ div class="tabs-content"
           li class='fasta-hide'
             button type="button" class="btn btn-default" Hide
           li
-            h4 = "3' downstream (#{@transcript.downstream.size} bp)"
+            h4 = "3' downstream (#{ @transcript.downstream.size } bp)"
         - fasta = format_fasta(@transcript.downstream)
         div class='fasta'
           - fasta.each do |f|
             p == f.gsub(/((?<=[^N])N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
 
+  /* RBP info. */
   - if @transcript.proteins.size > 0
 
-    /* Chart */
+    /* Protein chart. */
     span style="display:none;" id="dataset"
       = @transcript.dataset_json
     h4 class="chart-name" = t('job.view.proteins_bind')
     div class="chart" id="protein-chart"
 
-    /* Table */
+    /* Protein table */
     div class="table-container table-responsive" id="protein-table-wrapper"
       table class="table table-condensed table-hover" id="protein-table"
+
+        /* Table header. */
         thead
           tr
             th Protein
-            th colspan="4" External references
+            th UniProt reference
             th Score
             th Start
             th End
             th Sequence
+
+        /* Table body. */
         tbody
-          - even = false
           - @transcript.proteins.each do |prot|
-            - even = !even
-            tr class="#{even ? 'striped' : ''}"
-              td rowspan="#{prot.positions.size + 1}" class="protein" = prot.name
-
-              / Additional information and links.
-
-              / UniProt
-              td rowspan="#{prot.positions.size + 1}" class="external protein"
-                - if prot.uniprot_id
-                  == gene_link(prot.uniprot_id, :uniprot, nil, @gene.species, 'UniProt')
-                  br
-
-              / Ensembl
-              td rowspan="#{prot.positions.size + 1}" class="external protein"
-                - if prot.ensembl_id
-                  == gene_link(prot.ensembl_id, :ensembl, nil, @gene.species, 'Ensembl')
-                  br
-
-              / NCBI
-              td rowspan="#{prot.positions.size + 1}" class="external protein"
-                - if prot.ncbi_id
-                  == gene_link(prot.ncbi_id, :ncbi, nil, @gene.species, 'NCBI')
-                  br
-
-              / StringDB
-              td rowspan="#{prot.positions.size + 1}" class="external protein"
-                - if prot.ensembl_id
-                  == gene_link(prot.ensembl_id, :stringdb, nil, @gene.species, 'StringDB')
-                  br
-
+            tr
+              td rowspan="#{ prot.positions.size + 1 }" class="protein" = prot.name
+              td rowspan="#{ prot.positions.size + 1 }" class="external protein"
+                - if prot.protein_id
+                  == gene_link(prot.protein_id, :uniprot, nil, @gene.species, prot.protein_id)
+                - else
+                  | N/A
               - prot.positions.each do |position|
-                tr class="#{even ? 'striped' : ''}"
-                  td = "#{position.score}%"
+                tr
+                  td = "#{ position.score }%"
                   td = position.seq_start
                   td = position.seq_end
                   td class="fasta"

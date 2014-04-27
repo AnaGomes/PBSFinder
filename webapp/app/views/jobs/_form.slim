@@ -10,7 +10,7 @@ fieldset class='control-group#{error ? ' has-error' : ''}'
   div class='controls'
     = f.text_area :query, :class => 'form-control input-large input-with-feedback', :rows => 6
     span class='help-inline' = error ? f.error_message_on(:query, :class => 'text-error') : t('job.example.id_list')
-  = hidden_field_tag 'job[email]', :value => false, :hidden => true, :id => 'mail-checkbox'
+  = hidden_field_tag 'job[notify]', :value => false, :hidden => true, :id => 'mail-checkbox'
 
 div class="form-actions"
   = f.submit t('job.create.button.create'), :class => 'btn btn-primary'

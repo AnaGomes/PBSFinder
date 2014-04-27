@@ -40,8 +40,7 @@
       .table-container .table td.protein {
         text-align: center; }
         .table-container .table td.protein.external {
-          width: 70px;
-          text-align: left; }
+          width: 180px; }
           .table-container .table td.protein.external a {
             color: #009235; }
     .table-container .table tr {
@@ -73,3 +72,6 @@
 
 .chart {
   height: 320px; }
+
+.external a {
+  color: #009235; }
