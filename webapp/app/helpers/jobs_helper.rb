@@ -29,7 +29,7 @@ PbsSite::App.helpers do
     species = species.split(' ').first(2).join('_').capitalize
     case type
     when :ncbi
-      return "<a href=\"http://www.ncbi.nlm.nih.gov/nuccore/#{ id }\"</a>"
+      return "<a href=\"http://www.ncbi.nlm.nih.gov/nuccore/#{ id }\">#{ complete }</a>"
     when :ensembl
       if id =~ /^ENS(G|T)[0-9]+$/
         return "<a href=\"http://www.ensembl.org/Homo_sapiens/Transcript/Summary?db=core;g=#{ id }\">#{ complete }</a>"
