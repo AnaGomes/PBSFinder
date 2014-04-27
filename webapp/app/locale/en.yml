@@ -82,6 +82,7 @@ en:
       big_title: Protein matching results
       gene: Gene
       trans: Transcript
+      protein: Protein
       back: Back to job
     view:
       report:
@@ -97,6 +98,7 @@ en:
       download: Download results
       species: Species
       description: Job description
+      date: Submission date
       legend: Legend
       proteins: Protein binding occurrences
       proteins_bind: Number of possible bind locations

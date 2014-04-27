@@ -47,17 +47,17 @@ PbsSite::App.controllers :jobs do
   end
 
   get :list do
-    @jobs = current_account.jobs.where(completed: true).desc(:created_at)
+    @jobs = current_account.jobs.where(complete: true).desc(:created_at)
     @jobs = @jobs.paginate(:page => params[:page] || 1, :per_page => 10)
-    @completed = true
+    @complete = true
     @big_title = t('job.big_title.list')
     render 'jobs/list'
   end
 
   get :pending do
-    @jobs = current_account.jobs.where(completed: false).desc(:created_at)
+    @jobs = current_account.jobs.where(complete: false).desc(:created_at)
     @jobs = @jobs.paginate(:page => params[:page] || 1, :per_page => 10)
-    @completed = false
+    @complete = false
     @big_title = t('job.big_title.pending')
     render 'jobs/list'
   end
@@ -66,6 +66,7 @@ PbsSite::App.controllers :jobs do
     @transcript = Transcript.find(params[:trans_id])
     if @transcript
       @gene = @transcript.gene
+      @protein = @transcript.own_protein
       @big_title = t('job.transcript.big_title')
       render 'jobs/transcript'
     else
@@ -105,7 +106,7 @@ PbsSite::App.controllers :jobs do
       return { result: false }.to_json
     else
       job = Job.find(params[:id])
-      return { result: (job ? job.completed : false) }.to_json
+      return { result: (job ? job.complete : false) }.to_json
     end
   end
 
