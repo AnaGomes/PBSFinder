@@ -31,7 +31,7 @@ $(document).ready ->
   # Check pagination need.
   unless isFootableNeeded()
     p = false
-    $('div#pager-div page-select').css('display', 'none')
+    $('div#pager-div #page-select').css('display', 'none')
 
   # Footable invocation.
   initFootable()
