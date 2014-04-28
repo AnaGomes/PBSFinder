@@ -54,7 +54,8 @@
     background: none;
     text-decoration: none; }
     .pager .next_page.disabled, .pager .next_page.current, .pager .previous_page.disabled, .pager .previous_page.current, .pager a.disabled, .pager a.current, .pager em.disabled, .pager em.current {
-      color: #999999; }
+      color: #999999;
+      font-style: normal; }
       .pager .next_page.disabled:hover, .pager .next_page.current:hover, .pager .previous_page.disabled:hover, .pager .previous_page.current:hover, .pager a.disabled:hover, .pager a.current:hover, .pager em.disabled:hover, .pager em.current:hover {
         color: #999999;
         background: none; }

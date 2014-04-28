@@ -62,6 +62,7 @@
     text-decoration:none;
     &.disabled, &.current {
       color: rgb(153, 153, 153);
+      font-style:normal;
       &:hover {
         color: rgb(153, 153, 153);
         background:none;

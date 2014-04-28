@@ -1,10 +1,10 @@
 - content_for :stylesheets do
-  = stylesheet_link_tag 'jobs/job'
+  = stylesheet_link_tag 'jobs/job', 'footable.core.min'
 
 /* Conditional script loading. */
 - if @job.complete
   - content_for :javascripts do
-    = javascript_include_tag 'jquery.thead.min', 'jobs/table_header'
+    = javascript_include_tag 'jobs/table_header', 'footable.min', 'footable.paginate.min', 'footable.sort.min'
   - if @job.time
     - content_for :javascripts do
       = javascript_include_tag 'jobs/toggle_ids'
@@ -86,7 +86,7 @@ div class="info"
 
       /* Protein table header. */
       div class="table-container table-responsive" id="protein-table-wrapper"
-        table class="table table-condensed table-hover" id="protein-table"
+        table class="table table-condensed table-hover" id="protein-table" data-page-navigation=".pagination"
           thead
             tr
               th Species
@@ -95,9 +95,9 @@ div class="info"
                 a href="#" class="toggle-original" (view original)
                 a href="#" class="toggle-converted" (view converted)
               th Transcript
-              th Protein
+              th class="table-header" Protein
               - @job.binds.each do |bind|
-                th
+                th data-sort-ignore="true"
                   span class="rotated-text"
                     - if bind.protein_id
                       span class="rotated-text-inner external"
@@ -112,19 +112,18 @@ div class="info"
               /* Bad gene (no conversion). */
               - if gene.transcripts.size == 0
                 tr
-                  td colspan="3" class="bad-gene"
+                  td colspan="4" class="bad-gene"
                     = gene.query_id
                   td colspan="#{ @job.bind_proteins.size + 1 }" class="no-bind"
 
               /* No binding gene. */
               - elsif !gene.binds
-                tr
-                  td rowspan="#{ gene.transcripts.size + 1 }" = gene.species
-                  td rowspan="#{ gene.transcripts.size + 1 }"
-                    span class="converted" == gene_link(gene.gene_id, gene.id_type, gene.name, gene.species)
-                    span class="original" = gene.query_id
                 - gene.transcripts.each do |trans|
                   tr
+                    td = gene.species
+                    td
+                      span class="converted" == gene_link(gene.gene_id, gene.id_type, gene.name, gene.species)
+                      span class="original" = gene.query_id
                     td
                       = link_to (trans.name ? "#{ trans.transcript_id } (#{ trans.name })" : trans.transcript_id), url(:jobs, :transcript, trans.id)
                     td
@@ -139,13 +138,12 @@ div class="info"
 
               /* Normal gene (with or without variant splicing). */
               - else
-                tr
-                  td rowspan="#{ gene.transcripts.size + 1 }" = gene.species
-                  td rowspan="#{ gene.transcripts.size + 1 }"
-                    span class="converted" == gene_link(gene.gene_id, gene.id_type, gene.name, gene.species)
-                    span class="original" = gene.query_id
                 - gene.transcripts.each do |trans|
                   tr
+                    td = gene.species
+                    td
+                      span class="converted" == gene_link(gene.gene_id, gene.id_type, gene.name, gene.species)
+                      span class="original" = gene.query_id
                     td
                       = link_to (trans.name ? "#{ trans.transcript_id } (#{ trans.name })" : trans.transcript_id), url(:jobs, :transcript, trans.id)
                     td
@@ -158,3 +156,11 @@ div class="info"
                         | N/A
                     - trans.matches.each do |prot|
                       td class="#{ prot ? 'match protein' : 'protein' }"
+
+      div id="pager-div" class="pager pagination hide-if-no-paging"
+        select class='form-control pull-right page-select' id="page-select"
+          option value="8" Show 8 records per page
+          option value="15" Show 15 records per page
+          option value="30" Show 30 records per page
+          option value="100" Show 100 records per page
+          option value="999999" Show all records
