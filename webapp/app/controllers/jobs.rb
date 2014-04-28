@@ -136,7 +136,7 @@ PbsSite::App.controllers :jobs do
 
   post :response, :with => :id, :csrf_protection => false do
     job = Job.find(params[:id])
-    if job && job.completed && job.email
+    if job && job.complete && job.notify
       deliver(
         :notification,
         :job_notification_email,
