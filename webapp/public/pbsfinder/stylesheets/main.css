@@ -131,11 +131,11 @@ footer p {
 
 /* --- Begin Application::TopBar --- */
 .navbar {
-  -webkit-box-shadow: 0px 1px 10px #777;
-  -moz-box-shadow: 0px 1px 10px #777;
-  -o-box-shadow: 0px 1px 10px #777;
-  -ms-box-shadow: 0px 1px 10px #777;
-  box-shadow: 0px 1px 10px #777;
+  -webkit-box-shadow: 0px 1px 10px #AFAFAF;
+  -moz-box-shadow: 0px 1px 10px #AFAFAF;
+  -o-box-shadow: 0px 1px 10px #AFAFAF;
+  -ms-box-shadow: 0px 1px 10px #AFAFAF;
+  box-shadow: 0px 1px 10px #AFAFAF;
   background: #FFFFFF; }
 
 .navbar-nav-link {

@@ -3,7 +3,13 @@ module Pbs
     # Simple container for gene information.
     class Gene
       attr_accessor(
-        :gene_id, :original_id, :transcripts, :name, :species, :type, :taxon, :binds
+        :gene_id,
+        :original_id,
+        :transcripts,
+        :name, :species,
+        :type,
+        :taxon,
+        :binds
       )
 
       def initialize(params = {})

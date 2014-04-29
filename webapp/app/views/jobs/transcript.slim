@@ -44,17 +44,26 @@ div class="tabs-content"
 
     /* Relevant links and info. */
     = link_to t('job.transcript.back'), url_for(:jobs, :job, @gene.job_id), :class => 'btn btn-primary pull-right'
-    p class='species' = "Species: #{ @gene.species }"
-    p class='gene'
-      span = "#{ t('job.transcript.gene') }: "
-      span.external == gene_link(@gene.gene_id, @gene.id_type, @gene.name, @gene.species)
-    p class='transcript'
-      span = "#{ t('job.transcript.trans') }: "
-      span.external == transcript_link(@transcript.transcript_id, @gene.id_type, @transcript.name, @gene.species)
-    - if @protein && @protein.protein_id
-      p class='protein'
-        span = "#{ t('job.transcript.protein') }: "
-        span = link_to (@protein.name ? "#{@protein.protein_id} (#{@protein.name})" : @protein.protein_id), url_for(:jobs, :protein, @protein.id)
+    table class='id-table'
+      tr
+        td class='first species' Species
+        td class='species' = @gene.species
+      tr
+        td class='first'
+          span class="gene" = "#{ t('job.transcript.gene') }"
+        td
+          span class="gene external" == gene_link(@gene.gene_id, @gene.id_type, @gene.name, @gene.species)
+      tr
+        td class='first'
+          span class="transcript" = "#{ t('job.transcript.trans') }"
+        td
+          span class="transcript external" == transcript_link(@transcript.transcript_id, @gene.id_type, @transcript.name, @gene.species)
+      - if @protein && @protein.protein_id
+        tr
+          td class='first'
+            span class="protein" = "#{ t('job.transcript.protein') }"
+          td
+            span class="protein internal" = link_to (@protein.name ? "#{@protein.protein_id} (#{@protein.name})" : @protein.protein_id), url_for(:jobs, :protein, @protein.id)
     p class='separator'
 
   /* Sequence info. */
@@ -133,7 +142,8 @@ div class="tabs-content"
           - @transcript.proteins.each do |prot|
             - prot.positions.each do |position|
               tr
-                td class="protein" = prot.name
+                td class="protein"
+                  = link_to prot.name, url(:jobs, :protein, prot.id)
                 td class="external protein"
                   - if prot.protein_id
                     == gene_link(prot.protein_id, :uniprot, nil, @gene.species, prot.protein_id)

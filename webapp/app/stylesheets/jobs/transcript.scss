@@ -73,17 +73,14 @@
 .general-info {
   .species {
     font-family: Ubuntu;
-    color: #428bca;
     font-size:1.8em;
+    &.first {
+      font-weight:500;
+    }
   }
-  .gene {
+  .gene, .transcript, .protein {
     font-family: Ubuntu;
-    color: #428bca;
-    font-size: 1.3em;
-  }
-  .transcript {
-    font-family: Ubuntu;
-    color: #428bca;
+    font-weight:500;
     font-size: 1.3em;
   }
   .separator {
@@ -98,6 +95,11 @@
 }
 .external a {
   color:#009235;
+  font-weight:normal;
+}
+.internal a {
+  color: #428bca;
+  font-weight:normal;
 }
 .pager {
   min-height:20px;
@@ -162,4 +164,10 @@
   .page-select {
     width:250px;
   }
+}
+.id-table .first {
+  vertical-align:bottom;
+  font-variant:small-caps;
+  text-align:right;
+  padding-right:30px;
 }

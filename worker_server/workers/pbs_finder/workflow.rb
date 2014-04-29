@@ -8,6 +8,7 @@ module Pbs
       @helper = Analyzer::Helper.new(config)
       @ncbi = Analyzer::Ncbi.new(@helper)
       @ensembl = Analyzer::Ensembl.new(@helper)
+      @uniprot = Analyzer::Uniprot.new(@helper)
       @ids = prepare_ids(ids)
       @job = Container::Job.new
     end
@@ -28,6 +29,7 @@ module Pbs
         start_base_dataset_analysis
 
         # TODO ADVANCED ANALYSIS
+        start_base_uniprot_analysis
 
         # Final stage.
         Analyzer::Dataset.create_invalid_genes!(@job, @ids)
@@ -44,6 +46,10 @@ module Pbs
       Analyzer::Dataset.build_own_proteins!(@job)
       Analyzer::Dataset.build_lists!(@job)
       Analyzer::Dataset.build_matches!(@job)
+    end
+
+    def start_base_uniprot_analysis
+      @uniprot.find_uniprot_ids!(@job)
     end
 
     def start_base_analysis

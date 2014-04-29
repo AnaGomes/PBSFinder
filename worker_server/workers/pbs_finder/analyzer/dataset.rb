@@ -33,7 +33,7 @@ module Pbs
         job.genes.each do |gene|
           gene.transcripts.each do |trans_id, trans|
             if gene.name
-              trans.own_protein = Container::Protein.new(name: gene.name)
+              trans.own_protein = Container::Protein.new(name: gene.name.upcase)
             end
           end
         end
