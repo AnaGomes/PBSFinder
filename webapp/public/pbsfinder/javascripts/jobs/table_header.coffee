@@ -4,14 +4,19 @@ $(document).ready ->
   s = 8
   t = $('#protein-table')
   p = true
+  c = t.find('tr').size() - 1
 
   # Auxiliary methods.
   isFootableNeeded = () ->
-    c = t.find('tr').size() - 1
     return c > s
 
   # Initialize footable table.
   initFootable = () ->
+    p = isFootableNeeded()
+    unless p
+      $('#pager-div ul').hide()
+    else
+      $('#pager-div ul').show()
     return t.footable({
       paginate: p,
       pageSize: s,
@@ -25,16 +30,12 @@ $(document).ready ->
   # Page select change.
   $('#page-select').change((e) ->
     s = parseInt($(this).val())
-    initFootable().trigger('footable_initialize')
+    initFootable().trigger('footable_redraw')
   )
 
-  # Check pagination need.
   unless isFootableNeeded()
     p = false
     $('div#pager-div #page-select').css('display', 'none')
 
   # Footable invocation.
   initFootable()
-
-  # TODO CHECK UPDATE POSSIBILITY
-  # t.footable({pageSize: 500}).trigger('footable_initialize')

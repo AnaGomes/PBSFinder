@@ -1,7 +1,7 @@
 - content_for :stylesheets do
-  = stylesheet_link_tag 'jobs/transcript'
+  = stylesheet_link_tag 'jobs/transcript', 'footable.core.min'
 - content_for :javascripts do
-  = javascript_include_tag 'jobs/fasta', 'jquery.thead.min', 'jobs/table_header'
+  = javascript_include_tag 'jobs/fasta', 'footable.min', 'footable.paginate.min', 'footable.sort.min', 'jobs/table_header'
 
 /* Conditional script loading. */
 - if @transcript.proteins.size > 0
@@ -123,26 +123,34 @@ div class="tabs-content"
           tr
             th Protein
             th UniProt reference
-            th Score
-            th Start
-            th End
-            th Sequence
+            th data-sort-ignore="true" Score
+            th data-sort-ignore="true" Start
+            th data-sort-ignore="true" End
+            th data-sort-ignore="true" Sequence
 
         /* Table body. */
         tbody
           - @transcript.proteins.each do |prot|
-            tr
-              td rowspan="#{ prot.positions.size + 1 }" class="protein" = prot.name
-              td rowspan="#{ prot.positions.size + 1 }" class="external protein"
-                - if prot.protein_id
-                  == gene_link(prot.protein_id, :uniprot, nil, @gene.species, prot.protein_id)
-                - else
-                  | N/A
-              - prot.positions.each do |position|
-                tr
-                  td = "#{ position.score }%"
-                  td = position.seq_start
-                  td = position.seq_end
-                  td class="fasta"
-                    - format_fasta(position.sequence, 40).each do |p|
-                      p = p
+            - prot.positions.each do |position|
+              tr
+                td class="protein" = prot.name
+                td class="external protein"
+                  - if prot.protein_id
+                    == gene_link(prot.protein_id, :uniprot, nil, @gene.species, prot.protein_id)
+                  - else
+                    | N/A
+                td = "#{ position.score }%"
+                td = position.seq_start
+                td = position.seq_end
+                td class="fasta"
+                  - format_fasta(position.sequence, 40).each do |p|
+                    p = p
+
+    /* Table pagination. */
+    div id="pager-div" class="pager pagination hide-if-no-paging"
+      select class='form-control pull-right page-select' id="page-select"
+        option value="8" Show 8 records per page
+        option value="15" Show 15 records per page
+        option value="30" Show 30 records per page
+        option value="100" Show 100 records per page
+        option value="999999" Show all records
