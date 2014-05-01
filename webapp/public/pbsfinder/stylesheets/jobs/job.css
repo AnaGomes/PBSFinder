@@ -3,8 +3,8 @@
 
 .general-info .species {
   font-family: Ubuntu;
-  color: #428bca;
-  font-size: 1.8em; }
+  font-size: 1.8em;
+  font-weight: 500; }
 .general-info .stats {
   font-family: Ubuntu;
   color: #428bca;
