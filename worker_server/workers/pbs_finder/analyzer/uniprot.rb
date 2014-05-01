@@ -8,27 +8,31 @@ module Pbs
       end
 
       def find_uniprot_ids!(job)
-        # Create the base query.
+        # Create the queries.
         build_protein_list!(job)
-        query = build_uniprot_query(job)
-        params = @helper.config[:uniprot][:parameters].merge(
-          { @helper.config[:uniprot][:parameter_query] => query }
-        )
-        uri = URI::HTTP.build(
-          host: @helper.config[:uniprot][:url],
-          path: @helper.config[:uniprot][:entry_path],
-          query: params.map{ |k,v| "#{ k }=#{ v }" }.join('&')
-        )
+        queries = build_uniprot_queries(job, 50)
+        uniprots = {}
 
-        # Make UniProt request and parse the response.
+        # Parse the UniProt responses.
         begin
-          response = Net::HTTP.get_response(uri)
-          while response.code == "301" || response.code == "302"
-            response = Net::HTTP.get_response(URI.parse(response.header['location']))
+          queries.each do |query|
+            uri = build_uniprot_uri(query)
+            response = Net::HTTP.get_response(uri)
+            while response.code == "301" || response.code == "302"
+              response = Net::HTTP.get_response(URI.parse(response.header['location']))
+            end
+            if response && response.body && !response.body.empty?
+              parse_uniprot_query!(response.body, uniprots)
+            end
           end
-          if response.body && !response.body.empty?
-            parse_uniprot_response!(job, response.body)
-          end
+        rescue StandardError => e
+          puts e.message, e.backtrace
+          retry
+        end
+
+        # Parse UniProt request.
+        begin
+          parse_uniprot_response!(job, uniprots)
         rescue StandardError => e
           puts e.message, e.backtrace
         end
@@ -52,6 +56,33 @@ module Pbs
         query
       end
 
+      def build_uniprot_uri(query)
+        # Create the base query.
+        params = @helper.config[:uniprot][:parameters].merge(
+          { @helper.config[:uniprot][:parameter_query] => query }
+        )
+        uri = URI::HTTP.build(
+          host: @helper.config[:uniprot][:url],
+          path: @helper.config[:uniprot][:entry_path],
+          query: params.map{ |k,v| "#{ k }=#{ v }" }.join('&')
+        )
+        uri
+      end
+
+      def build_uniprot_queries(job, limit = nil)
+        queries = []
+        unless limit
+          queries << build_uniprot_query(job)
+        else
+          queries = []
+          species = '(' + (job.taxons.map { |taxon| "organism:#{ taxon }" } << 'organism:9606').join('+OR+') + ')'
+          job.proteins.each_slice(limit) do |slice|
+            queries << species + '+AND+(' + slice.map { |protein| "gene:#{ protein.name }" }.join('+OR+') + ')'
+          end
+        end
+        queries
+      end
+
       def build_protein_list!(job)
         job.genes.each do |gene|
           gene.transcripts.each do |trans_id, trans|
@@ -68,9 +99,7 @@ module Pbs
         end
       end
 
-      def parse_uniprot_response!(job, response)
-        # Parse response and retrieve UniProt IDs.
-        uniprots = {}
+      def parse_uniprot_query!(response, uniprots = {})
         CSV.parse(response, headers: true, col_sep: "\t") do |row|
           uniprots[row['Organism ID']] ||= { rev: [], no_rev: [] }
           uniprots[row['Organism ID']][row['Status'] == 'reviewed' ? :rev : :no_rev] << {
@@ -78,7 +107,9 @@ module Pbs
             id: row['Entry']
           }
         end
+      end
 
+      def parse_uniprot_response!(job, uniprots)
         # Build bind list (using human analogues).
         hsapiens = uniprots['9606']
         if hsapiens

@@ -61,7 +61,7 @@ class MasterWorker
       id = _place_worker(wkr)
       _save_worker(id, worker, args)
       wkr.setup(id, WorkerHelper.new(CONFIG_DIR, TEMP_F_DIR, SERVER_URL), *args)
-      puts "Starting worker (#{worker})"
+      puts "Starting worker #{id} (#{worker})"
       _start_new_worker(wkr)
       return id
     else
