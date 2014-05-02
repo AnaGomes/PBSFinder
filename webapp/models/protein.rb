@@ -8,4 +8,5 @@ class Protein
   field :name,              type: String
   field :external_ids,      type: Hash
   field :tissues,           type: Array
+  field :species,           type: String
 end

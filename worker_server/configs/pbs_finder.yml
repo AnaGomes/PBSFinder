@@ -18,7 +18,10 @@
 :uniprot:
   :url:               www.uniprot.org
   :entry_path:        /uniprot
+  :batch_path:        /batch/
   :parameter_query:   query
+  :parameters_batch:
+    format:           txt
   :parameters:
     columns:          id,reviewed,genes,taxon,organism-id
     format:           tab

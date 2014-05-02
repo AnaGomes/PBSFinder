@@ -5,18 +5,13 @@ require 'set'
 
 PbsSite::App.helpers do
 
-  def gene_link(id, type, name, species, text = nil)
+  def gene_link(id, type, name, text = nil)
     complete = text || (name ? "#{ id } (#{ name })" : id)
-    species = species.split(' ').first(2).join('_').capitalize
     case type
     when :ncbi
       return "<a href=\"http://www.ncbi.nlm.nih.gov/gene/#{ id }\">#{ complete }</a>"
     when :ensembl
-      if id =~ /^ENS(G|T)[0-9]+$/
-        return "<a href=\"http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=#{ id }\">#{ complete }</a>"
-      else
-        return "<a href=\"http://www.ensembl.org/#{ species }/Gene/Summary?db=core;g=#{ id }\">#{ complete }</a>"
-      end
+      return "<a href=\"http://www.ensembl.org/id/#{ id }\">#{ complete }</a>"
     when :uniprot
       return "<a href=\"http://www.uniprot.org/uniprot/#{ id }\">#{ complete }</a>"
     when :stringdb
@@ -24,18 +19,13 @@ PbsSite::App.helpers do
     end
   end
 
-  def transcript_link(id, type, name, species, text = nil)
+  def transcript_link(id, type, name, text = nil)
     complete = text || (name ? "#{ id } (#{ name })" : id)
-    species = species.split(' ').first(2).join('_').capitalize
     case type
     when :ncbi
       return "<a href=\"http://www.ncbi.nlm.nih.gov/nuccore/#{ id }\">#{ complete }</a>"
     when :ensembl
-      if id =~ /^ENS(G|T)[0-9]+$/
-        return "<a href=\"http://www.ensembl.org/Homo_sapiens/Transcript/Summary?db=core;g=#{ id }\">#{ complete }</a>"
-      else
-        return "<a href=\"http://www.ensembl.org/#{ species }/Transcript/Summary?db=core;g=#{ id }\">#{ complete }</a>"
-      end
+      return "<a href=\"http://www.ensembl.org/id/#{ id }\">#{ complete }</a>"
     end
   end
 

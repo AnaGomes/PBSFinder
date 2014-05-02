@@ -28,8 +28,11 @@ module Pbs
         break unless @job.genes.size > 0
         start_base_dataset_analysis
 
-        # TODO ADVANCED ANALYSIS
+        # UniProt analysis.
         start_base_uniprot_analysis
+        start_advanced_uniprot_analysis
+
+        # TODO ADVANCED ANALYSIS
 
         # Final stage.
         Analyzer::Dataset.create_invalid_genes!(@job, @ids)
@@ -50,6 +53,10 @@ module Pbs
 
     def start_base_uniprot_analysis
       @uniprot.find_uniprot_ids!(@job)
+    end
+
+    def start_advanced_uniprot_analysis
+      @uniprot.find_uniprot_info!(@job)
     end
 
     def start_base_analysis

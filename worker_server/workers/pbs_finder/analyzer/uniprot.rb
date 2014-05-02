@@ -7,6 +7,34 @@ module Pbs
         @helper = helper
       end
 
+      def find_uniprot_info!(job)
+        # Request UniProt pages.
+        response = nil
+        begin
+          uri = URI::HTTP.build(
+            host: @helper.config[:uniprot][:url],
+            path: @helper.config[:uniprot][:batch_path]
+          )
+          response = Net::HTTP.post_form(
+            uri,
+            @helper.config[:uniprot][:parameters_batch].merge({
+              @helper.config[:uniprot][:parameter_query] => job.protein_ids.to_a.join(' ')
+            })
+          )
+          while response.code == '301' || response.code == '302'
+            response = Net::HTTP.get_response(URI.parse(response.header['location']))
+          end
+        rescue StandardError => e
+          puts e.message, e.backtrace
+          retry
+        end
+
+        # Parse the response.
+        if response && response.body && !response.body.empty?
+          parse_uniprot_flatfiles!(job, response.body)
+        end
+      end
+
       def find_uniprot_ids!(job)
         # Create the queries.
         build_protein_list!(job)
@@ -43,10 +71,14 @@ module Pbs
 
       private
 
+      def parse_uniprot_flatfiles!(job, response)
+        # TODO PARSE RESPONSE.
+      end
+
       def build_id_list!(job)
         job.proteins.select! { |prot| prot.protein_id }
         job.proteins.each do |prot|
-          job.protein_ids.add(prot.name)
+          job.protein_ids.add(prot.protein_id)
         end
       end
 

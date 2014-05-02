@@ -122,7 +122,7 @@ div class="info"
                   tr
                     td = gene.species
                     td
-                      span class="converted" == gene_link(gene.gene_id, gene.id_type, gene.name, gene.species)
+                      span class="converted" == gene_link(gene.gene_id, gene.id_type, gene.name)
                       span class="original" = gene.query_id
                     td
                       = link_to (trans.name ? "#{ trans.transcript_id } (#{ trans.name })" : trans.transcript_id), url(:jobs, :transcript, trans.id)
@@ -142,7 +142,7 @@ div class="info"
                   tr
                     td = gene.species
                     td
-                      span class="converted" == gene_link(gene.gene_id, gene.id_type, gene.name, gene.species)
+                      span class="converted" == gene_link(gene.gene_id, gene.id_type, gene.name)
                       span class="original" = gene.query_id
                     td
                       = link_to (trans.name ? "#{ trans.transcript_id } (#{ trans.name })" : trans.transcript_id), url(:jobs, :transcript, trans.id)

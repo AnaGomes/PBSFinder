@@ -52,12 +52,12 @@ div class="tabs-content"
         td class='first'
           span class="gene" = "#{ t('job.transcript.gene') }"
         td
-          span class="gene external" == gene_link(@gene.gene_id, @gene.id_type, @gene.name, @gene.species)
+          span class="gene external" == gene_link(@gene.gene_id, @gene.id_type, @gene.name)
       tr
         td class='first'
           span class="transcript" = "#{ t('job.transcript.trans') }"
         td
-          span class="transcript external" == transcript_link(@transcript.transcript_id, @gene.id_type, @transcript.name, @gene.species)
+          span class="transcript external" == transcript_link(@transcript.transcript_id, @gene.id_type, @transcript.name)
       - if @protein && @protein.protein_id
         tr
           td class='first'
@@ -146,7 +146,7 @@ div class="tabs-content"
                   = link_to prot.name, url(:jobs, :protein, prot.id)
                 td class="external protein"
                   - if prot.protein_id
-                    == gene_link(prot.protein_id, :uniprot, nil, @gene.species, prot.protein_id)
+                    == gene_link(prot.protein_id, :uniprot, nil, prot.protein_id)
                   - else
                     | N/A
                 td = "#{ position.score }%"
