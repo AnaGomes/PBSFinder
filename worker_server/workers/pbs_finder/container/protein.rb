@@ -3,12 +3,17 @@ module Pbs
     # Simple container for protein information.
     class Protein
       attr_accessor(
+        :species,
         :taxon,
         :name,
         :positions,
         :protein_id,
         :external_ids,
-        :tissues
+        :tissues,
+        :keywords,
+        :biological_process,
+        :cellular_component,
+        :molecular_function,
       )
 
       def initialize(params = {})
@@ -18,6 +23,11 @@ module Pbs
         @external_ids = params.fetch(:external_ids, {})
         @tissues = params.fetch(:tissues, [])
         @taxon = params.fetch(:taxon, nil)
+        @species = params.fetch(:species, nil)
+        @keywords = params.fetch(:keywords, [])
+        @biological_process = params.fetch(:biological_process, [])
+        @cellular_component = params.fetch(:cellular_component, [])
+        @molecular_function = params.fetch(:molecular_function, [])
       end
     end
   end

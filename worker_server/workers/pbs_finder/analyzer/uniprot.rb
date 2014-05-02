@@ -72,7 +72,78 @@ module Pbs
       private
 
       def parse_uniprot_flatfiles!(job, response)
-        # TODO PARSE RESPONSE.
+        strio = Bio::FlatFile.open(Bio::SPTR, StringIO.new(response, 'r'))
+        strio.each_entry do |flat|
+          parse_uniprot_flatfile!(job, flat)
+        end
+      rescue StandardError => e
+        puts e.message, e.backtrace
+      end
+
+      def parse_uniprot_flatfile!(job, flat)
+        # ID and taxon.
+        ids = flat.ac()
+        taxon = flat.ox()['NCBI_TaxID'][0]
+
+        # External IDs.
+        external = {}
+        flat.dr().each do |id, values|
+          external[id.downcase.to_sym] = values
+        end
+
+        # Tissues.
+        tissues = Set.new
+        flat.ref.each do |ref|
+          (ref['RC'] || []).each do |r|
+            if r && r['Token'] == 'TISSUE'
+              tissues.add(r['Text'].downcase)
+            end
+          end
+        end
+
+        # Keywords and ontology.
+        keywords = flat.kw
+        cell_component = Set.new
+        bio_process = Set.new
+        mol_function = Set.new
+        flat.dr('GO').each do |g|
+          case g['Version'][0]
+          when 'C'
+            cell_component.add(g['Version'][2..-1])
+          when 'F'
+            mol_function.add(g['Version'][2..-1])
+          when 'P'
+            bio_process.add(g['Version'][2..-1])
+          end
+        end
+
+        # Build protein information.
+        build_protein_info!(job, {
+          ids: ids,
+          taxon: taxon,
+          external_ids: external,
+          tissues: tissues.to_a,
+          keywords: keywords,
+          cell_component: cell_component.to_a,
+          bio_process: bio_process.to_a,
+          mol_function: mol_function.to_a
+        })
+      end
+
+      def build_protein_info!(job, info)
+        job.proteins.each do |prot|
+          # Protein matches info.
+          if info[:ids].include?(prot.protein_id)
+            prot.external_ids = info[:external_ids]
+            prot.tissues = info[:tissues]
+            prot.keywords = info[:keywords]
+            prot.cellular_component = info[:cell_component]
+            prot.biological_process = info[:bio_process]
+            prot.molecular_function = info[:mol_function]
+            prot.taxon = info[:taxon]
+            prot.species = @helper.config[:taxons][info[:taxon]]
+          end
+        end
       end
 
       def build_id_list!(job)

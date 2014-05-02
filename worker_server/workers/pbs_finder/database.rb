@@ -67,9 +67,14 @@ module Pbs
 
     def self.save_protein(prot, db)
       db.protein_id = prot.protein_id
+      db.species = prot.species
       db.name = prot.name
       db.external_ids = prot.external_ids
       db.tissues = prot.tissues
+      db.keywords = prot.keywords
+      db.biological_process = prot.biological_process
+      db.cellular_component = prot.cellular_component
+      db.molecular_function = prot.molecular_function
       prot.positions.each do |pos|
         db.positions << Position.new(
           seq_start: pos.start,
