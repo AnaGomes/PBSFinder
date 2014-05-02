@@ -37,12 +37,10 @@ $(document).ready ->
     p = false
     $('div#pager-div #page-select').css('display', 'none')
     t.footable({
-      paginate: false,
-      previousText: "← Previous",
-      firstText: "⇐ First",
-      nextText: "Next →",
-      lastText: "Last ⇒"
+      paginate: false
     })
+  else
+    s = parseInt($('div#pager-div #page-select').val())
 
   # Footable invocation.
   initFootable()

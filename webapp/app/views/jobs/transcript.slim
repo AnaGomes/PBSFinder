@@ -143,7 +143,10 @@ div class="tabs-content"
             - prot.positions.each do |position|
               tr
                 td class="protein"
-                  = link_to prot.name, url(:jobs, :protein, prot.id)
+                  - if prot.protein_id
+                    = link_to prot.name, url(:jobs, :protein, prot.id)
+                  - else
+                    = prot.name
                 td class="external protein"
                   - if prot.protein_id
                     == gene_link(prot.protein_id, :uniprot, nil, prot.protein_id)
