@@ -11,11 +11,11 @@ class Transcript
   field :downstream,      type: String
   field :matches,         type: Array
 
-  def dataset_json
+  def dataset
     dataset = [['Protein', 'Locations']]
     proteins.each do |prot|
       dataset << [prot.name, prot.positions.size]
     end
-    dataset.to_json
+    dataset
   end
 end

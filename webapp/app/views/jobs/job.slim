@@ -55,34 +55,42 @@ div class="info"
     - if @job.time
       p class='species'
         = "#{@job.genes.size} #{@job.genes.size == 1 ? 'gene' : 'genes'} analyzed in #{Time.at(@job.time).utc.strftime("%H:%M:%S")}"
+    table class='id-table'
+      tr
+        td class='first' = t('job.view.description')
+        td class='' = @job.description
+      tr
+        td class='first' = t('job.view.date')
+        td = @job.created_at.strftime("%F")
+      tr
+        td class='first' = t('job.view.time')
+        td = @job.created_at.strftime("%I:%M %P")
     p class='separator'
-    h4 = t('job.view.description')
-    p class='description' = @job.description
-    h4 = t('job.view.date')
-    p class='description' = @job.created_at.strftime("%F - %H:%M")
 
     /* Gene table (only if the job is valid). */
     - if @job.complete && @job.time
+      h4 class="chart-name" = t('job.view.proteins')
 
       /* Protein chart. */
-      span style="display:none;" id="dataset"
-        = @job.dataset_json
-      h4 class="chart-name" = t('job.view.proteins')
-      div class="chart" id="protein-chart"
+      - dataset = @job.dataset
+      - if dataset.size > 1
+        span style="display:none;" id="dataset"
+          = dataset.to_json
+        div class="chart" id="protein-chart"
 
-      /* Table legend. */
-      div class="legend"
-        h4 = t('job.view.legend')
-        table
-          tr
-            td class="stripe visual"
-            td = t('job.view.legend_stripe')
-            td class="red visual divider" IDENTIFIER
-            td = t('job.view.legend_red')
-            td class="green visual divider" IDENTIFIER
-            td = t('job.view.legend_green')
-            td class="blue visual divider" IDENTIFIER
-            td = t('job.view.legend_blue')
+      /* Table legend (not used). */
+      /div class="legend"
+        /h4 = t('job.view.legend')
+        /table
+          /tr
+            /td class="stripe visual"
+            /td = t('job.view.legend_stripe')
+            /td class="red visual divider" IDENTIFIER
+            /td = t('job.view.legend_red')
+            /td class="green visual divider" IDENTIFIER
+            /td = t('job.view.legend_green')
+            /td class="blue visual divider" IDENTIFIER
+            /td = t('job.view.legend_blue')
 
       /* Protein table header. */
       div class="table-container table-responsive" id="protein-table-wrapper"
@@ -113,8 +121,11 @@ div class="info"
               - if gene.transcripts.size == 0
                 tr
                   td colspan="4" class="bad-gene"
-                    = gene.query_id
-                  td colspan="#{ @job.bind_proteins.size + 1 }" class="no-bind"
+                    = "#{gene.query_id} (unknown)"
+                  td colspan="#{ @job.binds.size + 1 }" class="no-bind"
+                    span.pull-left NO RBP
+                    span.center NO RBP
+                    span.pull-right NO RBP
 
               /* No binding gene. */
               - elsif !gene.binds
@@ -135,6 +146,9 @@ div class="info"
                       - else
                         | N/A
                     td colspan="#{ @job.binds.size }" class="no-bind"
+                      span.pull-left NO RBP
+                      span.center NO RBP
+                      span.pull-right NO RBP
 
               /* Normal gene (with or without variant splicing). */
               - else

@@ -62,6 +62,8 @@
     .pager .next_page:hover, .pager .previous_page:hover, .pager a:hover, .pager em:hover {
       color: #2a6496;
       background-color: #eeeeee; }
+  .pager .current, .pager .footable-page.active {
+    font-weight: bold; }
   .pager .gap {
     padding-left: 5px;
     padding-right: 5px; }

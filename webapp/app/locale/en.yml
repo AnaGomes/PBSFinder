@@ -65,6 +65,10 @@ en:
       update: Account
     big_title: Create an account
   job:
+    protein:
+      big_title: Protein info
+      not_found: The specified protein doesn't exist.
+      back: Back to transcript
     transcript:
       no_utr:
         title: Insufficient 3' UTR information
@@ -97,11 +101,13 @@ en:
         title: Report a problem
       download: Download results
       species: Species
-      description: Job description
-      date: Submission date
+      description: Description
+      date: Date
+      time: Time
       legend: Legend
-      proteins: Protein binding occurrences
-      proteins_bind: Number of possible bind locations
+      proteins: RBP occurrences
+      sequences: RNA sequences
+      proteins_bind: Possible bind locations
       legend_stripe: Gene with no protein binding sites #Genes for which no protein binding sites where found
       legend_red: Unknown ID # IDs that could not be identified
       legend_green: External reference # IDs that could not be identified

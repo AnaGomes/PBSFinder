@@ -76,7 +76,16 @@ PbsSite::App.controllers :jobs do
   end
 
   get :protein, :map => '/jobs/protein/:prot_id' do
-    # TODO, make protein view.
+    @protein = Protein.find(params[:prot_id])
+    if @protein && @protein.protein_id
+      @transcript = @protein.transcript || @protein.own_transcript
+      @gene = @transcript.gene
+      @big_title = t('job.protein.big_title')
+      render 'jobs/protein'
+    else
+      flash[:error] = t('job.protein.not_found')
+      redirect url('/')
+    end
   end
 
   get :job, :with => :id, :provides => [:html, :csv, :tsv] do

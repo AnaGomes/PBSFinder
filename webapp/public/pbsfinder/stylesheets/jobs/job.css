@@ -10,10 +10,9 @@
   color: #428bca;
   font-size: 1.2em; }
 .general-info .btn-group {
-  padding-top: 5px;
   margin-left: 10px; }
 .general-info .report {
-  padding-top: 5px; }
+  margin-left: 40px; }
 .general-info .separator {
   padding-bottom: 20px; }
 .general-info .description {
@@ -57,13 +56,23 @@
         background-image: url("../../images/stripe.png");
         background-repeat: repeat;
         border: solid 1px #dddddd;
-        opacity: 1; }
+        opacity: 1;
+        text-align: center; }
         .table-container .table td.no-bind:hover td, .table-container .table td.no-bind.striped:hover td {
           background-color: #333333; }
+        .table-container .table td.no-bind span, .table-container .table td.no-bind.striped span {
+          padding-left: 10px;
+          padding-right: 10px;
+          font-weight: 500;
+          font-size: 1.6em;
+          font-family: ubuntu;
+          color: #a0a0a0;
+          text-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff; }
         .table-container .table td.no-bind td, .table-container .table td.no-bind.striped td {
           border: none; }
       .table-container .table td.bad-gene {
-        color: #ff4949; }
+        color: #ff4949;
+        text-align: center; }
       .table-container .table td:nth-child(1) {
         min-width: 170px; }
     .table-container .table tr {
@@ -112,7 +121,11 @@ th {
   display: none; }
 
 .chart-name {
-  margin-top: 20px; }
+  margin-top: 20px;
+  font-variant: small-caps;
+  font-weight: 500;
+  font-size: 1.8em;
+  font-family: Ubuntu; }
 
 .chart {
   height: 320px; }
@@ -198,7 +211,26 @@ th {
     .pager .next_page:hover, .pager .previous_page:hover, .pager a:hover, .pager em:hover {
       color: #2a6496;
       background-color: #eeeeee; }
+  .pager .current, .pager .footable-page.active {
+    font-weight: bold; }
   .pager .gap, .pager li {
     padding-left: 5px; }
   .pager .page-select {
     width: 250px; }
+
+.id-table {
+  text-align: justify;
+  font-family: Ubuntu;
+  font-size: 1.3em; }
+
+.id-table .first {
+  vertical-align: top;
+  font-variant: small-caps;
+  text-align: right;
+  padding-right: 30px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden; }
+
+.back-button {
+  margin-left: 40px; }

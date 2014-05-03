@@ -1,19 +1,21 @@
 .nav-tabs.job-list {
   margin-top: 15px; }
 
-.trans-info h4 {
-  padding-top: 5px;
-  padding-bottom: 5px; }
-.trans-info .fasta {
-  display: none;
-  height: 0; }
-  .trans-info .fasta p {
-    font-family: Ubuntu Mono;
-    font-size: 1.2em;
-    line-height: 12px;
-    letter-spacing: 0.15em; }
-  .trans-info .fasta .n-fasta {
-    color: #adadad; }
+.trans-info {
+  margin-bottom: 60px; }
+  .trans-info h4 {
+    padding-top: 5px;
+    padding-bottom: 5px; }
+  .trans-info .fasta {
+    margin-top: 25px; }
+    .trans-info .fasta p {
+      font-family: Ubuntu Mono;
+      font-size: 1.2em;
+      line-height: 20px;
+      letter-spacing: 0.15em;
+      word-wrap: break-word; }
+    .trans-info .fasta .n-fasta {
+      color: #adadad; }
 
 .fasta-view {
   padding-left: 0; }
@@ -62,7 +64,11 @@
   padding-bottom: 20px; }
 
 .chart-name {
-  margin-top: 20px; }
+  margin-top: 20px;
+  font-variant: small-caps;
+  font-weight: 500;
+  font-size: 1.8em;
+  font-family: Ubuntu; }
 
 .chart {
   height: 320px; }
@@ -126,13 +132,21 @@
     .pager .next_page:hover, .pager .previous_page:hover, .pager a:hover, .pager em:hover {
       color: #2a6496;
       background-color: #eeeeee; }
+  .pager .current, .pager .footable-page.active {
+    font-weight: bold; }
   .pager .gap, .pager li {
     padding-left: 5px; }
   .pager .page-select {
     width: 250px; }
 
+.id-table {
+  text-align: justify; }
+
 .id-table .first {
-  vertical-align: bottom;
+  vertical-align: top;
   font-variant: small-caps;
   text-align: right;
   padding-right: 30px; }
+
+.back-button {
+  margin-left: 40px; }

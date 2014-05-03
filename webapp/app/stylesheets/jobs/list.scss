@@ -73,6 +73,9 @@
       background-color: rgb(238, 238, 238);
     }
   }
+  .current, .footable-page.active {
+    font-weight:bold;
+  }
   .gap {
     padding-left:5px;
     padding-right:5px;

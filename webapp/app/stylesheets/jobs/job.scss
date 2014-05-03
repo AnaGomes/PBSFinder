@@ -14,11 +14,10 @@
     font-size: 1.2em;
   }
   .btn-group {
-    padding-top:5px;
     margin-left:10px;
   }
   .report {
-    padding-top:5px;
+    margin-left:40px;
   }
   .separator {
     padding-bottom:20px;
@@ -75,8 +74,18 @@
         background-repeat:repeat;
         border: solid 1px #dddddd;
         opacity:1;
+        text-align:center;
         &:hover td {
           background-color:#333333;
+        }
+        span {
+          padding-left:10px;
+          padding-right:10px;
+          font-weight:500;
+          font-size: 1.6em;
+          font-family: ubuntu;
+          color: #a0a0a0;
+          text-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff;
         }
         td {
           border:none;
@@ -84,6 +93,7 @@
       }
       &.bad-gene {
         color:rgb(255, 73, 73);
+        text-align:center;
       }
       &:nth-child(1) {
         min-width:170px;
@@ -153,6 +163,10 @@ th {
 }
 .chart-name {
   margin-top:20px;
+  font-variant:small-caps;
+  font-weight:500;
+  font-size: 1.8em;
+  font-family: Ubuntu;
 }
 .chart {
   height:320px;
@@ -244,10 +258,30 @@ th {
       background-color: rgb(238, 238, 238);
     }
   }
+  .current, .footable-page.active {
+    font-weight:bold;
+  }
   .gap, li {
     padding-left:5px;
   }
   .page-select {
     width:250px;
   }
+}
+.id-table {
+  text-align:justify;
+  font-family:Ubuntu;
+  font-size:1.3em;
+}
+.id-table .first {
+  vertical-align:top;
+  font-variant:small-caps;
+  text-align:right;
+  padding-right:30px;
+  font-weight:500;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.back-button {
+  margin-left:40px;
 }

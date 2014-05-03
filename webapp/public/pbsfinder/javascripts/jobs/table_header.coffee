@@ -3,7 +3,6 @@ $(document).ready ->
   # Table definitions.
   s = 8
   t = $('#protein-table')
-  p = true
   c = t.find('tr').size() - 1
 
   # Auxiliary methods.
@@ -41,6 +40,4 @@ $(document).ready ->
     })
   else
     s = parseInt($('div#pager-div #page-select').val())
-
-  # Footable invocation.
-  initFootable()
+    initFootable()

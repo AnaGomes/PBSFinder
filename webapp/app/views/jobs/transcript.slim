@@ -1,7 +1,7 @@
 - content_for :stylesheets do
   = stylesheet_link_tag 'jobs/transcript', 'footable.core.min'
 - content_for :javascripts do
-  = javascript_include_tag 'jobs/fasta', 'footable.min', 'footable.paginate.min', 'footable.sort.min', 'jobs/table_header'
+  = javascript_include_tag 'footable.min', 'footable.paginate.min', 'footable.sort.min', 'jobs/table_header'
 
 /* Conditional script loading. */
 - if @transcript.proteins.size > 0
@@ -43,7 +43,7 @@ div class="tabs-content"
       }
 
     /* Relevant links and info. */
-    = link_to t('job.transcript.back'), url_for(:jobs, :job, @gene.job_id), :class => 'btn btn-primary pull-right'
+    = link_to t('job.transcript.back'), url_for(:jobs, :job, @gene.job_id), :class => 'btn btn-primary pull-right back-button'
     table class='id-table'
       tr
         td class='first species' Species
@@ -68,60 +68,46 @@ div class="tabs-content"
 
   /* Sequence info. */
   div class="trans-info"
+    - if @transcript.utr5 || @transcript.utr3 || @transcript.downstream
+      h4 class="chart-name" = t('job.view.sequences')
 
-    /* 5UTR info. */
-    - if @transcript.utr5
-      div class='info'
-        ul class="fasta-view"
-          li class='fasta-show'
-            button type="button" class="btn btn-primary" Show
-          li class='fasta-hide'
-            button type="button" class="btn btn-default" Hide
+      /* Sequence tabs. */
+      ul class="nav nav-tabs" data-tabs="tabs"
+        - if @transcript.utr5
           li
-            h4 = "5' UTR (#{ @transcript.utr5.size } bp)"
-        - fasta = format_fasta(@transcript.utr5)
-        div class='fasta'
-          - fasta.each do |f|
-            p == f.gsub(/((?<=(A|C|G|T))N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
+            a data-toggle="tab" href="#utr5" = "5' UTR (#{ @transcript.utr5.size } BP)"
+        - if @transcript.utr3
+          li
+            a data-toggle="tab" href="#utr3" = "3' UTR (#{ @transcript.utr3.size } BP)"
+        - if @transcript.downstream
+          li
+            a data-toggle="tab" href="#downstream" = "3' downstream (#{ @transcript.downstream.size } BP)"
 
-    /* 3UTR info. */
-    - if @transcript.utr3
-      div class='info'
-        ul class="fasta-view"
-          li class='fasta-show'
-            button type="button" class="btn btn-primary" Show
-          li class='fasta-hide'
-            button type="button" class="btn btn-default" Hide
-          li
-            h4 = "3' UTR (#{ @transcript.utr3.size } bp)"
-        - fasta = format_fasta(@transcript.utr3)
-        div class='fasta'
-          - fasta.each do |f|
-            p == f.gsub(/((?<=(A|C|G|T))N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
-
-    /* 3UTR downstream info. */
-    - if @transcript.downstream
-      div class='info'
-        ul class="fasta-view"
-          li class='fasta-show'
-            button type="button" class="btn btn-primary" Show
-          li class='fasta-hide'
-            button type="button" class="btn btn-default" Hide
-          li
-            h4 = "3' downstream (#{ @transcript.downstream.size } bp)"
-        - fasta = format_fasta(@transcript.downstream)
-        div class='fasta'
-          - fasta.each do |f|
-            p == f.gsub(/((?<=[^N])N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
+      /* Sequence tabs content. */
+      div class="tab-content"
+        - if @transcript.utr5
+          div id="utr5" class="tab-pane"
+            div class='fasta'
+              p == @transcript.utr5.gsub(/((?<=(A|C|G|T))N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
+        - if @transcript.utr3
+          div id="utr3" class="tab-pane"
+            div class='fasta'
+              p == @transcript.utr3.gsub(/((?<=(A|C|G|T))N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
+        - if @transcript.downstream
+          div id="downstream" class="tab-pane"
+            div class='fasta'
+              p == @transcript.downstream.gsub(/((?<=(A|C|G|T))N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
 
   /* RBP info. */
   - if @transcript.proteins.size > 0
 
     /* Protein chart. */
-    span style="display:none;" id="dataset"
-      = @transcript.dataset_json
-    h4 class="chart-name" = t('job.view.proteins_bind')
-    div class="chart" id="protein-chart"
+    - dataset = @transcript.dataset
+    - if dataset.size > 1
+      span style="display:none;" id="dataset"
+        = dataset.to_json
+      h4 class="chart-name" = t('job.view.proteins_bind')
+      div class="chart" id="protein-chart"
 
     /* Protein table */
     div class="table-container table-responsive" id="protein-table-wrapper"
@@ -162,7 +148,6 @@ div class="tabs-content"
     /* Table pagination. */
     div id="pager-div" class="pager pagination hide-if-no-paging"
       select class='form-control pull-right page-select' id="page-select"
-        option value="8" Show 8 records per page
         option value="15" Show 15 records per page
         option value="30" Show 30 records per page
         option value="100" Show 100 records per page
