@@ -1,6 +1,5 @@
 # Shortcut to require all Pbs::Analyzer files.
 require_relative 'ensembl'
-require_relative 'external'
 require_relative 'helper'
 require_relative 'ncbi'
 require_relative 'uniprot'
