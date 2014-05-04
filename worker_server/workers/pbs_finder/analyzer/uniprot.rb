@@ -96,7 +96,9 @@ module Pbs
         flat.ref.each do |ref|
           (ref['RC'] || []).each do |r|
             if r && r['Token'] == 'TISSUE'
-              tissues.add(r['Text'].downcase)
+              tissue = r['Text'].downcase
+              tissue[0] = tissue[0].upcase
+              tissues.add(tissue)
             end
           end
         end
@@ -107,13 +109,15 @@ module Pbs
         bio_process = Set.new
         mol_function = Set.new
         flat.dr('GO').each do |g|
+          ont = g['Version'][2..-1]
+          ont[0] = ont[0].upcase
           case g['Version'][0]
           when 'C'
-            cell_component.add(g['Version'][2..-1])
+            cell_component.add(ont)
           when 'F'
-            mol_function.add(g['Version'][2..-1])
+            mol_function.add(ont)
           when 'P'
-            bio_process.add(g['Version'][2..-1])
+            bio_process.add(ont)
           end
         end
 

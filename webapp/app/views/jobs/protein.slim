@@ -1,138 +1,67 @@
 - content_for :stylesheets do
-  = stylesheet_link_tag 'jobs/transcript', 'footable.core.min'
-- content_for :javascripts do
-  = javascript_include_tag 'jobs/fasta', 'footable.min', 'footable.paginate.min', 'footable.sort.min', 'jobs/table_header'
-
-/* Conditional script loading. */
-- if @transcript.proteins.size > 0
-  - content_for :javascripts do
-    = javascript_include_tag 'jobs/transcript'
-
+  = stylesheet_link_tag 'jobs/protein'
 
 /* General transcript information. */
 div class="general-info"
 
-  /* Notices. */
-  - utr, down, notices = (@transcript.utr3 || ''), (@transcript.downstream || ''), {}
-  - if @transcript.proteins.size > 0
-    - if utr.size < 300 && down.size > 0
-      - notices[t('job.transcript.no_utr.title')] = t('job.transcript.no_utr.content')
-    - if utr.size < 300 && down.size == 0
-      - notices[t('job.transcript.no_downstream.title')] = t('job.transcript.no_downstream.content')
-    - if (utr.size >= 300 && utr.include?('N')) || (utr.size < 300 && down.include?('N'))
-      - notices[t('job.transcript.no_n.title')] = t('job.transcript.no_n.content')
-    - if notices.size > 0
-      = partial 'layouts/notice', locals: { \
-        type: 'warning', \
-        notice: notices \
-      }
-  - else @transcript.proteins.size == 0
-    = partial 'layouts/notice', locals: { \
-      type: 'warning', \
-      notice: { \
-        t('job.transcript.no_proteins.title') => t('job.transcript.no_proteins.content') \
-      } \
-    }
-
   /* Relevant links and info. */
-  = link_to t('job.transcript.back'), url_for(:jobs, :job, @gene.job_id), :class => 'btn btn-primary pull-right'
-  = link_to t('job.protein.back'), url_for(:jobs, :transcript, @transcript.transcript_id), :class => 'btn btn-primary pull-right'
+  = link_to t('job.transcript.back'), url_for(:jobs, :job, @gene.job_id), :class => 'btn btn-primary pull-right job-button'
+  = link_to t('job.protein.back'), url_for(:jobs, :transcript, @transcript.id), :class => 'btn btn-primary pull-right transcript-button'
+
+  /* General information. */
+  h4 class="section-name" = t('job.view.general_info')
   table class='id-table'
     tr
-      td class='first species' Species
-      td class='species' = @gene.species
+      td class="first" = t('job.protein.protein')
+      td class="external" == gene_link(@protein.protein_id, :uniprot, @protein.name)
     tr
-      td class='first'
-        span class="gene" = "#{ t('job.transcript.gene') }"
-      td
-        span class="gene external" == gene_link(@gene.gene_id, @gene.id_type, @gene.name)
+      td class="first" = t('job.protein.species_origin')
+      td = @gene.species
     tr
-      td class='first'
-        span class="transcript" = "#{ t('job.transcript.trans') }"
-      td
-        span class="transcript external" == transcript_link(@transcript.transcript_id, @gene.id_type, @transcript.name)
-    - if @protein && @protein.protein_id
-      tr
-        td class='first'
-          span class="protein" = "#{ t('job.transcript.protein') }"
-        td
-          span class="protein internal" = link_to (@protein.name ? "#{@protein.protein_id} (#{@protein.name})" : @protein.protein_id), url_for(:jobs, :protein, @protein.id)
+      td class="first" = t('job.protein.species_used')
+      td = @protein.species
   p class='separator'
 
-/* Protein location info. */
-- if @protein.transcript
-  div class="trans-info"
+  /* External references. */
+  - if @protein.external_ids.size > 0
+    - refs = ''
+    - @protein.external_ids.each do |key, values|
+      - refs += external_link(key, values)
+    - unless refs.empty?
+      h4 class="section-name" = t('job.view.external_refs')
+      table class='id-table'
+        == refs
+      p class='separator'
 
-    /* 5UTR info. */
-    - if @transcript.utr5
-      div class='info'
-        ul class="fasta-view"
-          li class='fasta-show'
-            button type="button" class="btn btn-primary" Show
-          li class='fasta-hide'
-            button type="button" class="btn btn-default" Hide
-          li
-            h4 = "5' UTR (#{ @transcript.utr5.size } bp)"
-        - fasta = format_fasta(@transcript.utr5)
-        div class='fasta'
-          - fasta.each do |f|
-            p == f.gsub(/((?<=(A|C|G|T))N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
 
-    /* 3UTR info. */
-    - if @transcript.utr3
-      div class='info'
-        ul class="fasta-view"
-          li class='fasta-show'
-            button type="button" class="btn btn-primary" Show
-          li class='fasta-hide'
-            button type="button" class="btn btn-default" Hide
-          li
-            h4 = "3' UTR (#{ @transcript.utr3.size } bp)"
-        - fasta = format_fasta(@transcript.utr3)
-        div class='fasta'
-          - fasta.each do |f|
-            p == f.gsub(/((?<=(A|C|G|T))N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
+  /* Additional information. */
+  - if @protein.keywords.size > 0 || @protein.tissues.size > 0
+    h4 class="section-name" = t('job.view.additional_info')
+    table class='id-table'
+      - if @protein.keywords.size > 0
+        tr
+          td class="first" = t('job.protein.keywords')
+          td = @protein.keywords.join(',  ')
+      - if @protein.tissues.size > 0
+        tr
+          td class="first" = t('job.protein.tissues')
+          td = @protein.tissues.join(',  ')
+    p class='separator'
 
-    /* 3UTR downstream info. */
-    - if @transcript.downstream
-      div class='info'
-        ul class="fasta-view"
-          li class='fasta-show'
-            button type="button" class="btn btn-primary" Show
-          li class='fasta-hide'
-            button type="button" class="btn btn-default" Hide
-          li
-            h4 = "3' downstream (#{ @transcript.downstream.size } bp)"
-        - fasta = format_fasta(@transcript.downstream)
-        div class='fasta'
-          - fasta.each do |f|
-            p == f.gsub(/((?<=[^N])N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
-
-    /* Protein table */
-    div class="table-container table-responsive" id="protein-table-wrapper"
-      table class="table table-condensed table-hover" id="protein-table"
-
-        /* Table header. */
-        thead
-          tr
-            th data-sort-ignore="true" Score
-            th data-sort-ignore="true" Start
-            th data-sort-ignore="true" End
-            th data-sort-ignore="true" Sequence
-
-        /* Table body. */
-        tbody
-          - @protein.positions.each do |pos|
-            tr
-              td = pos.score
-              td = pos.seq_start
-              td = pos.seq_end
-              td = pos.sequence
-
-    /* Table pagination. */
-    div id="pager-div" class="pager pagination hide-if-no-paging"
-      select class='form-control pull-right page-select' id="page-select"
-        option value="15" Show 15 records per page
-        option value="30" Show 30 records per page
-        option value="100" Show 100 records per page
-        option value="999999" Show all records
+  /* Ontologies. */
+  - if @protein.cellular_component.size > 0 || @protein.molecular_function.size > 0 || @protein.biological_process.size > 0
+    h4 class="section-name" = t('job.view.ontologies')
+    table class='id-table'
+      - if @protein.cellular_component.size > 0
+        tr
+          td class="first" = t('job.protein.cell_component')
+          td = @protein.cellular_component.join(',  ')
+      - if @protein.molecular_function.size > 0
+        tr
+          td class="first" = t('job.protein.mol_function')
+          td = @protein.molecular_function.join(',  ')
+      - if @protein.biological_process.size > 0
+        tr
+          td class="first" = t('job.protein.bio_process')
+          td = @protein.biological_process.join(',  ')
+  p class='separator'

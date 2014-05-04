@@ -52,10 +52,12 @@ div class="info"
     = partial 'jobs/report_form', :locals => { job_id: @job.id }
 
     /* Job basic information. */
-    - if @job.time
-      p class='species'
-        = "#{@job.genes.size} #{@job.genes.size == 1 ? 'gene' : 'genes'} analyzed in #{Time.at(@job.time).utc.strftime("%H:%M:%S")}"
+    h4 class="chart-name" = t('job.view.general_info')
     table class='id-table'
+      - if @job.time
+        tr
+          td class='first' = t('job.view.analysis')
+          td class='' = "#{@job.genes.size} #{@job.genes.size == 1 ? 'gene' : 'genes'} analyzed in #{Time.at(@job.time).utc.strftime("%H:%M:%S")}"
       tr
         td class='first' = t('job.view.description')
         td class='' = @job.description

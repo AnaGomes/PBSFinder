@@ -3,11 +3,6 @@
 }
 
 .general-info {
-  .species {
-    font-family: Ubuntu;
-    font-size: 1.8em;
-    font-weight:500;
-  }
   .stats {
     font-family: Ubuntu;
     color: #428bca;
@@ -44,7 +39,7 @@
 }
 
 .table-container {
-  margin-top:30px;
+  margin-top:20px;
   overflow:auto;
   padding-right: 1px;
   .table {
@@ -162,11 +157,16 @@ th {
   display:none;
 }
 .chart-name {
-  margin-top:20px;
+  margin-top:0px;
   font-variant:small-caps;
   font-weight:500;
   font-size: 1.8em;
   font-family: Ubuntu;
+  margin-bottom:20px;
+  border-bottom: 1px solid #aaa;
+  max-width:300px;
+  padding-bottom:5px;
+
 }
 .chart {
   height:320px;

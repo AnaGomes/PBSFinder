@@ -3,11 +3,7 @@
 }
 
 .trans-info {
-  margin-bottom:60px;
-  h4 {
-    padding-top:5px;
-    padding-bottom:5px;
-  }
+  margin-bottom:40px;
   .fasta {
     margin-top:25px;
     p {
@@ -38,7 +34,7 @@
   }
 }
 .table-container {
-  margin-top:30px;
+  margin-top:20px;
   overflow:auto;
   padding-right: 1px;
   .table {
@@ -72,28 +68,30 @@
   }
 }
 .general-info {
-  .species {
-    font-family: Ubuntu;
-    font-size:1.8em;
-    &.first {
-      font-weight:500;
-    }
-  }
-  .gene, .transcript, .protein {
+  .gene, .transcript, .protein, .species {
     font-family: Ubuntu;
     font-weight:500;
     font-size: 1.3em;
+  }
+  .species-text {
+    font-weight:normal;
+    font-size: 1.3em;
+    font-family: Ubuntu;
   }
   .separator {
     padding-bottom:20px;
   }
 }
 .chart-name {
-  margin-top:20px;
+  margin-top:0px;
   font-variant:small-caps;
   font-weight:500;
   font-size: 1.8em;
   font-family: Ubuntu;
+  margin-bottom:20px;
+  border-bottom: 1px solid #aaa;
+  max-width:300px;
+  padding-bottom:5px;
 }
 .chart {
   height:320px;

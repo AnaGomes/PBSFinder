@@ -69,6 +69,14 @@ en:
       big_title: Protein info
       not_found: The specified protein doesn't exist.
       back: Back to transcript
+      protein: Protein
+      species_origin: Species (gene)
+      species_used: Species (protein)
+      keywords: Keywords
+      tissues: Related tissues
+      bio_process: Biological process
+      cell_component: Cellular component
+      mol_function: Molecular function
     transcript:
       no_utr:
         title: Insufficient 3' UTR information
@@ -101,13 +109,19 @@ en:
         title: Report a problem
       download: Download results
       species: Species
+      analysis: Analysis
+      ontologies: Ontologies
+      external_refs: External references
+      gene_annotation_ref: Genomic annotation references
       description: Description
       date: Date
       time: Time
       legend: Legend
       proteins: RBP occurrences
       sequences: RNA sequences
-      proteins_bind: Possible bind locations
+      general_info: General info
+      additional_info: Additional info
+      proteins_bind: RBP locations
       legend_stripe: Gene with no protein binding sites #Genes for which no protein binding sites where found
       legend_red: Unknown ID # IDs that could not be identified
       legend_green: External reference # IDs that could not be identified

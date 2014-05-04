@@ -44,10 +44,11 @@ div class="tabs-content"
 
     /* Relevant links and info. */
     = link_to t('job.transcript.back'), url_for(:jobs, :job, @gene.job_id), :class => 'btn btn-primary pull-right back-button'
+    h4 class="chart-name" = t('job.view.general_info')
     table class='id-table'
       tr
         td class='first species' Species
-        td class='species' = @gene.species
+        td class='species-text' = @gene.species
       tr
         td class='first'
           span class="gene" = "#{ t('job.transcript.gene') }"
@@ -72,29 +73,32 @@ div class="tabs-content"
       h4 class="chart-name" = t('job.view.sequences')
 
       /* Sequence tabs. */
+      - active = @transcript.utr5 ? :utr5 : nil
+      - active ||= @transcript.utr3 ? :utr3 : nil
+      - active ||= @transcript.downstream ? :downstream : nil
       ul class="nav nav-tabs" data-tabs="tabs"
         - if @transcript.utr5
-          li
+          li class="#{ active == :utr5 ? 'active' : '' }"
             a data-toggle="tab" href="#utr5" = "5' UTR (#{ @transcript.utr5.size } BP)"
         - if @transcript.utr3
-          li
+          li class="#{ active == :utr3 ? 'active' : '' }"
             a data-toggle="tab" href="#utr3" = "3' UTR (#{ @transcript.utr3.size } BP)"
         - if @transcript.downstream
-          li
+          li class="#{ active == :downstream ? 'active' : '' }"
             a data-toggle="tab" href="#downstream" = "3' downstream (#{ @transcript.downstream.size } BP)"
 
       /* Sequence tabs content. */
       div class="tab-content"
         - if @transcript.utr5
-          div id="utr5" class="tab-pane"
+          div id="utr5" class="tab-pane #{ active == :utr5 ? 'active' : '' }"
             div class='fasta'
               p == @transcript.utr5.gsub(/((?<=(A|C|G|T))N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
         - if @transcript.utr3
-          div id="utr3" class="tab-pane"
+          div id="utr3" class="tab-pane #{ active == :utr3 ? 'active' : '' }"
             div class='fasta'
               p == @transcript.utr3.gsub(/((?<=(A|C|G|T))N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
         - if @transcript.downstream
-          div id="downstream" class="tab-pane"
+          div id="downstream" class="tab-pane #{ active == :downstream ? 'active' : '' }"
             div class='fasta'
               p == @transcript.downstream.gsub(/((?<=(A|C|G|T))N|^N)/, '<span class="n-fasta">N').gsub(/(N(?=[^N])|N$)/, 'N</span>')
 
