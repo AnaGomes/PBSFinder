@@ -108,6 +108,8 @@ en:
         submit: Send
         title: Report a problem
       download: Download results
+      download_rbp: RBP information
+      download_prot: Protein information
       species: Species
       analysis: Analysis
       ontologies: Ontologies

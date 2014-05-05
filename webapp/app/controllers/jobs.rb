@@ -88,6 +88,25 @@ PbsSite::App.controllers :jobs do
     end
   end
 
+  get :job_prot, :with => :id, :provides => [:csv, :tsv] do
+    @job = Job.find(params[:id])
+    if @job
+      case content_type
+      when :csv
+        content_type 'application/csv'
+        attachment "prot_results.csv"
+        return @job.to_prot_csv
+      when :tsv
+        content_type 'application/tsv'
+        attachment "prot_results.tsv"
+        return @job.to_prot_csv(col_sep: "\t")
+      end
+    else
+      flash[:error] = t('job.view.not_found')
+      redirect url('/')
+    end
+  end
+
   get :job, :with => :id, :provides => [:html, :csv, :tsv] do
     @job = Job.find(params[:id])
     if @job
@@ -97,11 +116,11 @@ PbsSite::App.controllers :jobs do
         render 'jobs/job'
       when :csv
         content_type 'application/csv'
-        attachment "job_results.csv"
+        attachment "rbp_results.csv"
         return @job.to_csv
       when :tsv
         content_type 'application/tsv'
-        attachment "job_results.tsv"
+        attachment "rbp_results.tsv"
         return @job.to_csv(col_sep: "\t")
       end
     else

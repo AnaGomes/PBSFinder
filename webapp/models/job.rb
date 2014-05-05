@@ -31,28 +31,49 @@ class Job
     CSV.generate(options) do |csv|
       header = %w[species gene_id gene_name transcript_id transcript_name]
       header += self.binds.map { |bind| bind.name }
-      header += %w[keywords tissues molecular_function cellular_component biological_process]
       csv << header
       genes.each do |gene|
         gene.transcripts.each do |trans|
           line = [gene.species, gene.gene_id, gene.name, trans.transcript_id, trans.name]
           line += trans.matches.map { |x| x ? 'x' : '' }
-          mol, cel, bio, tis, key = Set.new, Set.new, Set.new, Set.new, Set.new
-          trans.proteins.each do |prot|
-            mol.merge(prot.molecular_function)
-            bio.merge(prot.biological_process)
-            cel.merge(prot.cellular_component)
-            tis.merge(prot.tissues)
-            key.merge(prot.keywords)
-          end
-          line += [
-            '"' + key.to_a.map(&:downcase).join(',') + '"',
-            '"' + tis.to_a.map(&:downcase).join(' ') + '"',
-            '"' + mol.to_a.map(&:downcase).join(' ') + '"',
-            '"' + cel.to_a.map(&:downcase).join(' ') + '"',
-            '"' + bio.to_a.map(&:downcase).join(' ') + '"'
-          ]
           csv << line
+        end
+      end
+    end
+  end
+
+  def to_prot_csv(options = {})
+    CSV.generate(options) do |csv|
+      header = %w[gene_species gene_id gene_name transcript_id transcript_name]
+      header += %w[protein_species protein_id protein_name own keywords]
+      header += %w[tissues molecular_function cellular_component biological_process]
+      csv << header
+      genes.each do |gene|
+        gene.transcripts.each do |trans|
+          line = [gene.species, gene.gene_id, gene.name, trans.transcript_id, trans.name]
+          trans.proteins.each do |prot|
+            line2 = [prot.species, prot.protein_id, prot.name, false]
+            line2 += [
+              '"' + prot.keywords.map(&:downcase).join(',') + '"',
+              '"' + prot.tissues.map(&:downcase).join(' ') + '"',
+              '"' + prot.molecular_function.map(&:downcase).join(' ') + '"',
+              '"' + prot.cellular_component.map(&:downcase).join(' ') + '"',
+              '"' + prot.biological_process.map(&:downcase).join(' ') + '"'
+            ]
+            csv << line + line2
+          end
+          if trans.own_protein
+            prot = trans.own_protein
+            line2 = [prot.species, prot.protein_id, prot.name, true]
+            line2 += [
+              '"' + prot.keywords.map(&:downcase).join(',') + '"',
+              '"' + prot.tissues.map(&:downcase).join(' ') + '"',
+              '"' + prot.molecular_function.map(&:downcase).join(' ') + '"',
+              '"' + prot.cellular_component.map(&:downcase).join(' ') + '"',
+              '"' + prot.biological_process.map(&:downcase).join(' ') + '"'
+            ]
+            csv << line + line2
+          end
         end
       end
     end
