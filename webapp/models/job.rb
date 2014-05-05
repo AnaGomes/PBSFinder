@@ -1,4 +1,5 @@
 require 'csv'
+require 'set'
 
 class Job
   include Mongoid::Document
@@ -28,10 +29,30 @@ class Job
 
   def to_csv(options = {})
     CSV.generate(options) do |csv|
-      csv << %w[species gene_id gene_name transcript_id transcript_name] + self.binds.map { |bind| bind.name }
+      header = %w[species gene_id gene_name transcript_id transcript_name]
+      header += self.binds.map { |bind| bind.name }
+      header += %w[keywords tissues molecular_function cellular_component biological_process]
+      csv << header
       genes.each do |gene|
         gene.transcripts.each do |trans|
-          csv << [gene.species, gene.gene_id, gene.name, trans.transcript_id, trans.name] + trans.matches.map { |x| x ? 'x' : '' }
+          line = [gene.species, gene.gene_id, gene.name, trans.transcript_id, trans.name]
+          line += trans.matches.map { |x| x ? 'x' : '' }
+          mol, cel, bio, tis, key = Set.new, Set.new, Set.new, Set.new, Set.new
+          trans.proteins.each do |prot|
+            mol.merge(prot.molecular_function)
+            bio.merge(prot.biological_process)
+            cel.merge(prot.cellular_component)
+            tis.merge(prot.tissues)
+            key.merge(prot.keywords)
+          end
+          line += [
+            '"' + key.to_a.map(&:downcase).join(',') + '"',
+            '"' + tis.to_a.map(&:downcase).join(' ') + '"',
+            '"' + mol.to_a.map(&:downcase).join(' ') + '"',
+            '"' + cel.to_a.map(&:downcase).join(' ') + '"',
+            '"' + bio.to_a.map(&:downcase).join(' ') + '"'
+          ]
+          csv << line
         end
       end
     end
