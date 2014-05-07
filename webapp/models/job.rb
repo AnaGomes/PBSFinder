@@ -54,11 +54,11 @@ class Job
           trans.proteins.each do |prot|
             line2 = [prot.species, prot.protein_id, prot.name, false]
             line2 += [
-              '"' + prot.keywords.map(&:downcase).join(',') + '"',
-              '"' + prot.tissues.map(&:downcase).join(' ') + '"',
-              '"' + prot.molecular_function.map(&:downcase).join(' ') + '"',
-              '"' + prot.cellular_component.map(&:downcase).join(' ') + '"',
-              '"' + prot.biological_process.map(&:downcase).join(' ') + '"'
+              prot.keywords.map(&:downcase).join(','),
+              prot.tissues.map(&:downcase).join(','),
+              prot.molecular_function.map(&:downcase).join(','),
+              prot.cellular_component.map(&:downcase).join(','),
+              prot.biological_process.map(&:downcase).join(',')
             ]
             csv << line + line2
           end
@@ -66,11 +66,11 @@ class Job
             prot = trans.own_protein
             line2 = [prot.species, prot.protein_id, prot.name, true]
             line2 += [
-              '"' + prot.keywords.map(&:downcase).join(',') + '"',
-              '"' + prot.tissues.map(&:downcase).join(' ') + '"',
-              '"' + prot.molecular_function.map(&:downcase).join(' ') + '"',
-              '"' + prot.cellular_component.map(&:downcase).join(' ') + '"',
-              '"' + prot.biological_process.map(&:downcase).join(' ') + '"'
+              prot.keywords.map(&:downcase).join(','),
+              prot.tissues.map(&:downcase).join(','),
+              prot.molecular_function.map(&:downcase).join(','),
+              prot.cellular_component.map(&:downcase).join(','),
+              prot.biological_process.map(&:downcase).join(',')'
             ]
             csv << line + line2
           end
