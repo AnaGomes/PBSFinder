@@ -70,7 +70,7 @@ class Job
               prot.tissues.map(&:downcase).join(','),
               prot.molecular_function.map(&:downcase).join(','),
               prot.cellular_component.map(&:downcase).join(','),
-              prot.biological_process.map(&:downcase).join(',')'
+              prot.biological_process.map(&:downcase).join(',')
             ]
             csv << line + line2
           end
