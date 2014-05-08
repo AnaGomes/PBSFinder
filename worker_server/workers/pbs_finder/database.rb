@@ -4,7 +4,6 @@ module Pbs
     def self.save_job_analysis(job, id)
       db = Job.find(id)
       save_job(job, db) if db && job
-      save_files(db)
     rescue StandardError => e
       puts e.message, e.backtrace
     end
@@ -16,6 +15,7 @@ module Pbs
         db.genes << g
       end
       save_extra(job, db)
+      save_files(db)
       db.save
     end
 
@@ -35,7 +35,6 @@ module Pbs
         db.files[:prot_csv] = prot_csv.id
         db.files[:prot_tsv] = prot_tsv.id
         db.files[:prolog] = prolog.id
-        db.save
       end
     end
 
