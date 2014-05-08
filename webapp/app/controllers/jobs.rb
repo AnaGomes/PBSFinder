@@ -93,11 +93,11 @@ PbsSite::App.controllers :jobs do
     if @job
       case content_type
       when :csv
-        content_type 'application/csv'
+        content_type 'text/csv'
         attachment "prot_results.csv"
         return @job.to_prot_csv
       when :tsv
-        content_type 'application/tsv'
+        content_type 'text/tsv'
         attachment "prot_results.tsv"
         return @job.to_prot_csv(col_sep: "\t")
       end
@@ -112,7 +112,7 @@ PbsSite::App.controllers :jobs do
     if @job
       case content_type
       when :text
-        content_type 'application/text'
+        content_type 'text/plain'
         attachment "dataset.pl"
         return @job.to_prolog
       end
@@ -130,11 +130,11 @@ PbsSite::App.controllers :jobs do
         @big_title = t('job.view.big_title')
         render 'jobs/job'
       when :csv
-        content_type 'application/csv'
+        content_type 'text/csv'
         attachment "rbp_results.csv"
         return @job.to_csv
       when :tsv
-        content_type 'application/tsv'
+        content_type 'text/tsv'
         attachment "rbp_results.tsv"
         return @job.to_csv(col_sep: "\t")
       end
