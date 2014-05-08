@@ -79,6 +79,33 @@ class Job
     end
   end
 
+  def to_prolog
+    parts = init_prolog_hash
+    prots = {}
+    genes.each do |gene|
+      # Gene info.
+      if gene.transcripts.size > 0
+        parts[:gene_id] << "gene(gene_#{ gene.id }).\n"
+        parts[:gene_name] << "gene_name(gene_#{ gene.id }, '#{ gene.name.downcase }').\n" if gene.name
+        parts[:gene_species] << "gene_species(gene_#{ gene.id }, '#{ gene.species.downcase }').\n" if gene.species
+
+        # Transcript info.
+        gene.transcripts.each do |tran|
+          parts[:gene_tran] << "gene_transcript(gene_#{ gene.id }, tran_#{ tran.id }).\n"
+          parts[:tran_id] << "transcript(tran_#{ tran.id }).\n"
+          parts[:tran_name] << "transcript_name(tran_#{ tran.id }, '#{ tran.name.downcase }').\n" if tran.name
+
+          # Protein info.
+          tran.proteins.each do |prot|
+            build_prolog_proteins(gene.species, tran, prot, parts, prots)
+          end
+          build_prolog_proteins(gene.species, tran, tran.own_protein, parts, prots, true) if tran.own_protein
+        end
+      end
+    end
+    build_prolog_file(parts)
+  end
+
   def dataset
     dataset = [['Proteins', 'Occurrences']]
     binds.each { |bind| dataset << [bind.name, bind.count] }
@@ -88,5 +115,66 @@ class Job
   private
   def query_required
     return !self.complete
+  end
+
+  def build_prolog_proteins(species, tran, prot, parts, prots, own = false)
+    id = "#{ species }-#{ prot.name }"
+    unless prots[id]
+      prots[id] = "prot_#{ prot.id }"
+      parts[:prot_id] << "protein(prot_#{ prot.id }).\n"
+      parts[:prot_name] << "protein_name(prot_#{ prot.id }, '#{ prot.name.downcase }').\n"
+      parts[:prot_species] << "protein_species(prot_#{ prot.id }, '#{ prot.species.downcase }').\n" if prot.species
+      prot.tissues.each { |tissue| parts[:prot_tissue] << "protein_tissue(prot_#{ prot.id }, '#{ tissue.downcase.gsub("'", '') }').\n" }
+      prot.keywords.each { |keyword| parts[:prot_keyword] << "protein_keyword(prot_#{ prot.id }, '#{ keyword.downcase.gsub("'", '') }').\n" }
+      prot.biological_process.each { |bio| parts[:prot_bio] << "protein_biological_process(prot_#{ prot.id }, '#{ bio.downcase.gsub("'", '') }').\n" }
+      prot.cellular_component.each { |cel| parts[:prot_cel] << "protein_cellular_component(prot_#{ prot.id }, '#{ cel.downcase.gsub("'", '') }').\n" }
+      prot.molecular_function.each { |mol| parts[:prot_mol] << "protein_molecular_function(prot_#{ prot.id }, '#{ mol.downcase.gsub("'", '') }').\n" }
+    end
+    if own
+      parts[:tran_own] << "transcript_own_protein(tran_#{ tran.id }, #{ prots[id] }).\n"
+    else
+      parts[:tran_prot] << "transcript_protein(tran_#{ tran.id }, #{ prots[id] }).\n"
+    end
+  end
+
+  def init_prolog_hash
+    {
+      gene_id: "/* Genes */\n",
+      gene_name: "/* Gene names */\n",
+      gene_species: "/* Gene species */\n",
+      gene_species: "/* Gene species */\n",
+      gene_tran: "/* Gene transcripts */\n",
+      tran_id: "/* Transcripts */\n",
+      tran_name: "/* Transcript names */\n",
+      tran_own: "/* Transcript own proteins */\n",
+      tran_prot: "/* Transcript proteins */\n",
+      prot_id: "/* Proteins */\n",
+      prot_name: "/* Protein names */\n",
+      prot_tissue: "/* Protein tissues */\n",
+      prot_keyword: "/* Protein keywords */\n",
+      prot_bio: "/* Protein biological processes */\n",
+      prot_cel: "/* Protein cellular components */\n",
+      prot_mol: "/* Protein molecular functions */\n",
+      prot_species: "/* Protein species */\n"
+    }
+  end
+
+  def build_prolog_file(parts)
+    file = parts[:gene_id] << "\n"
+    file << parts[:tran_id] << "\n"
+    file << parts[:prot_id] << "\n"
+    file << parts[:gene_name] << "\n"
+    file << parts[:gene_species] << "\n"
+    file << parts[:gene_tran] << "\n"
+    file << parts[:tran_name] << "\n"
+    file << parts[:tran_own] << "\n"
+    file << parts[:tran_prot] << "\n"
+    file << parts[:prot_name] << "\n"
+    file << parts[:prot_species] << "\n"
+    file << parts[:prot_keyword] << "\n"
+    file << parts[:prot_tissue] << "\n"
+    file << parts[:prot_bio] << "\n"
+    file << parts[:prot_cel] << "\n"
+    file << parts[:prot_mol] << "\n"
   end
 end

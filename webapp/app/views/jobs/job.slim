@@ -50,6 +50,9 @@ div class="info"
           li role="presentation" class="dropdown-header" = t('job.view.download_prot')
           li = link_to 'CSV', url_for(:jobs, :job_prot, @job.id, :format => :csv)
           li = link_to 'TSV', url_for(:jobs, :job_prot, @job.id, :format => :tsv)
+          li role="presentation" class="divider"
+          li role="presentation" class="dropdown-header" = t('job.view.download_prolog')
+          li = link_to 'Prolog', url_for(:jobs, :job_prolog, @job.id, :format => :text)
 
     /* Problem reporting. */
     = partial 'jobs/report_form', :locals => { job_id: @job.id }

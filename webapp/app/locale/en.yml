@@ -110,6 +110,7 @@ en:
       download: Download results
       download_rbp: RBP information
       download_prot: Protein information
+      download_prolog: Complete dataset
       species: Species
       analysis: Analysis
       ontologies: Ontologies

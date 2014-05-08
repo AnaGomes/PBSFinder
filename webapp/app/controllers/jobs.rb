@@ -107,6 +107,21 @@ PbsSite::App.controllers :jobs do
     end
   end
 
+  get :job_prolog, :with => :id, :provides => [:prolog] do
+    @job = Job.find(params[:id])
+    if @job
+      case content_type
+      when :text
+        content_type 'application/text'
+        attachment "dataset.pl"
+        return @job.to_prolog
+      end
+    else
+      flash[:error] = t('job.view.not_found')
+      redirect url('/')
+    end
+  end
+
   get :job, :with => :id, :provides => [:html, :csv, :tsv] do
     @job = Job.find(params[:id])
     if @job
