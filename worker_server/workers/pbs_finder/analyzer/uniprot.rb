@@ -96,7 +96,7 @@ module Pbs
         flat.ref.each do |ref|
           (ref['RC'] || []).each do |r|
             if r && r['Token'] == 'TISSUE'
-              tissue = r['Text'].downcase
+              tissue = r['Text'].downcase.gsub(',', '')
               tissue[0] = tissue[0].upcase
               tissues.add(tissue)
             end
@@ -104,12 +104,12 @@ module Pbs
         end
 
         # Keywords and ontology.
-        keywords = flat.kw
+        keywords = flat.kw.map { |x| x.gsub(',', '') }
         cell_component = Set.new
         bio_process = Set.new
         mol_function = Set.new
         flat.dr('GO').each do |g|
-          ont = g['Version'][2..-1]
+          ont = g['Version'][2..-1].gsub(',', '')
           ont[0] = ont[0].upcase
           case g['Version'][0]
           when 'C'
