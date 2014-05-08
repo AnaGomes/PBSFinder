@@ -90,16 +90,17 @@ PbsSite::App.controllers :jobs do
 
   get :job_prot, :with => :id, :provides => [:csv, :tsv] do
     @job = Job.find(params[:id])
-    if @job
+    if @job && @job.complete && @job.time
+      grid_fs = Mongoid::GridFs
       case content_type
       when :csv
         content_type 'text/csv'
         attachment "prot_results.csv"
-        return @job.to_prot_csv
+        return grid_fs.get(@job.files['prot_csv'])
       when :tsv
         content_type 'text/tsv'
         attachment "prot_results.tsv"
-        return @job.to_prot_csv(col_sep: "\t")
+        return grid_fs.get(@job.files['prot_tsv'])
       end
     else
       flash[:error] = t('job.view.not_found')
@@ -109,12 +110,13 @@ PbsSite::App.controllers :jobs do
 
   get :job_prolog, :with => :id, :provides => [:prolog] do
     @job = Job.find(params[:id])
-    if @job
+    if @job && @job.complete && @job.time
+      grid_fs = Mongoid::GridFs
       case content_type
       when :text
         content_type 'text/plain'
         attachment "dataset.pl"
-        return @job.to_prolog
+        return grid_fs.get(@job.files['prolog'])
       end
     else
       flash[:error] = t('job.view.not_found')
@@ -124,7 +126,8 @@ PbsSite::App.controllers :jobs do
 
   get :job, :with => :id, :provides => [:html, :csv, :tsv] do
     @job = Job.find(params[:id])
-    if @job
+    if @job && (content_type == :html || (@job.complete && @job.time))
+      grid_fs = Mongoid::GridFs
       case content_type
       when :html
         @big_title = t('job.view.big_title')
@@ -132,11 +135,11 @@ PbsSite::App.controllers :jobs do
       when :csv
         content_type 'text/csv'
         attachment "rbp_results.csv"
-        return @job.to_csv
+        return grid_fs.get(@job.files['rbp_csv'])
       when :tsv
         content_type 'text/tsv'
         attachment "rbp_results.tsv"
-        return @job.to_csv(col_sep: "\t")
+        return grid_fs.get(@job.files['rbp_tsv'])
       end
     else
       flash[:error] = t('job.view.not_found')

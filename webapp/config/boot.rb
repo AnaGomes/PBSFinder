@@ -36,6 +36,7 @@ Bundler.require(:default, RACK_ENV)
 # Add your before (RE)load hooks here
 #
 Padrino.before_load do
+  require 'mongoid-grid_fs'
   require 'will_paginate'
   require 'will_paginate'
   require 'will_paginate/view_helpers/sinatra'

@@ -14,6 +14,7 @@ class Job
   field :description,   type: String
   field :notify,        type: Boolean, default: false
   field :time,          type: Integer
+  field :files,         type: Hash, default: {}
 
   validates_presence_of :query, :if => :query_required
   validates_presence_of :complete

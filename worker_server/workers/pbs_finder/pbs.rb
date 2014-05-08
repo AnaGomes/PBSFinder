@@ -13,3 +13,5 @@ require_relative 'ext_lib/custom_dataset'
 
 # Require needed libraries.
 require 'benchmark'
+require 'mongoid-grid_fs'
+require 'stringio'

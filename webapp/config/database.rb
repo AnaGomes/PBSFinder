@@ -18,7 +18,6 @@ Mongoid::Config.sessions =
   end
 
 Mongoid.raise_not_found_error = false
-Mongoid.identity_map_enabled = true
 
 # If you want to use a YML file for config, use this instead:
 #

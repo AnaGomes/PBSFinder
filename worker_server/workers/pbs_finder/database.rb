@@ -4,6 +4,7 @@ module Pbs
     def self.save_job_analysis(job, id)
       db = Job.find(id)
       save_job(job, db) if db && job
+      save_files(db)
     rescue StandardError => e
       puts e.message, e.backtrace
     end
@@ -16,6 +17,26 @@ module Pbs
       end
       save_extra(job, db)
       db.save
+    end
+
+    def self.save_files(db)
+      if db.complete && db.time
+        # Save files.
+        grid_fs = Mongoid::GridFs
+        rbp_csv = grid_fs.put(StringIO.new(db.to_csv, 'r'))
+        rbp_tsv = grid_fs.put(StringIO.new(db.to_csv(col_sep: "\t"), 'r'))
+        prot_csv = grid_fs.put(StringIO.new(db.to_prot_csv, 'r'))
+        prot_tsv = grid_fs.put(StringIO.new(db.to_prot_csv(col_sep: "\t"), 'r'))
+        prolog = grid_fs.put(StringIO.new(db.to_prolog, 'r'))
+
+        # Save IDs.
+        db.files[:rbp_csv] = rbp_csv.id
+        db.files[:rbp_tsv] = rbp_tsv.id
+        db.files[:prot_csv] = prot_csv.id
+        db.files[:prot_tsv] = prot_tsv.id
+        db.files[:prolog] = prolog.id
+        db.save
+      end
     end
 
     def self.save_extra(job, db)
@@ -85,6 +106,7 @@ module Pbs
       end
     end
     private_class_method(
+      :save_files,
       :save_job,
       :save_extra,
       :save_gene,

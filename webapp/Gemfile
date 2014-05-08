@@ -30,6 +30,9 @@ gem 'slim'
 gem 'mongoid', '~>3.0.0'
 gem "will_paginate_mongoid", "~> 2.0.1"
 
+# GridFS
+gem 'mongoid-grid_fs', '~> 2.1.0'
+
 # Test requirements
 
 # Padrino Stable Gem
