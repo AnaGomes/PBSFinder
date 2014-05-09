@@ -4,7 +4,7 @@ require 'set'
 class Job
   include Mongoid::Document
   include Mongoid::Timestamps
-  belongs_to  :account
+  belongs_to  :account, index: true
   embeds_many :binds,   cascade_callbacks: true
   has_many    :genes,   dependent: :delete, autosave: true
 
@@ -89,14 +89,14 @@ class Job
       # Gene info.
       if gene.transcripts.size > 0
         parts[:gene_id] << "gene(gene_#{ gene.id }).\n"
-        parts[:gene_name] << "gene_name(gene_#{ gene.id }, '#{ gene.name.downcase }').\n" if gene.name
+        parts[:gene_name] << "/* gene_name(gene_#{ gene.id }, '#{ gene.name.downcase }'). */\n" if gene.name
         parts[:gene_species] << "gene_species(gene_#{ gene.id }, '#{ gene.species.downcase }').\n" if gene.species
 
         # Transcript info.
         gene.transcripts.each do |tran|
           parts[:gene_tran] << "gene_transcript(gene_#{ gene.id }, tran_#{ tran.id }).\n"
           parts[:tran_id] << "transcript(tran_#{ tran.id }).\n"
-          parts[:tran_name] << "transcript_name(tran_#{ tran.id }, '#{ tran.name.downcase }').\n" if tran.name
+          parts[:tran_name] << "/* transcript_name(tran_#{ tran.id }, '#{ tran.name.downcase }'). */\n" if tran.name
 
           # Protein info.
           tran.proteins.each do |prot|
@@ -135,7 +135,7 @@ class Job
     unless prots[id]
       prots[id] = "prot_#{ prot.id }"
       parts[:prot_id] << "protein(prot_#{ prot.id }).\n"
-      parts[:prot_name] << "protein_name(prot_#{ prot.id }, '#{ prot.name.downcase }').\n"
+      parts[:prot_name] << "/* protein_name(prot_#{ prot.id }, '#{ prot.name.downcase }'). */\n"
       parts[:prot_species] << "protein_species(prot_#{ prot.id }, '#{ prot.species.downcase }').\n" if prot.species
       prot.tissues.each { |tissue| parts[:prot_tissue] << "protein_tissue(prot_#{ prot.id }, '#{ tissue.downcase.gsub("'", '') }').\n" }
       prot.keywords.each { |keyword| parts[:prot_keyword] << "protein_keyword(prot_#{ prot.id }, '#{ keyword.downcase.gsub("'", '') }').\n" }

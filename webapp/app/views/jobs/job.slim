@@ -63,7 +63,7 @@ div class="info"
       - if @job.time
         tr
           td class='first' = t('job.view.analysis')
-          td class='' = "#{@job.genes.size} #{@job.genes.size == 1 ? 'gene' : 'genes'} analyzed in #{Time.at(@job.time).utc.strftime("%H:%M:%S")}"
+          td class='' = "#{ @total_genes } #{ @total_genes == 1 ? 'gene' : 'genes'} analyzed in #{Time.at(@job.time).utc.strftime("%H:%M:%S")}"
       tr
         td class='first' = t('job.view.description')
         td class='' = @job.description
@@ -123,7 +123,7 @@ div class="info"
 
           /* Protein table body. */
           tbody
-            - @job.genes.each do |gene|
+            - @genes.each do |gene|
 
               /* Bad gene (no conversion). */
               - if gene.transcripts.size == 0

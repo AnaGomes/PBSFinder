@@ -1,6 +1,6 @@
 class Gene
   include Mongoid::Document
-  belongs_to  :job
+  belongs_to  :job, index: true
   has_many    :transcripts, dependent: :delete, autosave: true
 
   field :query_id,      type: String

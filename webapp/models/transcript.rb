@@ -1,6 +1,6 @@
 class Transcript
   include Mongoid::Document
-  belongs_to      :gene
+  belongs_to      :gene, index: true
   has_many        :proteins, class_name: 'Protein', inverse_of: :transcript, dependent: :delete, autosave: true
   has_one         :own_protein, class_name: 'Protein', inverse_of: :own_transcript, dependent: :delete, autosave: true
 

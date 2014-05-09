@@ -1,7 +1,7 @@
 class Protein
   include Mongoid::Document
-  belongs_to      :transcript, class_name: 'Transcript', inverse_of: :proteins
-  belongs_to      :own_transcript, class_name: 'Transcript', inverse_of: :own_protein
+  belongs_to      :transcript, class_name: 'Transcript', inverse_of: :proteins, index: true
+  belongs_to      :own_transcript, class_name: 'Transcript', inverse_of: :own_protein, index: true
   embeds_many     :positions, :cascade_callbacks => true
 
   field :protein_id,          type: String
