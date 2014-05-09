@@ -8,6 +8,8 @@ class Job
   embeds_many :binds,   cascade_callbacks: true
   has_many    :genes,   dependent: :delete, autosave: true
 
+  before_destroy :destroy_files
+
   attr_accessor :query
 
   field :complete,      type: Boolean, default: false
@@ -114,6 +116,16 @@ class Job
   end
 
   private
+
+  def destroy_files
+    if self.files
+      grid_fs = Mongoid::GridFs
+      self.files.each do |key, file_id|
+        grid_fs.delete(file_id)
+      end
+    end
+  end
+
   def query_required
     return !self.complete
   end
