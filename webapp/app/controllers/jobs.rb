@@ -47,7 +47,7 @@ PbsSite::App.controllers :jobs do
   end
 
   get :list do
-    @jobs = current_account.jobs.where(complete: true).desc(:created_at)
+    @jobs = Job.where(complete: true, account_id: current_account.id).desc(:created_at)
     @jobs = @jobs.paginate(:page => params[:page] || 1, :per_page => 10)
     @complete = true
     @big_title = t('job.big_title.list')
@@ -55,7 +55,7 @@ PbsSite::App.controllers :jobs do
   end
 
   get :pending do
-    @jobs = current_account.jobs.where(complete: false).desc(:created_at)
+    @jobs = Job.where(complete: false, account_id: current_account.id).desc(:created_at)
     @jobs = @jobs.paginate(:page => params[:page] || 1, :per_page => 10)
     @complete = false
     @big_title = t('job.big_title.pending')

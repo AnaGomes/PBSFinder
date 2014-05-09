@@ -37,8 +37,7 @@ Bundler.require(:default, RACK_ENV)
 #
 Padrino.before_load do
   require 'mongoid-grid_fs'
-  require 'will_paginate'
-  require 'will_paginate'
+  require 'will_paginate_mongoid'
   require 'will_paginate/view_helpers/sinatra'
   include WillPaginate::Sinatra::Helpers
 end
