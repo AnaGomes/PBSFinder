@@ -130,6 +130,7 @@ class Job
       prot.biological_process.each { |bio| parts[:prot_bio] << "protein_biological_process(prot_#{ prot.id }, '#{ bio.downcase.gsub("'", '') }').\n" }
       prot.cellular_component.each { |cel| parts[:prot_cel] << "protein_cellular_component(prot_#{ prot.id }, '#{ cel.downcase.gsub("'", '') }').\n" }
       prot.molecular_function.each { |mol| parts[:prot_mol] << "protein_molecular_function(prot_#{ prot.id }, '#{ mol.downcase.gsub("'", '') }').\n" }
+      prot.positions.map { |pos| pos.sequence }.uniq.each { |seq| parts[:prot_sequence] << "protein_sequence(prot_#{ prot.id }, \"#{ seq }\").\n" }
     end
     if own
       parts[:tran_own] << "transcript_own_protein(tran_#{ tran.id }, #{ prots[id] }).\n"
@@ -140,9 +141,9 @@ class Job
 
   def init_prolog_hash
     {
+      info: init_info_comment,
       gene_id: "/* Genes */\n",
       gene_name: "/* Gene names */\n",
-      gene_species: "/* Gene species */\n",
       gene_species: "/* Gene species */\n",
       gene_tran: "/* Gene transcripts */\n",
       tran_id: "/* Transcripts */\n",
@@ -156,12 +157,36 @@ class Job
       prot_bio: "/* Protein biological processes */\n",
       prot_cel: "/* Protein cellular components */\n",
       prot_mol: "/* Protein molecular functions */\n",
-      prot_species: "/* Protein species */\n"
+      prot_species: "/* Protein species */\n",
+      prot_sequence: "/* Protein binding sequences */\n"
     }
   end
 
+  def init_info_comment
+    info = "/* Available knowledge base clauses */\n\n"
+    info << "/* gene(GENE_ID). */\n"
+    info << "/* transcript(TRANSCRIPT_ID). */\n"
+    info << "/* protein(PROTEIN_ID). */\n"
+    info << "/* gene_name(GENE_ID, 'NAME'). */\n"
+    info << "/* gene_species(GENE_ID, 'SPECIES'). */\n"
+    info << "/* gene_transcript(GENE_ID, TRANSCRIPT_ID). */\n"
+    info << "/* transcript_name(TRANSCRIPT_ID, 'NAME'). */\n"
+    info << "/* transcript_own_protein(TRANSCRIPT_ID, PROTEIN_ID). */\n"
+    info << "/* transcript_protein(TRANSCRIPT_ID, PROTEIN_ID). */\n"
+    info << "/* protein_name(PROTEIN_ID, 'NAME'). */\n"
+    info << "/* protein_tissue(PROTEIN_ID, 'TISSUE'). */\n"
+    info << "/* protein_keyword(PROTEIN_ID, 'KEYWORD'). */\n"
+    info << "/* protein_biological_process(PROTEIN_ID, 'BIOLOGICAL_PROCESS'). */\n"
+    info << "/* protein_molecular_function(PROTEIN_ID, 'MOLECULAR_FUNCTION'). */\n"
+    info << "/* protein_cellular_component(PROTEIN_ID, 'CELLULAR_COMPONENT'). */\n"
+    info << "/* protein_species(PROTEIN_ID, 'SPECIES'). */\n"
+    info << "/* protein_sequence(PROTEIN_ID, \"SEQUENCE\"). */\n"
+    info
+  end
+
   def build_prolog_file(parts)
-    file = parts[:gene_id] << "\n"
+    file = parts[:info] << "\n"
+    file << parts[:gene_id] << "\n"
     file << parts[:tran_id] << "\n"
     file << parts[:prot_id] << "\n"
     file << parts[:gene_name] << "\n"
@@ -177,5 +202,6 @@ class Job
     file << parts[:prot_bio] << "\n"
     file << parts[:prot_cel] << "\n"
     file << parts[:prot_mol] << "\n"
+    file << parts[:prot_sequence] << "\n"
   end
 end
