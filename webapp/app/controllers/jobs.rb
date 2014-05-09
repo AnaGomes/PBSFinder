@@ -130,7 +130,6 @@ PbsSite::App.controllers :jobs do
       grid_fs = Mongoid::GridFs
       case content_type
       when :html
-        @genes = Gene.where(job_id: @job.id).paginate(:page => params[:page] || 1, :per_page => 10)
         @big_title = t('job.view.big_title')
         render 'jobs/job'
       when :csv
