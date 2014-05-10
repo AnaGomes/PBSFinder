@@ -35,33 +35,75 @@ div class="general-info"
 
 
   /* Additional information. */
-  - if @protein.keywords.size > 0 || @protein.tissues.size > 0
+  - active = @protein.keywords.size > 0 ? :keywords : nil
+  - active ||= @protein.tissues.size > 0 ? :tissues : nil
+  - active ||= @protein.pathways.size > 0 ? :pathways : nil
+  - if active
     h4 class="section-name" = t('job.view.additional_info')
-    table class='id-table'
+    ul class="nav nav-tabs" data-tabs="tabs"
       - if @protein.keywords.size > 0
-        tr
-          td class="first" = t('job.protein.keywords')
-          td = @protein.keywords.join(',  ')
+        li class="#{ active == :keywords ? 'active' : '' }"
+          a data-toggle="tab" href="#keywords" = t('job.protein.keywords')
       - if @protein.tissues.size > 0
-        tr
-          td class="first" = t('job.protein.tissues')
-          td = @protein.tissues.join(',  ')
+        li class="#{ active == :tissues ? 'active' : '' }"
+          a data-toggle="tab" href="#tissues" = t('job.protein.tissues')
+      - if @protein.pathways.size > 0
+        li class="#{ active == :pathways ? 'active' : '' }"
+          a data-toggle="tab" href="#pathways" = t('job.protein.pathways')
+
+    div class="tab-content"
+      - if @protein.keywords.size > 0
+        div id="keywords" class="tab-pane #{ active == :keywords ? 'active' : '' }"
+          ul class="info-per-line"
+            - @protein.keywords.each do |keyword|
+              li = keyword
+      - if @protein.tissues.size > 0
+        div id="tissues" class="tab-pane #{ active == :tissues ? 'active' : '' }"
+          ul class="info-per-line"
+            - @protein.tissues.each do |tissue|
+              li = tissue
+      - if @protein.pathways.size > 0
+        div id="pathways" class="tab-pane #{ active == :pathways ? 'active' : '' }"
+          ul class="info-per-line"
+            - @protein.pathways.each do |id, name|
+              li class="external"
+                = link_to( \
+                  name, \
+                  "http://www.genome.jp/kegg-bin/show_pathway?#{ id }#{ @protein.external_ids['kegg'].size == 1 ? '+' << @protein.external_ids['kegg'][0][0].split(':')[1] : '' }" \
+                )
     p class='separator'
 
   /* Ontologies. */
-  - if @protein.cellular_component.size > 0 || @protein.molecular_function.size > 0 || @protein.biological_process.size > 0
+  - active = @protein.cellular_component.size > 0 ? :cel : nil
+  - active ||= @protein.molecular_function.size > 0 ? :mol : nil
+  - active ||= @protein.biological_process.size > 0 ? :bio : nil
+  - if active
     h4 class="section-name" = t('job.view.ontologies')
-    table class='id-table'
+    ul class="nav nav-tabs" data-tabs="tabs"
       - if @protein.cellular_component.size > 0
-        tr
-          td class="first" = t('job.protein.cell_component')
-          td = @protein.cellular_component.join(',  ')
+        li class="#{ active == :cel ? 'active' : '' }"
+          a data-toggle="tab" href="#cell_component" = t('job.protein.cell_component')
       - if @protein.molecular_function.size > 0
-        tr
-          td class="first" = t('job.protein.mol_function')
-          td = @protein.molecular_function.join(',  ')
+        li class="#{ active == :mol ? 'active' : '' }"
+          a data-toggle="tab" href="#mol_function" = t('job.protein.mol_function')
       - if @protein.biological_process.size > 0
-        tr
-          td class="first" = t('job.protein.bio_process')
-          td = @protein.biological_process.join(',  ')
-  p class='separator'
+        li class="#{ active == :bio ? 'active' : '' }"
+          a data-toggle="tab" href="#bio_process" = t('job.protein.bio_process')
+
+    div class="tab-content"
+      - if @protein.cellular_component.size > 0
+        div id="cell_component" class="tab-pane #{ active == :cel ? 'active' : '' }"
+          ul class="info-per-line"
+            - @protein.cellular_component.each do |cel|
+              li = cel
+      - if @protein.molecular_function.size > 0
+        div id="mol_function" class="tab-pane #{ active == :mol ? 'active' : '' }"
+          ul class="info-per-line"
+            - @protein.molecular_function.each do |mol|
+              li = mol
+      - if @protein.biological_process.size > 0
+        div id="bio_process" class="tab-pane #{ active == :bio ? 'active' : '' }"
+          ul class="info-per-line"
+            - @protein.biological_process.each do |bio|
+              li = bio
+    p class='separator'

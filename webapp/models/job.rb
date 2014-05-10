@@ -142,6 +142,7 @@ class Job
       prot.biological_process.each { |bio| parts[:prot_bio] << "protein_biological_process(prot_#{ prot.id }, '#{ bio.downcase.gsub("'", '') }').\n" }
       prot.cellular_component.each { |cel| parts[:prot_cel] << "protein_cellular_component(prot_#{ prot.id }, '#{ cel.downcase.gsub("'", '') }').\n" }
       prot.molecular_function.each { |mol| parts[:prot_mol] << "protein_molecular_function(prot_#{ prot.id }, '#{ mol.downcase.gsub("'", '') }').\n" }
+      prot.pathways.each { |path_id, name| parts[:prot_pathway] << "protein_pathway(prot_#{ prot.id }, path_#{ path_id[/[0-9]+$/] }).\n" }
       prot.positions.map { |pos| pos.sequence }.uniq.each { |seq| parts[:prot_sequence] << "protein_sequence(prot_#{ prot.id }, \"#{ seq }\").\n" }
     end
     if own
@@ -170,7 +171,8 @@ class Job
       prot_cel: "/* Protein cellular components */\n",
       prot_mol: "/* Protein molecular functions */\n",
       prot_species: "/* Protein species */\n",
-      prot_sequence: "/* Protein binding sequences */\n"
+      prot_sequence: "/* Protein binding sequences */\n",
+      prot_pathway: "/* Protein pathways */\n"
     }
   end
 
@@ -193,6 +195,7 @@ class Job
     info << "/* protein_cellular_component(PROTEIN_ID, 'CELLULAR_COMPONENT'). */\n"
     info << "/* protein_species(PROTEIN_ID, 'SPECIES'). */\n"
     info << "/* protein_sequence(PROTEIN_ID, \"SEQUENCE\"). */\n"
+    info << "/* protein_pathway(PROTEIN_ID, PATHWAY_ID). */\n"
     info
   end
 
@@ -215,5 +218,6 @@ class Job
     file << parts[:prot_cel] << "\n"
     file << parts[:prot_mol] << "\n"
     file << parts[:prot_sequence] << "\n"
+    file << parts[:prot_pathway] << "\n"
   end
 end

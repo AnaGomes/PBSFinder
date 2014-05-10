@@ -74,6 +74,7 @@ en:
       species_used: Species (protein)
       keywords: Keywords
       tissues: Related tissues
+      pathways: Pathways
       bio_process: Biological process
       cell_component: Cellular component
       mol_function: Molecular function

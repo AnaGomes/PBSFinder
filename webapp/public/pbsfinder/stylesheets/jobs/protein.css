@@ -44,3 +44,13 @@
       padding-right: 30px;
       white-space: nowrap;
       overflow: hidden; }
+
+.info-per-line {
+  margin-top: 25px;
+  list-style: none;
+  padding-left: 20px; }
+  .info-per-line li {
+    font-family: Ubuntu;
+    font-weight: normal;
+    font-size: 1.3em;
+    white-space: pre-wrap; }

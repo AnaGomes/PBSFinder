@@ -13,4 +13,5 @@ class Protein
   field :cellular_component,  type: Array
   field :molecular_function,  type: Array
   field :species,             type: String
+  field :pathways,            type: Hash
 end

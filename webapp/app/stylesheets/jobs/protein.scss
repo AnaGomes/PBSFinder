@@ -49,3 +49,14 @@
     }
   }
 }
+.info-per-line {
+  margin-top:25px;
+  list-style:none;
+  padding-left:20px;
+  li {
+    font-family: Ubuntu;
+    font-weight:normal;
+    font-size: 1.3em;
+    white-space:pre-wrap;
+  }
+}
