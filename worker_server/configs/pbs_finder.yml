@@ -6,6 +6,10 @@
     rettype:      gb
   :parameter_id:   id
 
+:kegg:
+  :url:           rest.kegg.jp
+  :get_path:      /get/
+
 :biodbnet:
   :url:              http://biodbnet.abcc.ncifcrf.gov
   :fetch_path:       /db/dbResFileTxt.php

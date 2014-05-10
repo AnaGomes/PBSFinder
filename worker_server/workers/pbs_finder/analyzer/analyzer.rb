@@ -4,6 +4,7 @@ require_relative 'helper'
 require_relative 'ncbi'
 require_relative 'uniprot'
 require_relative 'dataset'
+require_relative 'kegg'
 
 # Require external libraries.
 require 'nokogiri'

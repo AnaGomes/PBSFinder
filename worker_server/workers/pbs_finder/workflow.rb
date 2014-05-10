@@ -9,6 +9,7 @@ module Pbs
       @ncbi = Analyzer::Ncbi.new(@helper)
       @ensembl = Analyzer::Ensembl.new(@helper)
       @uniprot = Analyzer::Uniprot.new(@helper)
+      @kegg = Analyzer::Kegg.new(@helper)
       @ids = prepare_ids(ids)
       @job = Container::Job.new
     end
@@ -32,7 +33,8 @@ module Pbs
         start_base_uniprot_analysis
         start_advanced_uniprot_analysis
 
-        # TODO ADVANCED ANALYSIS
+        # Kegg analysis.
+        start_base_kegg_analysis
 
         # Final stage.
         Analyzer::Dataset.create_invalid_genes!(@job, @ids)
@@ -49,6 +51,10 @@ module Pbs
       Analyzer::Dataset.build_own_proteins!(@job)
       Analyzer::Dataset.build_lists!(@job)
       Analyzer::Dataset.build_matches!(@job)
+    end
+
+    def start_base_kegg_analysis
+      @kegg.find_kegg_pathways!(@job)
     end
 
     def start_base_uniprot_analysis

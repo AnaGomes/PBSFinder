@@ -95,6 +95,7 @@ module Pbs
       db.biological_process = prot.biological_process
       db.cellular_component = prot.cellular_component
       db.molecular_function = prot.molecular_function
+      db.pathways = prot.pathways
       prot.positions.each do |pos|
         db.positions << Position.new(
           seq_start: pos.start,

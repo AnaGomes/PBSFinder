@@ -14,6 +14,7 @@ module Pbs
         :biological_process,
         :cellular_component,
         :molecular_function,
+        :pathways
       )
 
       def initialize(params = {})
@@ -28,6 +29,7 @@ module Pbs
         @biological_process = params.fetch(:biological_process, [])
         @cellular_component = params.fetch(:cellular_component, [])
         @molecular_function = params.fetch(:molecular_function, [])
+        @pathways = params.fetch(:pathways, {})
       end
     end
   end
