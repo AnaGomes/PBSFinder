@@ -49,7 +49,7 @@ class Job
     CSV.generate(options) do |csv|
       header = %w[gene_species gene_id gene_name transcript_id transcript_name]
       header += %w[protein_species protein_id protein_name own keywords]
-      header += %w[tissues molecular_function cellular_component biological_process]
+      header += %w[tissues molecular_function cellular_component biological_process pathways]
       csv << header
       genes.each do |gene|
         gene.transcripts.each do |trans|
@@ -61,7 +61,8 @@ class Job
               prot.tissues.map(&:downcase).join(';'),
               prot.molecular_function.map(&:downcase).join(';'),
               prot.cellular_component.map(&:downcase).join(';'),
-              prot.biological_process.map(&:downcase).join(';')
+              prot.biological_process.map(&:downcase).join(';'),
+              prot.pathways.map { |k, name| name.downcase }.join(';')
             ]
             csv << line + line2
           end
@@ -73,7 +74,8 @@ class Job
               prot.tissues.map(&:downcase).join(';'),
               prot.molecular_function.map(&:downcase).join(';'),
               prot.cellular_component.map(&:downcase).join(';'),
-              prot.biological_process.map(&:downcase).join(';')
+              prot.biological_process.map(&:downcase).join(';'),
+              prot.pathways.map { |k, name| name.downcase }.join(';')
             ]
             csv << line + line2
           end
