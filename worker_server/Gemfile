@@ -45,3 +45,6 @@ gem 'mongoid-grid_fs', '~> 2.1.0'
 
 # Rubocop syntax checker.
 gem 'rubocop', '~> 0.20.1'
+
+# RSRuby,
+gem 'rsruby', '~> 0.5.1.1'

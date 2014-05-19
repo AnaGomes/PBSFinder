@@ -7,6 +7,7 @@ nohup.out
 webapp/tmp/*
 webapp/log/*
 webapp/.sass-cache
+starter.local.sh
 bin/*
 worker_server/temp/*
 worker_server/temp_work/*
