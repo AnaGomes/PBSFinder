@@ -49,6 +49,10 @@
       padding-right:20px;
     }
 
+    .cluster-header {
+      padding-right:5px !important;
+    }
+
     td {
       min-width:30px;
       min-height:50px;
@@ -90,8 +94,31 @@
         color:rgb(255, 73, 73);
         text-align:center;
       }
-      &:nth-child(1) {
+      &.species {
         min-width:170px;
+      }
+      &.cluster {
+        text-align:center;
+        vertical-align:middle;
+        font-size:0;
+        opacity:0.6;
+        border-right:solid 1px #dddddd;
+        padding:0;
+        .popup-div {
+          width: 60px;
+          height: 50px;
+          cursor:pointer;
+        }
+        &.cluster-1 { background-color:#36a8e5; }
+        &.cluster-2 { background-color:#3459a7; }
+        &.cluster-3 { background-color:#f89316; }
+        &.cluster-4 { background-color:#e6001d; }
+        &.cluster-5 { background-color:#f1eb1c; }
+        &.cluster-6 { background-color:#61b744; }
+        &.cluster-7 { background-color:#483c92; }
+        &.cluster-8 { background-color:#8bc32f; }
+        &.cluster-9 { background-color:#1591ff; }
+        &.cluster-10 { background-color:#61bc93; }
       }
     }
 
@@ -284,4 +311,29 @@ th {
 }
 .back-button {
   margin-left:40px;
+}
+.popover-title {
+  font-weight:bolder;
+}
+.popover-content {
+  max-width: 600px;
+}
+.cluster-descriptions {
+  display:none;
+}
+.cluster-table {
+  white-space:pre-wrap;
+  td {
+    padding-bottom:5px;
+    padding-top:5px;
+  }
+  .cluster-attribute {
+    vertical-align:top;
+    font-variant:small-caps;
+    text-align:right;
+    padding-right:15px;
+    font-weight:bolder;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 }

@@ -66,6 +66,7 @@ PbsSite::App.controllers :jobs do
     @transcript = Transcript.find(params[:trans_id])
     if @transcript
       @gene = @transcript.gene
+      @job = @gene.job
       @protein = @transcript.own_protein
       @big_title = t('job.transcript.big_title')
       render 'jobs/transcript'

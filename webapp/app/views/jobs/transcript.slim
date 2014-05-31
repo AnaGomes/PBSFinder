@@ -29,6 +29,8 @@ div class="tabs-content"
         - notices[t('job.transcript.no_downstream.title')] = t('job.transcript.no_downstream.content')
       - if (utr.size >= 300 && utr.include?('N')) || (utr.size < 300 && down.include?('N'))
         - notices[t('job.transcript.no_n.title')] = t('job.transcript.no_n.content')
+      - if @job.clusters.size == 0
+        - notices[t('job.cluster.title')] = t('job.cluster.content')
       - if notices.size > 0
         = partial 'layouts/notice', locals: { \
           type: 'warning', \
@@ -38,7 +40,8 @@ div class="tabs-content"
       = partial 'layouts/notice', locals: { \
         type: 'warning', \
         notice: { \
-          t('job.transcript.no_proteins.title') => t('job.transcript.no_proteins.content') \
+          t('job.transcript.no_proteins.title') => t('job.transcript.no_proteins.content'), \
+          t('job.cluster.title') => t('job.cluster.content') \
         } \
       }
 
@@ -120,6 +123,8 @@ div class="tabs-content"
         /* Table header. */
         thead
           tr
+            - @job.clusters.each_with_index do |c, i|
+              th class="cluster-header" = "Grp#{ i + 1 }"
             th Protein
             th UniProt reference
             th data-sort-ignore="true" Score
@@ -132,6 +137,9 @@ div class="tabs-content"
           - @transcript.proteins.each do |prot|
             - prot.positions.each do |position|
               tr
+                - @job.clusters.each_with_index do |c, i|
+                  td class="cluster-popover-#{ i + 1 } cluster cluster-#{ c.protein_clusters[prot.protein_id] }"
+                    div class="popup-div" data-toggle="popover" = c.protein_clusters[prot.protein_id]
                 td class="protein"
                   - if prot.protein_id
                     = link_to prot.name, url(:jobs, :protein, prot.id)
@@ -156,3 +164,19 @@ div class="tabs-content"
         option value="30" Show 30 records per page
         option value="100" Show 100 records per page
         option value="999999" Show all records
+
+    /* Cluster descriptions. */
+    div class="cluster-descriptions"
+      - @job.clusters.each_with_index do |c, i|
+        - c.protein_attrs.each do |cls, attrs|
+          div class="grp#{ i + 1 } cls#{ cls }"
+            table class="cluster-table"
+              thead
+              tbody
+                - attrs.each do |attr, values|
+                  tr
+                    - if values.size > 0
+                      - attr = attr.to_s.gsub('_', ' ')
+                      - attr[0] = attr[0].upcase
+                      td class='cluster-attribute' = attr
+                      td = values.join(',  ')

@@ -31,7 +31,13 @@
       ] \
     } \
   }
-
+- elsif @job.complete && @job.time && @job.clusters.size == 0
+  = partial 'layouts/notice', locals: { \
+    type: 'warning', \
+    notice: { \
+      t('job.cluster.title') => t('job.cluster.content') \
+    } \
+  }
 /* View structure. */
 div class="info"
   div class="general-info"
@@ -105,6 +111,8 @@ div class="info"
         table class="table table-condensed table-hover" id="protein-table" data-page-navigation=".pagination"
           thead
             tr
+              - @job.clusters.each_with_index do |c, i|
+                th class="cluster-header" = "Grp#{ i + 1 }"
               th Species
               th
                 span Gene 
@@ -128,7 +136,7 @@ div class="info"
               /* Bad gene (no conversion). */
               - if gene.transcripts.size == 0
                 tr
-                  td colspan="4" class="bad-gene"
+                  td colspan="#{ 4 + @job.clusters.size }" class="bad-gene"
                     = "#{gene.query_id} (unknown)"
                   td colspan="#{ @job.binds.size + 1 }" class="no-bind"
                     span.pull-left NO RBP
@@ -139,7 +147,11 @@ div class="info"
               - elsif !gene.binds
                 - gene.transcripts.each do |trans|
                   tr
-                    td = gene.species
+                    td class="cluster cluster-0" 0
+                    td class="cluster cluster-0" 0
+                    td class="cluster cluster-0" 0
+                    td class="cluster cluster-0" 0
+                    td class="species" = gene.species
                     td
                       span class="converted" == gene_link(gene.gene_id, gene.id_type, gene.name)
                       span class="original" = gene.query_id
@@ -162,7 +174,10 @@ div class="info"
               - else
                 - gene.transcripts.each do |trans|
                   tr
-                    td = gene.species
+                    - @job.clusters.each_with_index do |c, i|
+                      td class="cluster-popover-#{ i + 1 } cluster cluster-#{ c.gene_clusters[gene.gene_id] }"
+                        div class="popup-div" data-toggle="popover" = c.gene_clusters[gene.gene_id]
+                    td class="species" = gene.species
                     td
                       span class="converted" == gene_link(gene.gene_id, gene.id_type, gene.name)
                       span class="original" = gene.query_id
@@ -187,3 +202,19 @@ div class="info"
           option value="30" Show 30 records per page
           option value="100" Show 100 records per page
           option value="999999" Show all records
+
+      /* Cluster descriptions. */
+      div class="cluster-descriptions"
+        - @job.clusters.each_with_index do |c, i|
+          - c.gene_attrs.each do |cls, attrs|
+            div class="grp#{ i + 1 } cls#{ cls }"
+              table class="cluster-table"
+                thead
+                tbody
+                  - attrs.each do |attr, values|
+                    tr
+                      - if values.size > 0
+                        - attr = attr.to_s.gsub('_', ' ')
+                        - attr[0] = attr[0].upcase
+                        td class='cluster-attribute' = attr
+                        td = values.join(',  ')

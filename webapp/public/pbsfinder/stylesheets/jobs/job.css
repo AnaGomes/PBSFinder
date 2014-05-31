@@ -35,6 +35,8 @@
     margin-bottom: 0px; }
     .table-container .table th.footable-sortable {
       padding-right: 20px; }
+    .table-container .table .cluster-header {
+      padding-right: 5px !important; }
     .table-container .table td {
       min-width: 30px;
       min-height: 50px;
@@ -69,8 +71,39 @@
       .table-container .table td.bad-gene {
         color: #ff4949;
         text-align: center; }
-      .table-container .table td:nth-child(1) {
+      .table-container .table td.species {
         min-width: 170px; }
+      .table-container .table td.cluster {
+        text-align: center;
+        vertical-align: middle;
+        font-size: 0;
+        opacity: 0.6;
+        border-right: solid 1px #dddddd;
+        padding: 0; }
+        .table-container .table td.cluster .popup-div {
+          width: 60px;
+          height: 50px;
+          cursor: pointer; }
+        .table-container .table td.cluster.cluster-1 {
+          background-color: #36a8e5; }
+        .table-container .table td.cluster.cluster-2 {
+          background-color: #3459a7; }
+        .table-container .table td.cluster.cluster-3 {
+          background-color: #f89316; }
+        .table-container .table td.cluster.cluster-4 {
+          background-color: #e6001d; }
+        .table-container .table td.cluster.cluster-5 {
+          background-color: #f1eb1c; }
+        .table-container .table td.cluster.cluster-6 {
+          background-color: #61b744; }
+        .table-container .table td.cluster.cluster-7 {
+          background-color: #483c92; }
+        .table-container .table td.cluster.cluster-8 {
+          background-color: #8bc32f; }
+        .table-container .table td.cluster.cluster-9 {
+          background-color: #1591ff; }
+        .table-container .table td.cluster.cluster-10 {
+          background-color: #61bc93; }
     .table-container .table tr {
       border-bottom: solid 1px #dddddd;
       min-height: 50px; }
@@ -234,3 +267,26 @@ th {
 
 .back-button {
   margin-left: 40px; }
+
+.popover-title {
+  font-weight: bolder; }
+
+.popover-content {
+  max-width: 600px; }
+
+.cluster-descriptions {
+  display: none; }
+
+.cluster-table {
+  white-space: pre-wrap; }
+  .cluster-table td {
+    padding-bottom: 5px;
+    padding-top: 5px; }
+  .cluster-table .cluster-attribute {
+    vertical-align: top;
+    font-variant: small-caps;
+    text-align: right;
+    padding-right: 15px;
+    font-weight: bolder;
+    white-space: nowrap;
+    overflow: hidden; }

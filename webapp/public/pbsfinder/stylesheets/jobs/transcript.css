@@ -31,6 +31,8 @@
   padding-right: 1px; }
   .table-container .table {
     margin-bottom: 0px; }
+    .table-container .table .cluster-header {
+      padding-right: 5px !important; }
     .table-container .table td {
       vertical-align: middle;
       padding-top: 0px;
@@ -39,6 +41,38 @@
         text-align: left; }
         .table-container .table td.protein.external a {
           color: #009235; }
+      .table-container .table td.cluster {
+        text-align: center;
+        vertical-align: middle;
+        font-size: 0;
+        opacity: 0.6;
+        width: 60px;
+        border-right: solid 1px #dddddd;
+        padding: 0; }
+        .table-container .table td.cluster .popup-div {
+          width: 55px;
+          height: 25px;
+          cursor: pointer; }
+        .table-container .table td.cluster.cluster-1 {
+          background-color: #36a8e5; }
+        .table-container .table td.cluster.cluster-2 {
+          background-color: #3459a7; }
+        .table-container .table td.cluster.cluster-3 {
+          background-color: #f89316; }
+        .table-container .table td.cluster.cluster-4 {
+          background-color: #e6001d; }
+        .table-container .table td.cluster.cluster-5 {
+          background-color: #f1eb1c; }
+        .table-container .table td.cluster.cluster-6 {
+          background-color: #61b744; }
+        .table-container .table td.cluster.cluster-7 {
+          background-color: #483c92; }
+        .table-container .table td.cluster.cluster-8 {
+          background-color: #8bc32f; }
+        .table-container .table td.cluster.cluster-9 {
+          background-color: #1591ff; }
+        .table-container .table td.cluster.cluster-10 {
+          background-color: #61bc93; }
     .table-container .table tr {
       border-bottom: solid 1px #dddddd; }
       .table-container .table tr.striped {
@@ -150,3 +184,26 @@
 
 .back-button {
   margin-left: 40px; }
+
+.popover-title {
+  font-weight: bolder; }
+
+.popover-content {
+  max-width: 600px; }
+
+.cluster-descriptions {
+  display: none; }
+
+.cluster-table {
+  white-space: pre-wrap; }
+  .cluster-table td {
+    padding-bottom: 5px;
+    padding-top: 5px; }
+  .cluster-table .cluster-attribute {
+    vertical-align: top;
+    font-variant: small-caps;
+    text-align: right;
+    padding-right: 15px;
+    font-weight: bolder;
+    white-space: nowrap;
+    overflow: hidden; }
