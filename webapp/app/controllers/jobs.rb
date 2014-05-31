@@ -137,7 +137,6 @@ PbsSite::App.controllers :jobs do
         @genes = @job.genes
         @total_genes = Gene.where(job_id: @job.id).count
         @big_title = t('job.view.big_title')
-        puts @job.clusters.inspect
         render 'jobs/job'
       when :csv
         content_type 'text/csv'
