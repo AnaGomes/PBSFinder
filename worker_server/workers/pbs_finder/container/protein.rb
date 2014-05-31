@@ -14,7 +14,8 @@ module Pbs
         :biological_process,
         :cellular_component,
         :molecular_function,
-        :pathways
+        :pathways,
+        :cluster
       )
 
       def initialize(params = {})
@@ -30,6 +31,7 @@ module Pbs
         @cellular_component = params.fetch(:cellular_component, [])
         @molecular_function = params.fetch(:molecular_function, [])
         @pathways = params.fetch(:pathways, {})
+        @cluster = params.fetch(:cluster, nil)
       end
     end
   end

@@ -10,6 +10,7 @@ module Pbs
       @ensembl = Analyzer::Ensembl.new(@helper)
       @uniprot = Analyzer::Uniprot.new(@helper)
       @kegg = Analyzer::Kegg.new(@helper)
+      @cluster = Analyzer::Cluster.new(@helper)
       @ids = prepare_ids(ids)
       @job = Container::Job.new
     end
@@ -36,6 +37,9 @@ module Pbs
         # Kegg analysis.
         start_base_kegg_analysis
 
+        # Clustering analysis.
+        start_base_clustering_analysis
+
         # Final stage.
         Analyzer::Dataset.create_invalid_genes!(@job, @ids)
       end
@@ -46,6 +50,16 @@ module Pbs
     end
 
     private
+
+    def start_base_clustering_analysis
+      if @cluster.clean_dataset!(@job)
+        @cluster.cluster_proteins!(@job)
+        @cluster.cluster_genes!(@job)
+        @cluster.find_similarities!(@job)
+      end
+    rescue StandardError => e
+      puts e.message, e.backtrace
+    end
 
     def start_base_dataset_analysis
       Analyzer::Dataset.build_own_proteins!(@job)

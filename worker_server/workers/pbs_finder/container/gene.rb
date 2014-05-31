@@ -9,7 +9,8 @@ module Pbs
         :name, :species,
         :type,
         :taxon,
-        :binds
+        :binds,
+        :cluster
       )
 
       def initialize(params = {})
@@ -21,6 +22,7 @@ module Pbs
         @type = params.fetch(:type, nil)
         @taxon = params.fetch(:taxon, nil)
         @binds = params.fetch(:binds, false)
+        @cluster = params.fetch(:cluster, nil)
       end
     end
   end

@@ -4,9 +4,10 @@ require 'set'
 class Job
   include Mongoid::Document
   include Mongoid::Timestamps
-  belongs_to  :account, index: true
-  embeds_many :binds,   cascade_callbacks: true
-  has_many    :genes,   dependent: :delete, autosave: true
+  belongs_to  :account,   index: true
+  embeds_many :binds,     cascade_callbacks: true
+  embeds_many :clusters,  cascade_callbacks: true
+  has_many    :genes,     dependent: :delete, autosave: true
 
   before_destroy :destroy_files
 

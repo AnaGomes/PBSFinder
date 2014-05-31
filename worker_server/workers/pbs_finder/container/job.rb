@@ -9,7 +9,11 @@ module Pbs
         :species,
         :taxons,
         :proteins,
-        :protein_ids
+        :protein_ids,
+        :cluster_proteins,
+        :attr_converter,
+        :cluster_info,
+        :cluster_genes
       )
 
       def initialize(params = {})
@@ -20,6 +24,10 @@ module Pbs
         @taxons = params.fetch(:taxons, Set.new)
         @protein_ids = params.fetch(:protein_ids, Set.new)
         @proteins = params.fetch(:proteins, [])
+        @cluster_proteins = params.fetch(:cluster_proteins, {})
+        @cluster_genes = params.fetch(:cluster_genes, {})
+        @cluster_info = params.fetch(:cluster_info, [])
+        @attr_converter = params.fetch(:attr_converter, {})
       end
     end
   end

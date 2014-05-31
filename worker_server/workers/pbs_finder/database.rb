@@ -14,9 +14,22 @@ module Pbs
         save_gene(gene, g)
         db.genes << g
       end
+      save_cluster(job, db)
       save_extra(job, db)
       save_files(db)
       db.save
+    end
+
+    def self.save_cluster(job, db)
+      job.cluster_info.each do |cls|
+        cluster = Cluster.new(
+          gene_clusters: cls.gene_clusters || {},
+          protein_clusters: cls.clusters || {},
+          gene_attrs: cls.gene_sims || {},
+          protein_attrs: cls.protein_sims || {}
+        )
+        db.clusters << cluster
+      end
     end
 
     def self.save_files(db)
@@ -105,7 +118,9 @@ module Pbs
         )
       end
     end
+
     private_class_method(
+      :save_cluster,
       :save_files,
       :save_job,
       :save_extra,

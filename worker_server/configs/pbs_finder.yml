@@ -1,3 +1,27 @@
+:cluster:
+  :min_genes:             10
+  :min_proteins:          10
+  :perc_protein_reject:   0.95
+  :perc_attr_reject:      0.95
+  :perc_by_cluster:       0.08
+  :perc_frequent_attr:    0.90
+  :max_clusters:          4
+  :min_max_attrs:         0.5
+  :daisy_weight:
+    :keywords:            1.0
+    :tissues:             1.0
+    :pathways:            1.0
+    :biological_process:  1.0
+    :molecular_function:  1.0
+    :cellular_component:  1.0
+  :jaccard_weight:
+    :keywords:            1.0
+    :tissues:             1.0
+    :pathways:            1.0
+    :biological_process:  1.0
+    :molecular_function:  1.0
+    :cellular_component:  1.0
+
 :ncbi:
   :url:           eutils.ncbi.nlm.nih.gov
   :fetch_path:    /entrez/eutils/efetch.fcgi
