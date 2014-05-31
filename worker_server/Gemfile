@@ -47,7 +47,6 @@ gem 'mongoid-grid_fs', '~> 2.1.0'
 gem 'rubocop', '~> 0.20.1'
 
 # RSRuby,
-gem 'rsruby', '~> 0.5.1.1'
 gem 'rserve-simpler', '~> 0.0.6'
 gem 'rserve-client', '~> 0.3.1'
 
