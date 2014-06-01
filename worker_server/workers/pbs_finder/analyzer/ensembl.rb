@@ -45,13 +45,13 @@ module Pbs
           transcripts = find_transcript_ids(ids.map { |gene| gene.gene_id }, dataset)[:data]
           ids.each do |gene|
             transcripts.each do |trans|
-              if trans[0] == gene.gene_id
+              if trans[0].upcase == gene.gene_id
                 gene.name = trans[1]
                 gene.transcripts[trans[2]] = Container::Transcript.new(
                   name: trans[3],
-                  transcript_id: trans[2]
+                  transcript_id: trans[2].upcase
                 )
-                transcript_ids << trans[2]
+                transcript_ids << trans[2].upcase
               end
             end
           end

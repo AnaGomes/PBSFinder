@@ -147,8 +147,8 @@ div class="info"
               - elsif !gene.binds
                 - gene.transcripts.each do |trans|
                   tr
-                    - @job.clusters.each do |_|
-                      td class="cluster cluster-0" 0
+                    - @job.clusters.each_with_index do |c, i|
+                      td class="cluster-popover-#{ i + 1 } cluster cluster-#{ c.gene_clusters[gene.gene_id] }" data-toggle="popover" = c.gene_clusters[gene.gene_id]
                     td class="species" = gene.species
                     td
                       span class="converted" == gene_link(gene.gene_id, gene.id_type, gene.name)
@@ -208,10 +208,15 @@ div class="info"
               table class="cluster-table"
                 thead
                 tbody
+                  - least_one = false
                   - attrs.each do |attr, values|
-                    tr
-                      - if values.size > 0
+                    - if values.size > 0
+                      tr
+                        - least_one = true
                         - attr = attr.to_s.gsub('_', ' ')
                         - attr[0] = attr[0].upcase
                         td class='cluster-attribute' = attr
                         td = values.join(',  ')
+                  - unless least_one
+                    tr
+                      td class='cluster-attribute' No predominant attributes

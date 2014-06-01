@@ -159,7 +159,7 @@ module Pbs
 
       def build_uniprot_query(job)
         query = '(' + (job.taxons.map { |taxon| "organism:#{ taxon }" } << 'organism:9606').join('+OR+') + ')'
-        query += '+AND+(' + job.proteins.map { |protein| "gene:#{ protein.name }" }.join('+OR+') + ')'
+        query += '+AND+(' + job.proteins.select { |protein| protein.name =~ /^[A-Za-z0-9-]+$/}.map { |protein| "gene:#{ protein.name }" }.join('+OR+') + ')'
         query
       end
 
@@ -184,6 +184,7 @@ module Pbs
           queries = []
           species = '(' + (job.taxons.map { |taxon| "organism:#{ taxon }" } << 'organism:9606').join('+OR+') + ')'
           job.proteins.each_slice(limit) do |slice|
+            slice = slice.select { |protein| protein.name =~ /^[A-Za-z0-9-]+$/}
             queries << species + '+AND+(' + slice.map { |protein| "gene:#{ protein.name }" }.join('+OR+') + ')'
           end
         end
