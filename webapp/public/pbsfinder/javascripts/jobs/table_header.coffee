@@ -63,6 +63,9 @@ $(document).ready ->
     )
   )
 
+  # Enable header tooltips.
+  $('.cluster-header').tooltip({placement: 'bottom', container: 'body'})
+
   unless isFootableNeeded()
     p = false
     $('div#pager-div #page-select').css('display', 'none')

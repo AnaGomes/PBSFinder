@@ -112,7 +112,7 @@ div class="info"
           thead
             tr
               - @job.clusters.each_with_index do |c, i|
-                th class="cluster-header" = "Grp#{ i + 1 }"
+                th class="cluster-header" title="Group #{ i + 1 } of gene clustering results" = "Grp#{ i + 1 }"
               th Species
               th
                 span Gene 

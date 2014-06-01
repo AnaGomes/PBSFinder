@@ -124,7 +124,7 @@ div class="tabs-content"
         thead
           tr
             - @job.clusters.each_with_index do |c, i|
-              th class="cluster-header" = "Grp#{ i + 1 }"
+              th class="cluster-header" title="Group #{ i + 1 } of protein clustering results" = "Grp#{ i + 1 }"
             th Protein
             th UniProt reference
             th data-sort-ignore="true" Score
