@@ -147,10 +147,8 @@ div class="info"
               - elsif !gene.binds
                 - gene.transcripts.each do |trans|
                   tr
-                    td class="cluster cluster-0" 0
-                    td class="cluster cluster-0" 0
-                    td class="cluster cluster-0" 0
-                    td class="cluster cluster-0" 0
+                    - @job.clusters.each do |_|
+                      td class="cluster cluster-0" 0
                     td class="species" = gene.species
                     td
                       span class="converted" == gene_link(gene.gene_id, gene.id_type, gene.name)

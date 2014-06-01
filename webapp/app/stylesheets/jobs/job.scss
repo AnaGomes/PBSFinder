@@ -45,6 +45,10 @@
   .table {
     margin-bottom:0px;
 
+    th {
+      border-bottom: 1px solid #dddddd;
+    }
+
     th.footable-sortable {
       padding-right:20px;
     }
@@ -128,10 +132,12 @@
       &.striped {
         /*background-color: #fafafa;*/
       }
-      &:hover {
+      &:hover td {
         opacity:1;
-        background-color:#428bca;
-        td.match {
+        &.cluster {
+          opacity:0.8;
+        }
+        &.match {
           border-left:solid 1px #336DA0;
           border-right:solid 1px #336DA0;
         }

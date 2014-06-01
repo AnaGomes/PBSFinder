@@ -40,8 +40,16 @@
   .table {
     margin-bottom:0px;
 
+    th {
+      border-bottom: 1px solid #dddddd;
+    }
+
     .cluster-header {
       padding-right:5px !important;
+    }
+
+    tr:hover td.cluster {
+      opacity:0.8;
     }
 
     td {

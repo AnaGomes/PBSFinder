@@ -33,6 +33,8 @@
   padding-right: 1px; }
   .table-container .table {
     margin-bottom: 0px; }
+    .table-container .table th {
+      border-bottom: 1px solid #dddddd; }
     .table-container .table th.footable-sortable {
       padding-right: 20px; }
     .table-container .table .cluster-header {
@@ -109,9 +111,10 @@
       min-height: 50px; }
       .table-container .table tr.striped {
         /*background-color: #fafafa;*/ }
-      .table-container .table tr:hover {
-        opacity: 1;
-        background-color: #428bca; }
+      .table-container .table tr:hover td {
+        opacity: 1; }
+        .table-container .table tr:hover td.cluster {
+          opacity: 0.8; }
         .table-container .table tr:hover td.match {
           border-left: solid 1px #336DA0;
           border-right: solid 1px #336DA0; }
