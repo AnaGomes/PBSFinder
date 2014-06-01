@@ -138,8 +138,7 @@ div class="tabs-content"
             - prot.positions.each do |position|
               tr
                 - @job.clusters.each_with_index do |c, i|
-                  td class="cluster-popover-#{ i + 1 } cluster cluster-#{ c.protein_clusters[prot.protein_id] }"
-                    div class="popup-div" data-toggle="popover" = c.protein_clusters[prot.protein_id]
+                  td class="cluster-popover-#{ i + 1 } cluster cluster-#{ c.protein_clusters[prot.protein_id] }" data-toggle="popover" = c.protein_clusters[prot.protein_id]
                 td class="protein"
                   - if prot.protein_id
                     = link_to prot.name, url(:jobs, :protein, prot.id)

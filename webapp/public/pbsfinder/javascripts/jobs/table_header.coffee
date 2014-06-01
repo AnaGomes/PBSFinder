@@ -42,7 +42,7 @@ $(document).ready ->
     for cls in [1..10] by 1
       cont = $('.grp' + grp + '.cls' + cls)
       if cont.length > 0
-        $('.cluster-popover-' + grp + '.cluster-' + cls + ' .popup-div').popover({
+        $('.cluster-popover-' + grp + '.cluster-' + cls).popover({
           container:'body',
           placement: 'right',
           title: 'Cluster ' + cls,

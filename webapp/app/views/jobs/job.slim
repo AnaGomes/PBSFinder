@@ -173,8 +173,7 @@ div class="info"
                 - gene.transcripts.each do |trans|
                   tr
                     - @job.clusters.each_with_index do |c, i|
-                      td class="cluster-popover-#{ i + 1 } cluster cluster-#{ c.gene_clusters[gene.gene_id] }"
-                        div class="popup-div" data-toggle="popover" = c.gene_clusters[gene.gene_id]
+                      td class="cluster-popover-#{ i + 1 } cluster cluster-#{ c.gene_clusters[gene.gene_id] }" data-toggle="popover" = c.gene_clusters[gene.gene_id]
                     td class="species" = gene.species
                     td
                       span class="converted" == gene_link(gene.gene_id, gene.id_type, gene.name)

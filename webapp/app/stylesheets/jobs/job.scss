@@ -108,10 +108,11 @@
         opacity:0.6;
         border-right:solid 1px #dddddd;
         padding:0;
-        .popup-div {
-          width: 60px;
-          height: 50px;
+        &.cluster-popover-1, &.cluster-popover-2, &.cluster-popover-3, &.cluster-popover-4 {
           cursor:pointer;
+          &.cluster- {
+            cursor:default;
+          }
         }
         &.cluster-1 { background-color:#36a8e5; }
         &.cluster-2 { background-color:#3459a7; }
