@@ -84,6 +84,8 @@
         padding: 0; }
         .table-container .table td.cluster.cluster-popover-1, .table-container .table td.cluster.cluster-popover-2, .table-container .table td.cluster.cluster-popover-3, .table-container .table td.cluster.cluster-popover-4 {
           cursor: pointer; }
+          .table-container .table td.cluster.cluster-popover-1.cluster-, .table-container .table td.cluster.cluster-popover-2.cluster-, .table-container .table td.cluster.cluster-popover-3.cluster-, .table-container .table td.cluster.cluster-popover-4.cluster- {
+            cursor: default; }
         .table-container .table td.cluster.cluster-1 {
           background-color: #36a8e5; }
         .table-container .table td.cluster.cluster-2 {

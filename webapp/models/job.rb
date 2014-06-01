@@ -95,6 +95,13 @@ class Job
         parts[:gene_name] << "/* gene_name(gene_#{ gene.id }, '#{ gene.name.downcase }'). */\n" if gene.name
         parts[:gene_species] << "gene_species(gene_#{ gene.id }, '#{ gene.species.downcase }').\n" if gene.species
 
+        # Cluster info.
+        clusters.each_with_index do |c, i|
+          if c.gene_clusters[gene.gene_id]
+            parts[:gene_cluster] << "gene_cluster(gene_#{ gene.id }, #{ i + 1}, #{ c.gene_clusters[gene.gene_id] }).\n"
+          end
+        end
+
         # Transcript info.
         gene.transcripts.each do |tran|
           parts[:gene_tran] << "gene_transcript(gene_#{ gene.id }, tran_#{ tran.id }).\n"
@@ -147,6 +154,13 @@ class Job
       prot.molecular_function.each { |mol| parts[:prot_mol] << "protein_molecular_function(prot_#{ prot.id }, '#{ mol.downcase.gsub("'", '') }').\n" }
       prot.pathways.each { |path_id, name| parts[:prot_pathway] << "protein_pathway(prot_#{ prot.id }, path_#{ path_id[/[0-9]+$/] }).\n" }
       prot.positions.map { |pos| pos.sequence }.uniq.each { |seq| parts[:prot_sequence] << "protein_sequence(prot_#{ prot.id }, \"#{ seq }\").\n" }
+
+      # Cluster info.
+      clusters.each_with_index do |c, i|
+        if c.protein_clusters[prot.protein_id]
+          parts[:protein_cluster] << "protein_cluster(protein_#{ prot.id }, #{ i + 1}, #{ c.protein_clusters[prot.protein_id] }).\n"
+        end
+      end
     end
     if own
       parts[:tran_own] << "transcript_own_protein(tran_#{ tran.id }, #{ prots[id] }).\n"
@@ -175,7 +189,9 @@ class Job
       prot_mol: "/* Protein molecular functions */\n",
       prot_species: "/* Protein species */\n",
       prot_sequence: "/* Protein binding sequences */\n",
-      prot_pathway: "/* Protein pathways */\n"
+      prot_pathway: "/* Protein pathways */\n",
+      gene_cluster: "/* Gene clusters */\n",
+      protein_cluster: "/* Protein clusters */\n"
     }
   end
 
@@ -199,6 +215,8 @@ class Job
     info << "/* protein_species(PROTEIN_ID, 'SPECIES'). */\n"
     info << "/* protein_sequence(PROTEIN_ID, \"SEQUENCE\"). */\n"
     info << "/* protein_pathway(PROTEIN_ID, PATHWAY_ID). */\n"
+    info << "/* gene_cluster(GENE_ID, CLUSTER_ATTEMPT, CLUSTER). */\n"
+    info << "/* protein_cluster(PROTEIN_ID, CLUSTER_ATTEMPT, CLUSTER). */\n"
     info
   end
 
@@ -222,5 +240,7 @@ class Job
     file << parts[:prot_mol] << "\n"
     file << parts[:prot_sequence] << "\n"
     file << parts[:prot_pathway] << "\n"
+    file << parts[:gene_cluster] << "\n"
+    file << parts[:protein_cluster] << "\n"
   end
 end
