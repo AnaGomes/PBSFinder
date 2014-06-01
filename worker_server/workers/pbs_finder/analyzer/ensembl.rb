@@ -170,7 +170,7 @@ module Pbs
         genes = []
         ids.each do |id|
           species.each do |s|
-            if id =~ (s =~ /^FB$/ ? /^#{s}gn[0-9]{7}$/ : /^#{s}G[0-9]{11}$/)
+            if id =~ (s =~ /^FB$/ ? /^#{s}GN[0-9]{7}$/ : /^#{s}G[0-9]{11}$/)
               g = Container::Gene.new(
                 original_id: id,
                 gene_id: id,
@@ -193,7 +193,7 @@ module Pbs
         # Find transcript IDs.
         ids.each do |id|
           species.each do |s|
-            if id =~ (s =~ /^FB$/ ? /^#{s}tr[0-9]{7}$/ : /^#{s}T[0-9]{11}$/)
+            if id =~ (s =~ /^FB$/ ? /^#{s}TR[0-9]{7}$/ : /^#{s}T[0-9]{11}$/)
               to_convert << id
               g = Container::Gene.new(
                 original_id: id,
