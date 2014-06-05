@@ -4,7 +4,7 @@ $(document).ready ->
   s = 8
   t = $('#protein-table')
   c = t.find('tr').size() - 1
-  show_popover = false
+  show_popover = null
 
   # Auxiliary methods.
   isFootableNeeded = () ->
@@ -26,12 +26,8 @@ $(document).ready ->
       nextText: "Next →",
       lastText: "Last ⇒"
     }).bind({'footable_sorting': (e) ->
-      if show_popover
-        show_popover = false
-        $('[data-toggle="popover"]').each(() ->
-          if (!$(this).is(e.target) && $(this).has(e.target).length == 0 && $('.popover').has(e.target).length == 0)
-            $(this).popover('hide')
-    )
+      if(show_popover?)
+        $(show_popover).popover('hide')
     })
 
   # Page select change.
@@ -53,25 +49,21 @@ $(document).ready ->
           content: cont.html()
         }).on("show.bs.popover", ->
           $(this).data("bs.popover").tip().css(maxWidth: "600px")
-          show_popover = true
+          if(show_popover?)
+            $(show_popover).popover('hide')
+          show_popover = this
         )
 
   # Disable multiple popovers.
   $('html').on('click', (e) ->
-    if show_popover == true
-      $('[data-toggle="popover"]').each(() ->
-        if (!$(this).is(e.target) && $(this).has(e.target).length == 0 && $('.popover').has(e.target).length == 0)
-          $(this).popover('hide')
-      )
+    if(show_popover? && !$(show_popover).is($(e.target)))
+      $(show_popover).popover('hide')
   )
 
   # Disable popovers on scroll.
   $('.table-container').scroll( ->
-    if show_popover == true
-      show_popover = false
-      $('[data-toggle="popover"]').each(() ->
-        $(this).popover('hide')
-      )
+    if(show_popover?)
+      $(show_popover).popover('hide')
   )
 
   # Enable header tooltips.
