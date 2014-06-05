@@ -49,7 +49,7 @@ $(document).ready ->
           content: cont.html()
         }).on("show.bs.popover", ->
           $(this).data("bs.popover").tip().css(maxWidth: "600px")
-          if(show_popover?)
+          if(show_popover? && !$(show_popover).is($(this)))
             $(show_popover).popover('hide')
           show_popover = this
         )
