@@ -176,6 +176,7 @@ div class="tabs-content"
                 - attrs.each do |attr, values|
                   - if values.size > 0
                     tr
+                      - least_one = true
                       - attr = attr.to_s.gsub('_', ' ')
                       - attr[0] = attr[0].upcase
                       td class='cluster-attribute' = attr
