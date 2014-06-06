@@ -13,7 +13,8 @@ module Pbs
         :attrs,
         :df_type,
         :protein_sims,
-        :gene_sims
+        :gene_sims,
+        :type
       )
 
       def initialize(params = {})
@@ -28,6 +29,7 @@ module Pbs
         @gene_clusters = params.fetch(:gene_clusters, {})
         @gene_sims = params.fetch(:gene_sims, {})
         @protein_sims = params.fetch(:protein_sims, {})
+        @type = params.fetch(:type, :by_function)
       end
     end
   end

@@ -26,7 +26,8 @@ module Pbs
           gene_clusters: cls.gene_clusters || {},
           protein_clusters: cls.clusters || {},
           gene_attrs: cls.gene_sims || {},
-          protein_attrs: cls.protein_sims || {}
+          protein_attrs: cls.protein_sims || {},
+          type: cls.type || :by_function
         )
         db.clusters << cluster
       end

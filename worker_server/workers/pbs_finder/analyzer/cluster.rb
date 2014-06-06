@@ -16,6 +16,128 @@ module Pbs
       # Cluster genes solely based on RBP occurrences; applies same minimum
       # information limits as other clustering analysis.
       def cluster_genes_quant!(job)
+        # Find all proteins.
+        proteins = Set.new
+        genes = {}
+        job.genes.each do |gene|
+          next unless gene.gene_id
+          gene.transcripts.each do |_, trans|
+            trans.proteins.each do |_, prot|
+              genes[gene.gene_id] ||= Set.new
+              proteins.add(prot.name)
+              genes[gene.gene_id].add(prot.name)
+            end
+          end
+        end
+        return unless genes.size >= @helper.config[:cluster][:min_genes] && proteins.size >= @helper.config[:cluster][:min_proteins]
+
+        # Build dataframe.
+        proteins = proteins.to_a.sort
+        names = genes.keys.sort
+        row = Struct.new(nil, *proteins)
+        rows = []
+        names.each do |name|
+          rows << row.new(*(proteins.map { |prot| genes[name].include?(prot) ? 1.0 : 0.0 }))
+        end
+        frame = Rserve::DataFrame.from_structs(rows)
+        frame.rownames = names
+
+        # Calculate distance.
+        @r.command(df: frame, asyma: proteins) do
+          %Q{
+            dt <- daisy(df * 1.0, metric='gower', type=list(asymm=asyma))
+            dt[is.na(dt)] <- 0.0
+          }
+        end
+
+        # Cluster genes.
+        res = []
+        @r.command("h <- hclust(dt, method='average')")
+        (2..10).each do |k|
+          cls = @r.converse("cutree(h, k=#{k})")
+          sil = @r.converse("summary(silhouette(x=cutree(h, k=#{k}),dist=dt))$avg.width")
+          c = Container::Cluster.new
+          c.gene_silhouette = sil
+          c.type = :by_protein
+          c.gene_clusters = cls.names.inject({}) do |h, name|
+            h[name] = cls[name]
+            h
+          end
+          c.gene_n_clusters = count_occurrences(cls)
+          res << c
+        end
+        (2..10).each do |k|
+          pam = @r.converse("pam(dt, #{k}, diss=T)")
+          cls = pam['clustering']
+          sil = pam['silinfo']['avg.width']
+          c = Container::Cluster.new
+          c.gene_silhouette = sil
+          c.type = :by_protein
+          c.gene_clusters = cls.names.inject({}) do |h, name|
+            h[name] = cls[name]
+            h
+          end
+          c.gene_n_clusters = count_occurrences(cls)
+          res << c
+        end
+
+        # Remove unusable clusters.
+        total = frame.rownames.size.to_f
+        res.reject! { |c| c.gene_n_clusters.values.any? { |count| (count.to_f / total) < @helper.config[:cluster][:perc_by_cluster] } }
+        res.sort! { |a, b| b.gene_silhouette <=> a.gene_silhouette }
+
+        # Build similarities.
+        res.each do |cls|
+          margin = @helper.config[:cluster][:perc_frequent_prot]
+          all_value = false
+          while margin >= 0.50 && !all_value
+            prots = {}
+            # Find prots for each cluster.
+            cls.gene_clusters.each do |g, c|
+              prots[c] ||= []
+              prots[c].concat(genes[g].to_a)
+            end
+            # Count prots for each cluster.
+            prots.each do |c, p|
+              prots[c] = count_occurrences(p)
+            end
+            # Leave only very frequent proteins.
+            #prots.each do |c, p|
+              #total = cls.gene_n_clusters[c].to_f
+              #p.reject! { |_, count| (count.to_f / total) < margin }
+            #end
+            # Remove repeated prots.
+            prots.each do |c1, p1|
+              prots.each do |c2, p2|
+                next if c1 == c2
+                p2.each do |pr, _|
+                  if p1.key?(pr)
+                    p1[pr] = nil
+                    p2[pr] = nil
+                  end
+                end
+              end
+            end
+            # Clean nil attributes.
+            prots.each do |c, p|
+              prots[c] = p.reject { |_, count| !count }.keys
+            end
+            # Check if all clusters have values.
+            all_value = prots.all? { |c, p| p.size > 0 }
+            unless all_value
+              cls.gene_sims = prots
+              margin -= 0.05
+            end
+          end
+        end
+        i = 0
+        res.each do |cls|
+          break if i >= @helper.config[:cluster][:max_clusters]
+          if cls.gene_sims.size > 0
+            i += 1
+            job.cluster_info << cls
+          end
+        end
       end
 
       # Compute similarities and dissimilarities between proteins and genes.

@@ -29,14 +29,14 @@ div class="tabs-content"
         - notices[t('job.transcript.no_downstream.title')] = t('job.transcript.no_downstream.content')
       - if (utr.size >= 300 && utr.include?('N')) || (utr.size < 300 && down.include?('N'))
         - notices[t('job.transcript.no_n.title')] = t('job.transcript.no_n.content')
-      - if @job.clusters.size == 0
+      - if !@job.clusters.find_index { |c| c.type == :by_function }
         - notices[t('job.cluster.title')] = t('job.cluster.content')
       - if notices.size > 0
         = partial 'layouts/notice', locals: { \
           type: 'warning', \
           notice: notices \
         }
-    - else @transcript.proteins.size == 0
+    - else
       = partial 'layouts/notice', locals: { \
         type: 'warning', \
         notice: { \
@@ -124,7 +124,8 @@ div class="tabs-content"
         thead
           tr
             - @job.clusters.each_with_index do |c, i|
-              th class="cluster-header" title="Group #{ i + 1 } of protein clustering results" = "Grp#{ i + 1 }"
+              - if c.type == :by_function
+                th class="cluster-header" title="Each color represents a cluster of proteins that were grouped based on their function." = "Function"
             th Protein
             th UniProt reference
             th data-sort-ignore="true" Score
@@ -138,7 +139,8 @@ div class="tabs-content"
             - prot.positions.each do |position|
               tr
                 - @job.clusters.each_with_index do |c, i|
-                  td class="cluster-popover-#{ i + 1 } cluster cluster-#{ c.protein_clusters[prot.protein_id] }" data-toggle="popover" = c.protein_clusters[prot.protein_id]
+                  - if c.type == :by_function
+                    td class="cluster-popover-#{ i + 1 } cluster cluster-#{ c.protein_clusters[prot.protein_id] }" data-toggle="popover" = c.protein_clusters[prot.protein_id]
                 td class="protein"
                   - if prot.protein_id
                     = link_to prot.name, url(:jobs, :protein, prot.id)
@@ -172,15 +174,16 @@ div class="tabs-content"
             table class="cluster-table"
               thead
               tbody
-                - least_one = false
-                - attrs.each do |attr, values|
-                  - if values.size > 0
+                - if c.type == :by_function
+                  - least_one = false
+                  - attrs.each do |attr, values|
+                    - if values.size > 0
+                      tr
+                        - least_one = true
+                        - attr = attr.to_s.gsub('_', ' ')
+                        - attr[0] = attr[0].upcase
+                        td class='cluster-attribute' = attr
+                        td = values.join(',  ')
+                  - unless least_one
                     tr
-                      - least_one = true
-                      - attr = attr.to_s.gsub('_', ' ')
-                      - attr[0] = attr[0].upcase
-                      td class='cluster-attribute' = attr
-                      td = values.join(',  ')
-                - unless least_one
-                  tr
-                    td class='cluster-attribute' No predominant attributes
+                      td class='cluster-attribute' No predominant attributes

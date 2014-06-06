@@ -6,4 +6,5 @@ class Cluster
   field :protein_clusters,    type: Hash, default: {}
   field :gene_attrs,          type: Hash, default: {}
   field :protein_attrs,       type: Hash, default: {}
+  field :type,                type: Symbol, default: :by_function
 end

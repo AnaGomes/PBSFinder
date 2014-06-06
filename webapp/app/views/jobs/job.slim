@@ -31,11 +31,15 @@
       ] \
     } \
   }
-- elsif @job.complete && @job.time && @job.clusters.size == 0
+- elsif @job.complete && @job.time && (!@job.clusters.find_index { |c| c.type == :by_function } || !@job.clusters.find_index { |c| c.type == :by_protein })
   = partial 'layouts/notice', locals: { \
     type: 'warning', \
     notice: { \
-      t('job.cluster.title') => t('job.cluster.content') \
+      t('job.cluster.title') => [ \
+        @job.clusters.size == 0 ? t('job.cluster.content') : nil, \
+        @job.clusters.size != 0 && !@job.clusters.find_index { |c| c.type == :by_function } ? t('job.cluster.content_function') : nil, \
+        @job.clusters.size != 0 && !@job.clusters.find_index { |c| c.type == :by_protein } ? t('job.cluster.content_protein') : nil \
+      ] \
     } \
   }
 /* View structure. */
@@ -111,8 +115,11 @@ div class="info"
         table class="table table-condensed table-hover" id="protein-table" data-page-navigation=".pagination"
           thead
             tr
-              - @job.clusters.each_with_index do |c, i|
-                th class="cluster-header" title="Group #{ i + 1 } of gene clustering results" = "Grp#{ i + 1 }"
+              - @job.clusters.each do |c|
+                - if c.type == :by_function
+                  th class="cluster-header" title="Each color represents a cluster of genes that were grouped based on the function of the RBPs with which they bind." = "Function"
+                - elsif c.type == :by_protein
+                  th class="cluster-header" title="Each color represents a cluster of genes that were grouped based on the RBPs with which they bind." = "Proteins"
               th Species
               th
                 span Gene 
@@ -208,15 +215,25 @@ div class="info"
               table class="cluster-table"
                 thead
                 tbody
-                  - least_one = false
-                  - attrs.each do |attr, values|
-                    - if values.size > 0
+                  - if c.type == :by_function
+                    - least_one = false
+                    - attrs.each do |attr, values|
+                      - if values.size > 0
+                        tr
+                          - least_one = true
+                          - attr = attr.to_s.gsub('_', ' ')
+                          - attr[0] = attr[0].upcase
+                          td class='cluster-attribute' = attr
+                          td = values.join(',  ')
+                    - unless least_one
                       tr
-                        - least_one = true
-                        - attr = attr.to_s.gsub('_', ' ')
-                        - attr[0] = attr[0].upcase
-                        td class='cluster-attribute' = attr
-                        td = values.join(',  ')
-                  - unless least_one
-                    tr
-                      td class='cluster-attribute' No predominant attributes
+                        td class='cluster-attribute' No predominant attributes
+                  - elsif c.type == :by_protein
+                    - puts attrs.inspect
+                    - if attrs.size > 0
+                      tr
+                        td class='cluster-attribute' Distinct proteins
+                        td = attrs.join(',  ')
+                    - else
+                      tr
+                        td class='cluster-attribute' No predominant proteins

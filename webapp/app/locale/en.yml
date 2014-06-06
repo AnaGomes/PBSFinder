@@ -67,7 +67,9 @@ en:
   job:
     cluster:
       title: No clustering analysis
-      content: Clustering analysis couldn't be performed for this data set, most likely because of insufficient data.
+      content: Clustering analysis couldn't be performed for this data set, most likely due to insufficient data.
+      content_protein: No results for RBP based clustering found, most likely due to insufficient data.
+      content_function: No results for protein function based clustering found, most likely due to insufficient data.
     protein:
       big_title: Protein info
       not_found: The specified protein doesn't exist.
