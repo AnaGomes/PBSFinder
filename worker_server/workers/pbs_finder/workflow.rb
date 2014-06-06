@@ -39,6 +39,7 @@ module Pbs
 
         # Clustering analysis.
         start_base_clustering_analysis
+        start_advanced_clustering_analysis
 
         # Final stage.
         Analyzer::Dataset.create_invalid_genes!(@job, @ids)
@@ -57,6 +58,12 @@ module Pbs
         @cluster.cluster_genes!(@job)
         @cluster.find_similarities!(@job)
       end
+    rescue StandardError => e
+      puts e.message, e.backtrace
+    end
+
+    def start_advanced_clustering_analysis
+      @cluster.cluster_genes_quant!(@job)
     rescue StandardError => e
       puts e.message, e.backtrace
     end

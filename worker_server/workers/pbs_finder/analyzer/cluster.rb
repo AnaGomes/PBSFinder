@@ -13,6 +13,11 @@ module Pbs
         @r.command('library(ade4)')
       end
 
+      # Cluster genes solely based on RBP occurrences; applies same minimum
+      # information limits as other clustering analysis.
+      def cluster_genes_quant!(job)
+      end
+
       # Compute similarities and dissimilarities between proteins and genes.
       def find_similarities!(job)
         job.cluster_info.each do |cluster|
@@ -66,14 +71,15 @@ module Pbs
         genes = {}
         job.cluster_proteins.each do |_, prot|
           prot.genes.each do |gene|
-            genes[gene.gene_id] ||= { pathways: [], pathway_names: [], proteins: Set.new, gene: gene }
+            #genes[gene.gene_id] ||= { pathways: [], pathway_names: [], proteins: Set.new, gene: gene }
+            genes[gene.gene_id] ||= { proteins: Set.new, gene: gene }
             genes[gene.gene_id][:proteins].add(prot.protein.protein_id)
-            gene.transcripts.each do |_, trans|
-              if trans.own_protein
-                genes[gene.gene_id][:pathways].concat(trans.own_protein.pathways.keys)
-                genes[gene.gene_id][:pathway_names].concat(trans.own_protein.pathways.values)
-              end
-            end
+            #gene.transcripts.each do |_, trans|
+              #if trans.own_protein
+                #genes[gene.gene_id][:pathways].concat(trans.own_protein.pathways.keys)
+                #genes[gene.gene_id][:pathway_names].concat(trans.own_protein.pathways.values)
+              #end
+            #end
           end
         end
         job.cluster_genes = genes
@@ -87,7 +93,6 @@ module Pbs
       end
 
       # Find all cluster combination for proteins.
-      # Only 4 attributes are used simultaneously.
       def cluster_proteins!(job)
         clusters = []
         attrs = [:keywords, :tissues, :pathways, :biological_process, :cellular_component, :molecular_function]
@@ -104,16 +109,27 @@ module Pbs
       # Prepares dataset for clustering analysis.
       def clean_dataset!(job)
         # Remove useless proteins (no ID).
-        proteins = job.proteins.select { |p| p.protein_id }.uniq { |p| p.protein_id }
+        #proteins = job.proteins.select { |p| p.protein_id }.uniq { |p| p.protein_id }
+        proteins = []
+        job.genes.each do |gene|
+          gene.transcripts.each do |_, trans|
+            trans.proteins.each do |_, prot|
+              if prot.protein_id
+                proteins << prot
+              end
+            end
+          end
+        end
+        proteins.uniq! { |p| p.protein_id }
         proteins.map! { |p| Container::ClusterProtein.new(protein: p) }
 
         # Remove frequent proteins (>= 95%).
         proteins.each do |prot|
           job.genes.each do |gene|
             gene.transcripts.each do |_, trans|
-              if trans.own_protein && trans.own_protein.protein_id == prot.protein.protein_id
-                prot.genes << gene
-              elsif trans.proteins.values.map { |p| p.protein_id }.include?(prot.protein.protein_id)
+              #if trans.own_protein && trans.own_protein.protein_id == prot.protein.protein_id
+                #prot.genes << gene
+              if trans.proteins.values.map { |p| p.protein_id }.include?(prot.protein.protein_id)
                 prot.genes << gene
               end
             end
@@ -234,7 +250,7 @@ module Pbs
               temp[:molecular_function].concat(prot.protein.molecular_function)
             end
             sims[cls][:keywords].concat(temp[:keywords].uniq)
-            sims[cls][:pathways].concat(temp[:pathways].concat(job.cluster_genes[name][:pathway_names]).uniq)
+            sims[cls][:pathways].concat(temp[:pathways].uniq)
             sims[cls][:tissues].concat(temp[:tissues].uniq)
             sims[cls][:biological_process].concat(temp[:biological_process].uniq)
             sims[cls][:cellular_component].concat(temp[:cellular_component].uniq)
@@ -358,8 +374,8 @@ module Pbs
                 h[cls] = d.nan? ? 0.0 : d
                 h
               end
-              pathways = Jaccard.distance(s1[:pathways], s2[:pathways])
-              dist[:pathways] = pathways.nan? ? 0.0 : pathways
+              #pathways = Jaccard.distance(s1[:pathways], s2[:pathways])
+              #dist[:pathways] = pathways.nan? ? 0.0 : pathways
               distances[g1][g2] = calc_array_distance(dist, :manhattan, @helper.config[:cluster][:jaccard_weight])
             end
           end

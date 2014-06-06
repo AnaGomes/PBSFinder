@@ -30,10 +30,11 @@ $(document).ready ->
           slantedText: true,
           slantedTextAngle: 45,
           maxAlternation: 0,
-          showTextEvery: 1,
+          showTextEvery: 1
         },
         vAxis: {
           minValue:0,
+          title: "Number of genes"
         }
       }
       chart = new google.visualization.ColumnChart(document.getElementById('protein-chart'))

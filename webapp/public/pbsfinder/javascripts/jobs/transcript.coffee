@@ -20,7 +20,8 @@ $(document).ready ->
           showTextEvery: 1,
         },
         vAxis: {
-          minValue:0
+          minValue:0,
+          title: "Number of binding sites"
         }
       }
       chart = new google.visualization.ColumnChart(document.getElementById('protein-chart'))

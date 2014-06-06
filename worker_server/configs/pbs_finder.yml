@@ -5,7 +5,7 @@
   :perc_attr_reject:      0.95
   :perc_by_cluster:       0.08
   :perc_frequent_attr:    0.90
-  :max_clusters:          4
+  :max_clusters:          1
   :min_max_attrs:         0.5
   :daisy_weight:
     :keywords:            1.0
