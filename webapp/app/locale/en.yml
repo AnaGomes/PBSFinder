@@ -37,7 +37,7 @@ en:
       title3: View and save your results
       description3: Results are always available through your user account, and can be exported to several formats.
       title4: Browser support
-      description4: PBS Finder works with the latest versions of Google Chrome and Mozilla Firefox. Internet Explorar and Opera are also usable, but we give no official support and some features might not work as expected.
+      description4: PBS Finder works with the latest versions of Google Chrome, Mozilla Firefox and Safari. Internet Explorer and Opera are also usable, but we give no official support and some features might not work as expected.
   navigation:
     home: Home
   login:
@@ -237,6 +237,9 @@ en:
       new: New configuration
       list: My configurations
     list:
+      no_config:
+        title: No configurations
+        description: There are no saved iRAP configurations.
       select_all: Select all
       date: Creation date
       table:
