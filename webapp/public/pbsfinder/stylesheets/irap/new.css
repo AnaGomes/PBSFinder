@@ -1,0 +1,21 @@
+.table tr td:nth-child(1) {
+  width: 130px; }
+.table .list-title {
+  font-weight: bold; }
+
+.description .bs-callout {
+  margin-top: 0; }
+
+ul.nav-tabs {
+  margin-bottom: 25px; }
+
+.sec-title {
+  margin-top: 25px;
+  font-variant: small-caps;
+  font-weight: 500;
+  font-size: 1.8em;
+  font-family: Ubuntu;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #aaa;
+  max-width: 300px;
+  padding-bottom: 5px; }

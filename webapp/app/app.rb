@@ -27,6 +27,12 @@ module PbsSite
       role.allow    "/jobs/completed"
       role.protect  "/accounts"
       role.protect  "/jobs"
+      role.protect  "/irap"
+
+      # Only for demo purposes.
+      role.allow    "/jobs/job"
+      role.allow    "/jobs/transcript"
+      role.allow    "/jobs/protein"
     end
 
     set :delivery_method, :smtp => {

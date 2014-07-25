@@ -1,0 +1,37 @@
+- description
+- name
+- species
+- data_dir
+- reference
+- gtf
+
+- qual_filter / trim_reads
+- min_read_qual
+- cont_index
+
+- mapper
+- de_method
+- quant_method
+- gse_tool
+
+- max_threads
+- exon_quant
+- transcript_quant
+
+- libs
+  * name
+  * files
+  * read_size
+  * quality
+  * insert_size
+  * standard_deviation
+   > paired-end
+   > groups
+    $ name
+    $ libs
+    $ contrasts
+      § name
+      § groups
+
+- mapper_param_override
+- quant_param_override

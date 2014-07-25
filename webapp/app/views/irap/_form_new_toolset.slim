@@ -1,0 +1,55 @@
+/* Mapper  */
+- error = @irap.errors.include?(:mapper)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Map/alignment tool', :class => 'control-label'
+  div class='controls'
+    - keys = ['Default', 'TopHat 1', 'TopHat 2', 'SMALT', 'GSNAP', 'SOAPsplice', 'BWA 1', 'BWA 2', 'Bowtie 1', 'Bowtie 2', 'GEM', 'STAR', 'OSA']
+    - values = ['', 'tophat1', 'tophat2', 'smalt', 'gsnap', 'soapsplice', 'bwa1', 'bwa2', 'bowtie1', 'bowtie2', 'gem', 'star', 'osa']
+    = f.select :mapper, :class => 'form-control', :options => Hash[keys.zip(values)]
+    span class='help-inline' = error ? f.error_message_on(:mapper, :class => 'text-error') : t('irap.example.mapper')
+
+/* Mapper override */
+- error = @irap.errors.include?(:mapper_override)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Map/alignment tool override parameters', :class => 'control-label'
+  div class='controls'
+    = f.text_field :mapper_override, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:mapper_override, :class => 'text-error') : t('irap.example.mapper_override')
+
+/* Quantification  */
+- error = @irap.errors.include?(:quant_method)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Quantification tool', :class => 'control-label'
+  div class='controls'
+    - keys = ['Default', 'FluxCapacitor', 'HTSeq (union mode)', 'HTSeq (intersection non-empty mode)', 'Cufflinks 1 (novel transcripts/-g)', 'Cufflinks 2 (novel transcripts/-g)', 'Cufflinks 1 (no novel transcripts/-G)', 'Cufflinks 2 (no novel transcripts/-G)']
+    - values = ['', 'flux_cap', 'htseq1', 'htseq2', 'cufflinks1', 'cufflinks2', 'cufflinks1_nd', 'cufflinks2_nd']
+    = f.select :quant_method, :class => 'form-control', :options => Hash[keys.zip(values)]
+    span class='help-inline' = error ? f.error_message_on(:quant_method, :class => 'text-error') : t('irap.example.quant_method')
+
+/* Quantification override */
+- error = @irap.errors.include?(:quant_override)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Quantification tool override parameters', :class => 'control-label'
+  div class='controls'
+    = f.text_field :quant_override, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:quant_override, :class => 'text-error') : t('irap.example.quant_override')
+
+/* DE  */
+- error = @irap.errors.include?(:de_method)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Differential expression tool', :class => 'control-label'
+  div class='controls'
+    - keys = ['Do not perform differential expression analysis', 'DESeq', 'EdgeR', 'Cuffdiff 1', 'Cuffdiff 2']
+    - values = ['', 'deseq', 'edger', 'cuffdiff1', 'cuffdiff2']
+    = f.select :de_method, :class => 'form-control', :options => Hash[keys.zip(values)]
+    span class='help-inline' = error ? f.error_message_on(:de_method, :class => 'text-error') : t('irap.example.de_method')
+
+/* GSE  */
+- error = @irap.errors.include?(:gse_tool)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Gene set enrichment method', :class => 'control-label'
+  div class='controls'
+    - keys = ['Do not perform gene set enrichment', 'Mean', 'Median', 'Sum', 'Fisher', 'Stouffer', 'Tail Strength', 'Wilcoxon', 'Reporter', 'Page']
+    - values = ['', 'mean', 'median', 'sum', 'fisher', 'stouffer', 'tailstrength', 'wilcoxon', 'reporter', 'page']
+    = f.select :gse_tool, :class => 'form-control', :options => Hash[keys.zip(values)]
+    span class='help-inline' = error ? f.error_message_on(:gse_tool, :class => 'text-error') : t('irap.example.gse_tool')

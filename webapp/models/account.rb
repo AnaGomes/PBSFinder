@@ -3,6 +3,7 @@ class Account
   attr_accessor :password, :password_confirmation
 
   has_many :jobs, dependent: :delete
+  has_many :irap_configs, dependent: :delete
 
   # Fields
   field :name,             type: String

@@ -10,6 +10,7 @@ MODELS_DIR = File.readlink(File.expand_path('../db/models', __FILE__))
 TEMP_F_DIR = File.expand_path('../temp', __FILE__)
 TEMP_W_DIR = File.expand_path('../temp_work', __FILE__)
 DB_ENV = ARGV.size == 1 ? ARGV[0] : 'development'
+MAX_JOBS = 10
 
 # Load database ODM.
 Mongoid.load!(File.expand_path('../db/database.yml', __FILE__), DB_ENV)
@@ -84,6 +85,12 @@ class MasterWorker
 
   def working?
     true
+  end
+
+  def available?
+    result = false
+    @process_mutex.synchronize { result = @process_by_id.size < MAX_JOBS }
+    result
   end
 
   private

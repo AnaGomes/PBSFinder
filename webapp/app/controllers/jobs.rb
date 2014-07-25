@@ -11,13 +11,18 @@ PbsSite::App.controllers :jobs do
     @job.complete = false
     @job.account = current_account
     if server_running?
-      if @job.save
-        long_job('PbsFinder', @job.id, absolute_url(:jobs, :response, @job.id), @job.query)
-        flash[:success] = t('job.create.success')
-        redirect(url_for(:jobs, :job, @job.id))
+      if server_available?
+        if @job.save
+          long_job('PbsFinder', @job.id, absolute_url(:jobs, :response, @job.id), @job.query)
+          flash[:success] = t('job.create.success')
+          redirect(url_for(:jobs, :job, @job.id))
+        else
+          @big_title = t('job.big_title.new')
+          flash.now[:error] = t('job.create.error', :model => 'job')
+          render 'jobs/new'
+        end
       else
-        @big_title = t('job.big_title.new')
-        flash.now[:error] = t('job.create.error', :model => 'job')
+        flash.now[:error] = t('job.create.no_capacity', :model => 'job')
         render 'jobs/new'
       end
     else

@@ -4,3 +4,4 @@ config:
     password: ""
   contact:
     email: ""
+  demo: ""

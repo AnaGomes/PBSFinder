@@ -1,0 +1,69 @@
+.nav-tabs.job-list {
+  margin-top: 15px; }
+
+#list td, #list th {
+  text-align: justify; }
+  #list td.bl, #list th.bl {
+    padding-left: 20px; }
+  #list td.br, #list th.br {
+    padding-right: 20px; }
+  #list td.blr, #list th.blr {
+    padding-right: 20px;
+    padding-left: 20px; }
+
+#list tr td:nth-child(3) {
+  min-width: 160px; }
+#list tr td:nth-child(2) {
+  min-width: 150px; }
+
+.bs-callout {
+  margin-top: 0; }
+
+.pager {
+  margin-top: 50px; }
+  .pager .next_page, .pager .previous_page, .pager a, .pager em {
+    border-bottom-color: #dddddd;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: #dddddd;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-right-color: #dddddd;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-top-color: #dddddd;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-top-style: solid;
+    border-top-width: 1px;
+    box-sizing: border-box;
+    cursor: auto;
+    display: inline-block;
+    font-size: 14px;
+    height: 32px;
+    line-height: 20px;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    padding-bottom: 5px;
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-top: 5px;
+    background: none;
+    text-decoration: none; }
+    .pager .next_page.disabled, .pager .next_page.current, .pager .previous_page.disabled, .pager .previous_page.current, .pager a.disabled, .pager a.current, .pager em.disabled, .pager em.current {
+      color: #999999;
+      font-style: normal; }
+      .pager .next_page.disabled:hover, .pager .next_page.current:hover, .pager .previous_page.disabled:hover, .pager .previous_page.current:hover, .pager a.disabled:hover, .pager a.current:hover, .pager em.disabled:hover, .pager em.current:hover {
+        color: #999999;
+        background: none; }
+    .pager .next_page:hover, .pager .previous_page:hover, .pager a:hover, .pager em:hover {
+      color: #2a6496;
+      background-color: #eeeeee; }
+  .pager .current, .pager .footable-page.active {
+    font-weight: bold; }
+  .pager .gap {
+    padding-left: 5px;
+    padding-right: 5px; }

@@ -1,0 +1,31 @@
+/* Path */
+- error = @irap.errors.include?(:path)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Experiment path', :class => 'control-label'
+  div class='controls'
+    = f.text_field :path, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:path, :class => 'text-error') : t('irap.example.path')
+
+/* Reference */
+- error = @irap.errors.include?(:reference)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Reference genome file', :class => 'control-label'
+  div class='controls'
+    = f.text_field :reference, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:reference, :class => 'text-error') : t('irap.example.reference')
+
+/* Annotation */
+- error = @irap.errors.include?(:annotation)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Genome annotation file', :class => 'control-label'
+  div class='controls'
+    = f.text_field :annotation, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:annotation, :class => 'text-error') : t('irap.example.annotation')
+
+/* Contamination */
+- error = @irap.errors.include?(:cont_path)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Contamination index', :class => 'control-label'
+  div class='controls'
+    = f.text_field :cont_path, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:cont_path, :class => 'text-error') : t('irap.example.cont_path')

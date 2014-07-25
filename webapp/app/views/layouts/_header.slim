@@ -24,10 +24,18 @@ div class='navbar navbar-fixed-top' id='navbar'
           li class="navbar-log"
             = link_to t('navigation.home'), url('/'), :class => 'log-button'
           - if logged_in?
-            <li class="dropdown navbar-log">
+            li class="dropdown navbar-log"
               <a href="#" data-toggle="dropdown" class="dropdown-toggle log-button">Jobs <b class="caret"></b></a>
-              <ul class="dropdown-menu">
+              ul class="dropdown-menu"
                 li class="navbar-log"
                   = link_to t('job.button.new'), url(:jobs, :new), :class => 'log-button'
                 li class="navbar-log"
                   = link_to t('job.button.list'), url(:jobs, :list), :class => 'log-button'
+
+            li class="dropdown navbar-log"
+              <a href="#" data-toggle="dropdown" class="dropdown-toggle log-button">iRAP <b class="caret"></b></a>
+              ul class="dropdown-menu"
+                li class="navbar-log"
+                  = link_to t('irap.button.new'), url(:irap, :new), :class => 'log-button'
+                li class="navbar-log"
+                  = link_to t('irap.button.list'), url(:irap, :list), :class => 'log-button'

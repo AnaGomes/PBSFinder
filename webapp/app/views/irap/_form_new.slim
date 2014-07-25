@@ -1,0 +1,37 @@
+ul class="nav nav-tabs" data-tabs="tabs"
+  li class="active"
+    a data-toggle="tab" href="#description" Description
+  li
+    a data-toggle="tab" href="#files" Files
+  li
+    a data-toggle="tab" href="#toolset" Toolset
+  li
+    a data-toggle="tab" href="#library" Libraries
+  li
+    a data-toggle="tab" href="#general" General
+
+div class="tab-content"
+
+  /* Basic information */
+  div id="description" class="tab-pane active"
+    = partial 'irap/form_new_description', :locals => { :f => f }
+
+  /* File information */
+  div id="files" class="tab-pane"
+    = partial 'irap/form_new_files', :locals => { :f => f }
+
+  /* Toolset information */
+  div id="toolset" class="tab-pane"
+    = partial 'irap/form_new_toolset', :locals => { :f => f }
+
+  /* Library information */
+  div id="library" class="tab-pane"
+
+  /* General information */
+  div id="general" class="tab-pane"
+    = partial 'irap/form_new_general', :locals => { :f => f }
+
+div class="form-actions"
+  = f.submit t('irap.create.button.create'), :class => 'btn btn-primary'
+  |&nbsp;
+  = link_to t('irap.create.button.cancel'), url(:irap, :new), :class => 'btn btn-info'

@@ -1,0 +1,71 @@
+/* Quality filtering */
+- error = @irap.errors.include?(:qual_filter)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Quality filtering', :class => 'control-label'
+  div class='controls'
+    - keys = ['Default', 'On', 'Off']
+    - values = ['', 'true', 'false']
+    = f.select :qual_filter, :class => 'form-control', :options => Hash[keys.zip(values)]
+    span class='help-inline' = error ? f.error_message_on(:qual_filter, :class => 'text-error') : t('irap.example.qual_filter')
+
+/* Trim reads */
+- error = @irap.errors.include?(:trim_reads)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Trim reads', :class => 'control-label'
+  div class='controls'
+    - keys = ['Default', 'Yes', 'No']
+    - values = ['', 'true', 'false']
+    = f.select :trim_reads, :class => 'form-control', :options => Hash[keys.zip(values)]
+    span class='help-inline' = error ? f.error_message_on(:trim_reads, :class => 'text-error') : t('irap.example.trim_reads')
+
+/* Exon quantification */
+- error = @irap.errors.include?(:exon_quant)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Exon level quantification', :class => 'control-label'
+  div class='controls'
+    - keys = ['Default', 'Yes', 'No']
+    - values = ['', 'true', 'false']
+    = f.select :exon_quant, :class => 'form-control', :options => Hash[keys.zip(values)]
+    span class='help-inline' = error ? f.error_message_on(:exon_quant, :class => 'text-error') : t('irap.example.exon_quant')
+
+/* Transcript quantification */
+- error = @irap.errors.include?(:transcript_quant)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Transcript level quantification', :class => 'control-label'
+  div class='controls'
+    - keys = ['Default', 'Yes', 'No']
+    - values = ['', 'true', 'false']
+    = f.select :transcript_quant, :class => 'form-control', :options => Hash[keys.zip(values)]
+    span class='help-inline' = error ? f.error_message_on(:transcript_quant, :class => 'text-error') : t('irap.example.transcript_quant')
+
+/* Max threads */
+- error = @irap.errors.include?(:max_threads)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Max number of threads', :class => 'control-label'
+  div class='controls'
+    = f.number_field :max_threads, :class => 'form-control', :min => 1, :max => 64, :step => 1, :value => @irap.max_threads.nil? ? 1 : @irap.max_threads
+    span class='help-inline' = error ? f.error_message_on(:max_threads, :class => 'text-error') : t('irap.example.max_threads')
+
+/* Min read quality */
+- error = @irap.errors.include?(:min_read_qual)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Min read quality', :class => 'control-label'
+  div class='controls'
+    = f.number_field :min_read_qual, :class => 'form-control', :min => 0, :max => 100, :step => 1, :value => @irap.min_read_qual.nil? ? 10 : @irap.min_read_qual
+    span class='help-inline' = error ? f.error_message_on(:min_read_qual, :class => 'text-error') : t('irap.example.min_read_qual')
+
+/* GSE min size */
+- error = @irap.errors.include?(:gse_minsize)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Gene set enrichment min genes per set', :class => 'control-label'
+  div class='controls'
+    = f.number_field :gse_minsize, :class => 'form-control', :min => 1, :max => 500000, :step => 1, :value => @irap.gse_minsize.nil? ? 4 : @irap.gse_minsize
+    span class='help-inline' = error ? f.error_message_on(:gse_minsize, :class => 'text-error') : t('irap.example.gse_minsize')
+
+/* GSE pvalue */
+- error = @irap.errors.include?(:gse_pvalue)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Gene set enrichment p-value cut-off', :class => 'control-label'
+  div class='controls'
+    = f.number_field :gse_pvalue, :class => 'form-control', :min => 0, :max => 100, :step => 0.01, :value => @irap.gse_pvalue.nil? ? 0.05 : @irap.gse_pvalue
+    span class='help-inline' = error ? f.error_message_on(:gse_pvalue, :class => 'text-error') : t('irap.example.gse_minsize')

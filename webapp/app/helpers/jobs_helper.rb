@@ -85,6 +85,16 @@ PbsSite::App.helpers do
     true
   end
 
+  def server_available?
+    begin
+      remote = DRbObject.new_with_uri('druby://localhost:5555')
+      result = remote.available?
+    rescue
+      return false
+    end
+    result
+  end
+
   def format_fasta(fasta, max = 80)
     fasta.scan(/.{1,#{max}}/)
   end

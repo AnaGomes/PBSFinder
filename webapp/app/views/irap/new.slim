@@ -1,0 +1,8 @@
+- content_for :stylesheets do
+  = stylesheet_link_tag 'irap/new'
+/- content_for :javascripts do
+    /= javascript_include_tag
+
+div class="tabs-content"
+  = form_for :irap, url(:irap, :create), :class => 'form-horizontal', :id => 'irap-form' do |f|
+    = partial 'irap/form_new', :locals => { :f => f }

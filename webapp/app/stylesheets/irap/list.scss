@@ -1,0 +1,83 @@
+.nav-tabs.job-list {
+  margin-top:15px;
+}
+
+#list td, #list th {
+  text-align:justify;
+  &.bl {
+    padding-left:20px;
+  }
+  &.br {
+    padding-right:20px;
+  }
+  &.blr {
+    padding-right:20px;
+    padding-left:20px;
+  }
+}
+#list tr {
+  td:nth-child(3) {
+    min-width:160px;
+  }
+  td:nth-child(2) {
+    min-width:150px;
+  }
+}
+.bs-callout {
+  margin-top:0;
+}
+.pager {
+  margin-top:50px;
+  .next_page, .previous_page, a, em {
+    border-bottom-color: rgb(221, 221, 221);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: rgb(221, 221, 221);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-right-color: rgb(221, 221, 221);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-top-color: rgb(221, 221, 221);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-top-style: solid;
+    border-top-width: 1px;
+    box-sizing: border-box;
+    cursor: auto;
+    display: inline-block;
+    font-size: 14px;
+    height: 32px;
+    line-height: 20px;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    padding-bottom: 5px;
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-top: 5px;
+    background:none;
+    text-decoration:none;
+    &.disabled, &.current {
+      color: rgb(153, 153, 153);
+      font-style:normal;
+      &:hover {
+        color: rgb(153, 153, 153);
+        background:none;
+      }
+    }
+    &:hover {
+      color: rgb(42, 100, 150);
+      background-color: rgb(238, 238, 238);
+    }
+  }
+  .current, .footable-page.active {
+    font-weight:bold;
+  }
+  .gap {
+    padding-left:5px;
+    padding-right:5px;
+  }
+}

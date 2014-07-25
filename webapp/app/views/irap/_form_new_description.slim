@@ -1,0 +1,23 @@
+/* Description */
+- error = @irap.errors.include?(:description)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Configuration description', :class => 'control-label'
+  div class='controls'
+    = f.text_field :description, :class => 'form-control input-large input-with-feedback', :autofocus => true
+    span class='help-inline' = error ? f.error_message_on(:description, :class => 'text-error') : t('irap.example.description')
+
+/* Name */
+- error = @irap.errors.include?(:name)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Experiment name', :class => 'control-label'
+  div class='controls'
+    = f.text_field :name, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:name, :class => 'text-error') : t('irap.example.name')
+
+/* Species */
+- error = @irap.errors.include?(:species)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label 'Species', :class => 'control-label'
+  div class='controls'
+    = f.text_field :species, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:species, :class => 'text-error') : t('irap.example.species')

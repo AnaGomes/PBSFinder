@@ -160,6 +160,7 @@ en:
         cancel: Cancel
         create_and_mail: Create (notify by email)
       no_server: The remote job server is down. Please, try again later.
+      no_capacity: The remote job server has reached maximum capacity. Please, try again later.
       error: Failed to create a new job.
       success: Job created successfully.
       notice:
@@ -202,3 +203,54 @@ en:
         done: Completed
         pending: Pending
       select_all: Select all
+  irap:
+    new:
+      section:
+        description: "Experiment description"
+        files: "File definitions"
+    example:
+      description: "Ex: short description of the configuration"
+      name: "Ex: name of the experiment (no spaces)"
+      path: "Ex: full or relative path to the experiment's directory"
+      cont_path: "Ex: full or relative path to the experiment's contamination index (optional)"
+      species: "Ex: species being studied (no spaces)"
+      reference: "Ex: name of the FASTQ file containing the reference genome"
+      annotation: "Ex: name of the GTF file containing the genome annotation"
+      mapper: "Ex: tool used to map/align the reads"
+      de_method: "Ex: tool used to perform differential expression analysis (optional)"
+      quant_method: "Ex: tool used to perform gene quantification"
+      gse_tool: "Ex: tool used to enrich the gene set (optional)"
+      mapper_override: "Ex: parameters that should passed to the map/alignment tool (optional)"
+      quant_override: "Ex: parameters that should be passed to the quantification tool (optional)"
+      qual_filter: "Ex: enable or disable quality filtering"
+      trim_reads: "Ex: enable or disable bad read trimming (only needed if quality filtering is enabled)"
+      exon_quant: "Ex: enable or disable exon level quantification"
+      transcript_quant: "Ex: enable or disable transcript level quantification"
+      max_threads: "Ex: integer representing the maximum number of threads that can be used"
+      min_read_qual: "Ex: integer representing the minimum read quality to be accepted"
+      gse_minsize: "Ex: integer representing the minimum number of genes per set"
+      gse_pvalue: "Ex: decimal representing the p-value cut-off"
+    button:
+      new: New configuration
+      list: My configurations
+    list:
+      select_all: Select all
+      date: Creation date
+      table:
+        edit: Edit
+        download: Download
+        created: Creation date
+        description: Configuration description
+        click_edit: Click to view and edit
+        click_download: Click to download
+    create:
+      error: Failed to create a new configuration.
+      success: Configuration created successfully.
+      button:
+        create: Create
+        cancel: Cancel
+    big_title:
+      new: Create new iRAP configuration
+      list: iRAP configurations
+    download:
+      not_found: The specified configuration doesn't exist.
