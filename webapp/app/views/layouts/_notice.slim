@@ -4,6 +4,6 @@ div class="bs-callout bs-callout-#{type}"
     - if description.is_a?(Array)
       - description.each do |desc|
         - if desc
-          p = desc
+          p == desc
     - else
-      p = description
+      p == description
