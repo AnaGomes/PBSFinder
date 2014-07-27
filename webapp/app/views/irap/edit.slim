@@ -1,0 +1,9 @@
+- content_for :stylesheets do
+  = stylesheet_link_tag 'irap/new'
+/- content_for :javascripts do
+    /= javascript_include_tag
+
+div class="tabs-content"
+  = form_for :irap, url(:irap, :update, @irap.id), :class => 'form-horizontal', :id => 'irap-form' do |f|
+    = hidden_form_method_field('put')
+    = partial 'irap/form_edit', :locals => { :f => f }

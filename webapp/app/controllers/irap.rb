@@ -6,26 +6,55 @@ PbsSite::App.controllers :irap do
   end
 
   post :create do
-    puts params.inspect
     @irap = IrapConfig.new(params[:irap_config])
     @irap.account = current_account
     if @irap.save
       flash[:success] = t('irap.create.success')
-      redirect(url_for(:irap, :update, @irap.id))
+      redirect(url_for(:irap, :edit, @irap.id))
     else
       @big_title = t('irap.big_title.new')
-      flash.now[:error] = t('irap.create.error', :model => 'job')
+      flash.now[:error] = t('irap.create.error')
       render 'irap/new'
     end
   end
 
   get :edit, with: :id do
+    @irap = IrapConfig.find(params[:id])
+    if @irap
+      @big_title = t('irap.big_title.edit')
+      render 'irap/edit'
+    else
+      flash[:error] = t('irap.edit.error')
+      redirect url('/')
+    end
   end
 
   get :new_from_existing, with: :id do
+    @irap = IrapConfig.find(params[:id])
+    if @irap
+      @big_title = t('irap.big_title.new')
+      render 'irap/new'
+    else
+      flash[:error] = t('irap.edit.error')
+      redirect url('/')
+    end
   end
 
   put :update, with: :id do
+    @irap = IrapConfig.find(params[:id])
+    if @irap
+      if @irap.update_attributes(params[:irap_config])
+        flash[:success] = t('irap.update.success')
+        redirect(url_for(:irap, :edit, @irap.id))
+      else
+        @big_title = t('irap.big_title.new')
+        flash.now[:error] = t('irap.update.error')
+        render 'irap/edit'
+      end
+    else
+      flash[:error] = t('irap.update.not_found')
+      redirect url('/')
+    end
   end
 
   delete :destroy, with: :id do

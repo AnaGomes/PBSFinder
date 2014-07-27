@@ -53,7 +53,7 @@ div class="tabs-content"
 
               /* Job info. */
               td class='list-column list-selectable' = check_box_tag 'irap_ids[]', :value => irap.id, :class => 'list-selectable-checkbox'
-              td class='list-column br' = link_to(t('irap.list.table.click_edit'), url_for(:irap, :update, irap.id))
+              td class='list-column br' = link_to(t('irap.list.table.click_edit'), url_for(:irap, :edit, irap.id))
               td class='list-column br' = link_to(t('irap.list.table.click_download'), url_for(:irap, :download, irap.id))
               td class='list-column br' = irap.created_at.strftime("%F - %H:%M")
               td class='list-column' = irap.description

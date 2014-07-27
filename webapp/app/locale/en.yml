@@ -264,6 +264,7 @@ en:
     big_title:
       new: Create new iRAP configuration
       list: iRAP configurations
+      edit: Edit an existing iRAP configuration
     download:
       not_found: The specified configuration doesn't exist.
     destroy:
@@ -272,3 +273,13 @@ en:
     destroy_many:
       error: Failed to delete multiple configurations.
       success: Multiple configurations deleted successfully.
+    edit:
+      error: The specified configuration doesn't exist.
+      button:
+        cancel: Cancel
+        create_new: Use as template
+        update: Update
+    update:
+      success: Configuration updated successfully.
+      error: Failed to update the configuration.
+      not_found: The specified configuration doesn't exist.
