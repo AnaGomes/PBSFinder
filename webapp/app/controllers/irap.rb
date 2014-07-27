@@ -19,13 +19,37 @@ PbsSite::App.controllers :irap do
     end
   end
 
+  get :edit, with: :id do
+  end
+
+  get :new_from_existing, with: :id do
+  end
+
   put :update, with: :id do
   end
 
   delete :destroy, with: :id do
+    irap = IrapConfig.find(params[:id])
+    if irap
+      irap.destroy
+      flash[:success] = t('irap.destroy.success')
+      redirect back
+    else
+      flash[:error] = t('irap.destroy.success')
+      redirect back
+    end
   end
 
   delete :destroy_many do
+    unless params[:irap_ids]
+      flash[:error] = t('irap.destroy_many.error')
+      redirect back
+    end
+    ids = params[:irap_ids].split(',').map(&:strip)
+    iraps = IrapConfig.find(ids)
+    iraps.each(&:destroy)
+    flash[:success] = t('irap.destroy_many.success')
+    redirect back
   end
 
   get :list do

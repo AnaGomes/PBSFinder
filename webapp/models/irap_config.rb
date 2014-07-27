@@ -4,6 +4,8 @@ class IrapConfig
 
   belongs_to  :account,   index: true
 
+  index({ created_at: 1 }, { background: false })
+
   # Platform specific fields.
   field :description,             type: String
 

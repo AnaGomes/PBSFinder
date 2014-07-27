@@ -260,3 +260,9 @@ en:
       list: iRAP configurations
     download:
       not_found: The specified configuration doesn't exist.
+    destroy:
+      error: Failed to delete the configuration.
+      success: Configuration deleted successfully.
+    destroy_many:
+      error: Failed to delete multiple configurations.
+      success: Multiple configurations deleted successfully.
