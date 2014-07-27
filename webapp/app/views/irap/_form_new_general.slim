@@ -5,7 +5,7 @@ fieldset class='control-group#{error ? ' has-error' : ''}'
   div class='controls'
     - keys = ['Default', 'On', 'Off']
     - values = ['', 'true', 'false']
-    = f.select :qual_filter, :class => 'form-control', :options => Hash[keys.zip(values)]
+    = f.select :qual_filter, :class => 'form-control', :options => Hash[keys.zip(values)], :autofocus => true
     span class='help-inline' = error ? f.error_message_on(:qual_filter, :class => 'text-error') : t('irap.example.qual_filter')
 
 /* Trim reads */

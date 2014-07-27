@@ -24,8 +24,6 @@ PbsSite::App.helpers do
     text += "# Gene set enrichment tool\n"
     text += irap.gse_tool && !irap.gse_tool.empty? ? "gse_tool=piano\ngse_method=#{ irap.gse_tool }\n\n" : "# gse_tool=piano\n# gse_method=<none>\n\n"
 
-    text += "# Libraries\n####################################################\n\n"
-
     text += "# General\n####################################################\n\n"
     text += "# Quality filtering\nqual_filter=#{irap.qual_filter ? 'on' : 'off'}\n\n"
     text += "# Trim reads\ntrim_reads=#{irap.qual_filter && irap.trim_reads ? 'y' : 'n'}\n\n"
@@ -36,7 +34,43 @@ PbsSite::App.helpers do
     text += "# GSE minimum number of genes per set\n"
     text += irap.gse_tool && !irap.gse_tool.empty? ? "gse_minsize=#{irap.gse_minsize}\n\n" : "# gse_minsize<undef>"
     text += "# GSE p-value cut-off\n"
-    text += irap.gse_tool && !irap.gse_tool.empty? ? "gse_pvalue=#{irap.gse_pvalue}\n\n" : "# gse_pvalue<undef>"
+    text += irap.gse_tool && !irap.gse_tool.empty? ? "gse_pvalue=#{irap.gse_pvalue}\n\n" : "# gse_pvalue<undef>\n\n"
+
+    text += "# Libraries\n####################################################\n\n"
+    text += "# Libraries\n#\n"
+    text += "# <name>=<space separated list of FASTQ files>\n"
+    text += "# <name>_rs=<read size>\n"
+    text += "# <name>_qual=<read quality (33 or 64)>\n"
+    text += "# <name>_ins=<insert size (optional, uncomment if needed)>\n"
+    text += "# <name>_sd=<standard deviation (optional, uncomment if needed)>\n\n"
+    libraries = irap.libraries.split(',')
+    libraries.each do |lib|
+      text += "#{ lib }=\n"
+      text += "#{ lib }_rs=\n"
+      text += "#{ lib }_qual=\n"
+      text += "# #{ lib }_ins=\n"
+      text += "# #{ lib }_sd=\n\n"
+    end
+    text += "# Library pairing\n"
+    text += "se=<space separated list of all single ending libraries>\n"
+    text += "pe=<space separated list of all paired ending libraries>\n\n"
+
+    text += "# Groups\n#\n"
+    text += "# <name>=<space separated list of library names>\n\n"
+    groups = irap.groups.split(',')
+    groups.each do |group|
+      text += "#{ group }=\n"
+    end
+
+    text += "\n# Contrasts\n"
+    text += irap.contrasts && !irap.contrasts.empty? ? "contrasts=#{ irap.contrasts.gsub(',', ' ') }\n\n" : "# contrasts=<none>\n\n"
+
+    text += "# Contrast definitions\n#\n"
+    text += "# <name>=<space separated list of group names>\n\n"
+    contrasts = irap.contrasts.split(',')
+    contrasts.each do |contrast|
+      text += "#{ contrast }=\n"
+    end
 
     text
   end

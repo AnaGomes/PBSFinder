@@ -35,6 +35,11 @@ class IrapConfig
   field :gse_minsize,             type: Integer
   field :gse_pvalue,              type: Float
 
+  # Library fields
+  field :libraries,               type: String
+  field :groups,                  type: String
+  field :contrasts,               type: String
+
   # Required field validation.
   validates_presence_of           :description
   validates_presence_of           :name
@@ -48,13 +53,19 @@ class IrapConfig
   validates_presence_of           :transcript_quant
   validates_presence_of           :max_threads
   validates_presence_of           :min_read_qual
+  validates_presence_of           :libraries
+
   validates_length_of             :description,   :within => 5..256
   validates_length_of             :name,          :within => 4..256
   validates_length_of             :species,       :within => 4..256
+
   validates_format_of             :name,          :with => /^[a-z0-9_\-]+$/i
   validates_format_of             :species,       :with => /^[a-z0-9_\-]+$/i
   validates_format_of             :max_threads,   :with => /^[0-9]+$/i
   validates_format_of             :min_read_qual, :with => /^[0-9]+$/i
   validates_format_of             :gse_minsize,   :with => /^[0-9]+$/i
   validates_format_of             :gse_pvalue,    :with => /^(0|1)(\.|,)[0-9]+$/i
+  validates_format_of             :libraries,     :with => /^[a-z][a-z0-9]*(,[a-z][a-z0-9]*)*$/i
+  validates_format_of             :contrasts,     :with => /^([a-z][a-z0-9]*(,[a-z][a-z0-9]*)*)?$/i
+  validates_format_of             :groups,        :with => /^([a-z][a-z0-9]*(,[a-z][a-z0-9]*)*)?$/i
 end

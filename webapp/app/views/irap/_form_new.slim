@@ -6,9 +6,9 @@ ul class="nav nav-tabs" data-tabs="tabs"
   li
     a data-toggle="tab" href="#toolset" Toolset
   li
-    a data-toggle="tab" href="#library" Libraries
-  li
     a data-toggle="tab" href="#general" General
+  li
+    a data-toggle="tab" href="#library" Libraries
 
 div class="tab-content"
 
@@ -24,12 +24,13 @@ div class="tab-content"
   div id="toolset" class="tab-pane"
     = partial 'irap/form_new_toolset', :locals => { :f => f }
 
-  /* Library information */
-  div id="library" class="tab-pane"
-
   /* General information */
   div id="general" class="tab-pane"
     = partial 'irap/form_new_general', :locals => { :f => f }
+
+  /* Library information */
+  div id="library" class="tab-pane"
+    = partial 'irap/form_new_libraries', :locals => { :f => f }
 
 div class="form-actions"
   = f.submit t('irap.create.button.create'), :class => 'btn btn-primary'

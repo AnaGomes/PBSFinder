@@ -208,6 +208,9 @@ en:
       select_all: Select all
   irap:
     new:
+      lib:
+        title: "Further information needed"
+        description: "This part of the configuration form will only create stubs in the file for each library, group and contrast in the file; users should manually alter those stubs to correctly describe their data."
       section:
         description: "Experiment description"
         files: "File definitions"
@@ -233,6 +236,9 @@ en:
       min_read_qual: "Ex: integer representing the minimum read quality to be accepted"
       gse_minsize: "Ex: integer representing the minimum number of genes per set"
       gse_pvalue: "Ex: decimal representing the p-value cut-off"
+      libraries: "Ex: comma separated list of library names (starting with a letter, only alpha numeric charaters)"
+      groups: "Ex: comma separated list of group names (starting with a letter, only alpha numeric charaters)"
+      contrasts: "Ex: comma separated list of contrast names (starting with a letter, only alpha numeric charaters)"
     button:
       new: New configuration
       list: My configurations
