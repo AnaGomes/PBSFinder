@@ -4,6 +4,10 @@
     /= javascript_include_tag
 
 div class="tabs-content"
+
+  /* Data download. */
+  = link_to t('irap.edit.button.download'), url(:irap, :download, @irap.id), :class => 'btn btn-primary pull-right'
+
   = form_for :irap, url(:irap, :update, @irap.id), :class => 'form-horizontal', :id => 'irap-form' do |f|
     = hidden_form_method_field('put')
     = partial 'irap/form_edit', :locals => { :f => f }

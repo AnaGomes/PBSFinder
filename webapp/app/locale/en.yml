@@ -279,6 +279,7 @@ en:
         cancel: Cancel
         create_new: Use as template
         update: Update
+        download: Download configuration
     update:
       success: Configuration updated successfully.
       error: Failed to update the configuration.
